@@ -144,7 +144,7 @@ jobs:
       # STEP 3: CODE CHECK
       # ================================================================
       - name: Check Code Formatting
-        run: pnpm run check-all
+        run: pnpm run quality-ci
 
       # ================================================================
       # STEP 4: BUILD DOCUSAURUS SITE
