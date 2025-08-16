@@ -70,7 +70,7 @@ export class ConfigurationManager {
     schema: ConfigurationSchema<T>
   ): Promise<void> {
     await this.withLock(`schema:${schema.key}`, async () => {
-      this.state.schemas[schema.key] = schema;
+      this.state.schemas[schema.key] = schema as ConfigurationSchema<any>;
 
       // Set default value if not already set
       if (!(schema.key in this.state.values)) {

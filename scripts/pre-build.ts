@@ -66,8 +66,8 @@ import * as path from 'path';
 import * as yaml from 'js-yaml';
 
 import { GlobalConfig } from '../src/entities';
-import type { Theme } from '../src/components/ThemeSwitcher';
-import type { CustomNavBarLink } from '../src/components/NavBarLinks';
+import type { Theme } from '../src/components/ThemeSwitcher/models';
+import type { CustomNavBarLink } from '../src/components/NavBarLinks/models';
 import { DEFAULT_PROJECTS_CONFIG } from '../src/components/Projects/constants';
 
 const THEMES_DIR = path.join(__dirname, '../static/themes');

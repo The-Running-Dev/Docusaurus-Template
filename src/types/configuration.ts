@@ -60,7 +60,7 @@ export interface ConfigurationManagerOptions {
 // Configuration state
 export interface ConfigurationState {
   values: Record<string, ConfigValue>;
-  schemas: Record<string, ConfigurationSchema>;
+  schemas: Record<string, ConfigurationSchema<any>>;
   lastModified: Date;
   version: string;
 }

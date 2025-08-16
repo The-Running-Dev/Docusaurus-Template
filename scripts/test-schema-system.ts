@@ -63,7 +63,7 @@ function testSchemaSystem() {
     } catch (error) {
       console.log(
         '✅ Validation Correctly Failed:',
-        error.message.substring(0, 100) + '...'
+        (error as Error).message.substring(0, 100) + '...'
       );
     }
 

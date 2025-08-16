@@ -1,4 +1,4 @@
-import type { Theme } from '../../entities/theme';
+import type { Theme } from './models';
 import { themes as configData } from '../../../data';
 
 export const themes: Theme[] = configData.themes;
