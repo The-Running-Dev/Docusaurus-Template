@@ -1,0 +1,241 @@
+---
+id: 404-error-page
+title: 404 Error Page
+sidebar_position: 999
+---
+
+An entertaining, interactive custom 404 error page that turns the frustrating experience of hitting a dead link into a delightful user engagement opportunity.
+
+## Overview
+
+The custom 404 page replaces the default Docusaurus error page with an interactive, humorous experience featuring:
+
+- **Animated Rainbow 404 Display** with CSS gradient animations
+- **Rotating Excuse Generator** that cycles through funny explanations every 3 seconds
+- **Interactive Cat Facts Spinner** with rotation animations
+- **Emergency Navigation** with quick links to important pages
+- **Fake Statistics** displaying random "helpful" metrics
+- **Absurd Troubleshooting Tips** mixing technical and creative "solutions"
+
+## 🎨 Features
+
+### Core Interactive Elements
+
+1. **Rainbow Animated 404 Number**
+   - Multi-color gradient background that shifts continuously
+   - Large 8rem font size for maximum visual impact
+   - CSS keyframe animation with 3-second cycle
+
+2. **Excuse Generator™**
+   - 15 humorous excuses that rotate automatically
+   - Smooth transitions with 0.5s ease animation
+   - Emoji-rich content for visual appeal
+
+3. **Cat Facts Spinner**
+   - Interactive button with rotation animation
+   - Random cat facts that are tangentially related to the error
+   - 1-second spin animation on click
+
+4. **Emergency Navigation**
+   - Quick access buttons to Home, Docs, and Demos
+   - Styled as prominent secondary buttons
+   - Organized in a responsive button group
+
+5. **Fun Statistics Cards**
+   - Randomized "Pages Found Today" counter
+   - "Robots Consulted" with fake numbers
+   - "Coffee Consumed" by developers
+
+### User Experience Features
+
+- **Responsive Design**: Works seamlessly on all device sizes
+- **Accessibility**: Proper ARIA labels and semantic HTML
+- **Performance**: Lightweight with minimal JavaScript
+- **Brand Consistency**: Uses site's design tokens and themes
+
+## 📁 File Structure
+
+```text
+src/pages/
+└── 404.tsx                 # Custom 404 page component
+
+src/theme/NotFound/
+└── index.tsx               # Docusaurus NotFound component override
+```
+
+## 🔧 Technical Implementation
+
+### Component Architecture
+
+```tsx
+export default function Custom404Page(): React.JSX.Element {
+  const [excuse, setExcuse] = useState(0);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const [catFact, setCatFact] = useState('');
+
+  // Auto-rotating excuse system
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setExcuse((prev) => (prev + 1) % excuses.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [excuses.length]);
+
+  // Random cat fact initialization
+  useEffect(() => {
+    setCatFact(catFacts[Math.floor(Math.random() * catFacts.length)]);
+  }, []);
+
+  const handleSpinClick = () => {
+    setIsSpinning(true);
+    setTimeout(() => setIsSpinning(false), 1000);
+    setCatFact(catFacts[Math.floor(Math.random() * catFacts.length)]);
+  };
+
+  // ... render logic
+}
+```
+
+### CSS Animations
+
+The page includes inline CSS animations for the rainbow effect:
+
+```css
+@keyframes rainbow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+```
+
+### State Management
+
+- **excuse**: Index of currently displayed excuse (auto-increments)
+- **isSpinning**: Boolean for button rotation animation
+- **catFact**: Currently displayed cat fact (random selection)
+
+## 🎭 Content Strategy
+
+### Excuse Categories
+
+The excuse generator includes diverse categories:
+
+- **Animal-related**: Dogs eating pages, unicorns, dragons
+- **Technology**: Robots, JavaScript, parallel dimensions
+- **Pop culture**: Wizards, pirates, zombies, aliens
+- **Absurd daily life**: Pizza runs, toilet paper shortages, circus acts
+
+### Cat Facts Integration
+
+Cat facts are chosen to be:
+
+- Genuinely interesting but tangentially related to the error
+- Light-hearted and maintaining the playful tone
+- Educational while being entertaining
+
+### Troubleshooting Humor
+
+Divided into two categories:
+
+- **Technical Solutions**: Parodies of real troubleshooting (restarting, blowing in cartridges)
+- **Creative Solutions**: Completely absurd suggestions (interpretive dance, parallel universes)
+
+## 🚀 Integration
+
+### Docusaurus Integration
+
+The 404 page integrates with Docusaurus through:
+
+1. **File-based Routing**: Located at `src/pages/404.tsx`
+2. **Layout Component**: Uses `@theme/Layout` for consistent styling
+3. **Link Component**: Uses `@docusaurus/Link` for internal navigation
+4. **Theme Integration**: Respects site's CSS custom properties
+
+### NotFound Override
+
+The `src/theme/NotFound/index.tsx` provides the same functionality for Docusaurus's built-in 404 handling.
+
+## 📊 Analytics Integration
+
+The page includes engagement opportunities:
+
+- Links to demos and documentation
+- Call-to-action for exploring the site
+- Fake but entertaining statistics that could be replaced with real analytics
+
+## 🎨 Customization
+
+### Easy Modifications
+
+1. **Add New Excuses**: Extend the `excuses` array
+2. **Change Animation Timing**: Modify `useEffect` intervals
+3. **Update Cat Facts**: Replace or extend the `catFacts` array
+4. **Modify Statistics**: Change the random number generators
+5. **Customize Colors**: Update the gradient in the rainbow animation
+
+### Branding Customization
+
+The page uses CSS custom properties for easy theming:
+
+- `--ifm-color-primary`: For accent colors
+- `--ifm-color-emphasis-*`: For text and background variations
+- `--ifm-background-color`: For card backgrounds
+
+## 🔗 Related Components
+
+- **Layout**: Docusaurus theme layout wrapper
+- **Link**: Internal navigation component
+- **RelatedResources**: Can be added for additional navigation
+
+## 🌟 Best Practices
+
+### Performance
+
+- Minimal JavaScript with efficient `useEffect` cleanup
+- CSS animations instead of JavaScript animations
+- Lazy loading of random content
+
+### SEO & Accessibility
+
+- Proper meta tags and title
+- Semantic HTML structure
+- Descriptive alt text and ARIA labels
+- Keyboard navigation support
+
+### User Experience
+
+- Clear navigation options
+- Entertaining content that reduces frustration
+- Responsive design for all devices
+- Fast loading with minimal dependencies
+
+## 📝 Usage Example
+
+```tsx
+// The 404 page is automatically used by Docusaurus
+// No manual integration required - just place at src/pages/404.tsx
+
+// For manual usage in other routes:
+import Custom404Page from '@site/src/pages/404';
+
+export default function SomeErrorPage() {
+  return <Custom404Page />;
+}
+```
+
+## 🔧 Configuration
+
+The 404 page requires no configuration but can be customized through:
+
+1. **Content Arrays**: Modify excuses and cat facts
+2. **Timing Values**: Change animation and rotation intervals
+3. **Styling**: Update CSS custom properties in your theme
+4. **Navigation Links**: Modify the emergency navigation buttons
+
+This 404 page transforms a negative user experience into an opportunity for brand engagement, demonstrating attention to detail and user experience throughout the entire site.

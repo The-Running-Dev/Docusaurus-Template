@@ -1,0 +1,75 @@
+templateVariables:
+  demoUrl: 'https://docs-template.subzerodev.com'
+  docsUrl: 'https://docs-template.subzerodev.com'
+  user: 'the-running-dev'
+  repository: 'Docusaurus-Template'
+badgeCategories:
+  - key: buildRelease
+    title: Build & Release
+    icon: faCogs
+    badges:
+      - name: CI
+        url: 'https://github.com/{user}/{repository}/actions/workflows/ci.yml/badge.svg?branch=main'
+        link: 'https://github.com/{user}/{repository}/actions/workflows/ci.yml'
+      - name: Release
+        url: 'https://github.com/{user}/{repository}/actions/workflows/release.yml/badge.svg?branch=main'
+        link: 'https://github.com/{user}/{repository}/actions/workflows/release.yml'
+      - name: Tests
+        url: 'https://github.com/{user}/{repository}/actions/workflows/test.yml/badge.svg?branch=main'
+        link: 'https://github.com/{user}/{repository}/actions/workflows/test.yml'
+      - name: Docs
+        url: 'https://img.shields.io/badge/Docs-Available-blue?logo=readthedocs&logoColor=white'
+        link: '{docsUrl}'
+      - name: Demo
+        url: 'https://img.shields.io/badge/Demo-Barstrad-green?logo=angular&logoColor=white'
+        link: '{demoUrl}'
+      - name: Uptime
+        url: 'https://img.shields.io/badge/Uptime-99.9%25-brightgreen?logo=statuspage&logoColor=white'
+        link: '{docsUrl}'
+      - name: Wiki
+        url: 'https://img.shields.io/badge/Wiki-Available-blue?logo=github&logoColor=white'
+        link: 'https://github.com/{user}/{repository}/wiki'
+      - name: Changelog
+        url: 'https://img.shields.io/badge/Changelog-Updated-blue?logo=keepachangelog&logoColor=white'
+        link: 'https://github.com/{user}/{repository}/blob/main/CHANGELOG.md'
+  - key: quality
+    title: Quality & Security
+    icon: faShieldAlt
+    badges:
+      - name: Coverage
+        url: 'https://img.shields.io/badge/Coverage-100%25-brightgreen?logo=codecov&logoColor=white'
+        link: 'https://codecov.io/gh/{user}/{repository}'
+      - name: Security
+        url: 'https://img.shields.io/badge/Security-Passed-brightgreen?logo=github&logoColor=white'
+        link: 'https://github.com/{user}/{repository}/security'
+      - name: Lint
+        url: 'https://img.shields.io/badge/Lint-Passed-brightgreen?logo=eslint&logoColor=white'
+        link: 'https://github.com/{user}/{repository}/actions/workflows/lint.yml'
+      - name: Audit
+        url: 'https://img.shields.io/badge/Audit-Passed-brightgreen?logo=npm&logoColor=white'
+        link: 'https://github.com/{user}/{repository}/actions/workflows/audit.yml'
+      - name: Snyk
+        url: 'https://img.shields.io/badge/Snyk-Passed-brightgreen?logo=snyk&logoColor=white'
+        link: 'https://github.com/{user}/{repository}/actions/workflows/snyk.yml'
+      - name: SonarQube
+        url: 'https://img.shields.io/badge/SonarQube-Passed-brightgreen?logo=sonarqube&logoColor=white'
+        link: 'https://github.com/{user}/{repository}/actions/workflows/sonarqube.yml'
+  - key: community
+    title: Community
+    icon: faUsers
+    badges:
+      - name: Discussions
+        url: 'https://img.shields.io/badge/Discussions-Active-blue?logo=github&logoColor=white'
+        link: 'https://github.com/{user}/{repository}/discussions'
+      - name: Contributors
+        url: 'https://img.shields.io/badge/Contributors-5-blue?logo=github&logoColor=white'
+        link: 'https://github.com/{user}/{repository}/graphs/contributors'
+      - name: Stars
+        url: 'https://img.shields.io/github/stars/{user}/{repository}?style=social'
+        link: 'https://github.com/{user}/{repository}/stargazers'
+      - name: Forks
+        url: 'https://img.shields.io/github/forks/{user}/{repository}?style=social'
+        link: 'https://github.com/{user}/{repository}/network/members'
+      - name: License
+        url: 'https://img.shields.io/github/license/{user}/{repository}?color=blue'
+        link: 'https://github.com/{user}/{repository}/blob/main/LICENSE'

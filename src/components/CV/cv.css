@@ -1,0 +1,263 @@
+.cv-wrap {
+  max-width: 800px;
+  margin: 0 auto;
+  padding-top: 1rem;
+}
+
+.cv-section {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background: var(--ifm-card-background-color);
+  border-radius: 8px;
+  box-shadow:
+    0 2px 4px -1px rgba(0, 0, 0, 0.08),
+    0 1px 2px -1px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', sans-serif;
+}
+
+[data-theme='dark'] .cv-section {
+  background: var(--ifm-background-surface-color);
+  border-color: var(--ifm-color-emphasis-300);
+  box-shadow:
+    0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 1px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+.cv-section h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--ifm-color-primary);
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.cv-section .cv-badges {
+  margin: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.cv-section .cv-timeline {
+  --cv-year-width: 100px; /* width per year tick */
+  --cv-rail-height: 32px; /* year rail height */
+  --cv-track-gap: 0.75rem; /* gap between timeline items */
+  --cv-rail-bg: var(--ifm-card-background-color);
+  --cv-rail-border: rgba(148, 163, 184, 0.25);
+  --cv-tick-color: var(--sidebar-text-color, #64748b);
+  --cv-tick-active: var(--ifm-color-primary);
+
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 0.5rem;
+  scroll-snap-type: x proximity;
+  border-radius: 0.5rem;
+  background: transparent;
+}
+
+/* Make horizontal scrollbar nice but unobtrusive */
+.cv-section .cv-timeline::-webkit-scrollbar {
+  height: 10px;
+}
+.cv-section .cv-timeline::-webkit-scrollbar-track {
+  background: transparent;
+}
+.cv-section .cv-timeline::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.25);
+  border-radius: 999px;
+}
+[data-theme='dark'] .cv-section .cv-timeline::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+}
+
+/* Year rail across the top of the scroll area */
+.cv-section .cv-year-rail {
+  position: sticky; /* stays at top while vertical scrolling */
+  top: 0;
+  z-index: 1;
+  height: var(--cv-rail-height);
+  background: var(--cv-rail-bg);
+  border-bottom: 1px solid var(--cv-rail-border);
+  display: block;
+}
+
+/* Ticks: one cell per year; keeps going horizontally */
+.cv-section .cv-ticks {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: max-content; /* expand to fit all ticks */
+  user-select: none;
+}
+
+.cv-section .cv-tick {
+  min-width: var(--cv-year-width);
+  padding: 0 0.25rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--cv-tick-color);
+  opacity: 0.9;
+  position: relative;
+  scroll-snap-align: start;
+}
+
+/* vertical guide line under each year tick (optional, subtle) */
+.cv-section .cv-tick::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: calc(-1 * var(--cv-rail-height));
+  top: 100%;
+  width: 1px;
+  background: rgba(148, 163, 184, 0.2);
+}
+
+/* Track that holds the cards horizontally */
+.cv-section .cv-track {
+  display: inline-flex; /* width grows horizontally */
+  gap: var(--cv-track-gap);
+  align-items: stretch;
+  padding: 0.5rem 0 0; /* space below the rail */
+  width: max-content;
+}
+
+/* Timeline items are enhanced cards with professional styling */
+.cv-section .timeline-item {
+  scroll-snap-align: start;
+  min-width: 400px; /* increased width per role card */
+  flex: 1;
+  /* Enhanced card styling */
+  background: var(--ifm-card-background-color);
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 1px 2px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-top: 2px solid var(--ifm-color-primary-lightest);
+
+  transition:
+    border-color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+[data-theme='dark'] .cv-section .timeline-item {
+  background: var(--ifm-background-surface-color);
+  border-color: var(--ifm-color-emphasis-300);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.15),
+    0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.cv-section .timeline-item:hover {
+  border-top-color: var(--ifm-color-primary);
+  transform: translateY(-1px);
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme='dark'] .cv-section .timeline-item:hover {
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Timeline item content styling */
+.cv-section .timeline-item h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ifm-color-primary-lighter);
+  line-height: 1.3;
+}
+
+.cv-section .timeline-item .period {
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-700);
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  background: var(--ifm-color-primary-lightest);
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.cv-section .timeline-item p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ifm-color-emphasis-800);
+  margin: 0.5rem 0;
+}
+
+.cv-section .timeline-item ul {
+  font-size: 0.85rem;
+  margin: 0.75rem 0;
+  padding-left: 1.25rem;
+}
+
+.cv-section .timeline-item li {
+  margin-bottom: 0.25rem;
+  line-height: 1.4;
+}
+
+.cv-section .timeline-item .tech {
+  font-size: 0.8rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 4px;
+  border-left: 2px solid var(--ifm-color-primary-lighter);
+}
+
+.cv-section .timeline-item .tech strong {
+  color: var(--ifm-color-primary-lighter);
+  font-weight: 600;
+}
+
+/* Responsive tuning */
+@media (max-width: 996px) {
+  .cv-section .cv-timeline {
+    --cv-year-width: 96px;
+  }
+  .cv-section .timeline-item {
+    min-width: 280px;
+  }
+}
+
+@media (max-width: 600px) {
+  .cv-section .cv-timeline {
+    --cv-year-width: 80px;
+  }
+  .cv-section .timeline-item {
+    min-width: 260px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .cv-section .timeline-item,
+  .cv-section .timeline-item:hover {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* Optional: subtle gradient fade at left/right edges while scrolling */
+.cv-section .cv-timeline {
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 24px,
+    black calc(100% - 24px),
+    transparent 100%
+  );
+}

@@ -1,0 +1,160 @@
+import React, { useState, useEffect, useCallback } from 'react';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPalette } from '@fortawesome/free-solid-svg-icons';
+import { 
+  useFeatureFlag, 
+  useConfiguration, 
+  useGlobalConfiguration 
+} from '../ConfigurationManager';
+import { themes, defaultTheme } from '../../data';
+
+import './ThemeSwitcher.css';
+
+/**
+ * Enhanced Theme Switcher Component with Configuration Management
+ * Integrates with the new configuration system while maintaining backward compatibility
+ */
+const ConfigurableThemeSwitcher: React.FC = () => {
+  const { featureFlagManager, configManager, isInitialized } = useGlobalConfiguration();
+  const [isEnabled, , enabledLoading] = useFeatureFlag(featureFlagManager, 'theme-switcher');
+  const [currentTheme, setCurrentTheme, themeLoading] = useConfiguration(
+    configManager, 
+    'ui.current-theme', 
+    defaultTheme.name
+  );
+  const [availableThemes] = useConfiguration(
+    configManager,
+    'ui.available-themes',
+    themes
+  );
+  
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  // Don't render while loading or if disabled
+  if (!isInitialized || enabledLoading || themeLoading || !isEnabled) {
+    return null;
+  }
+
+  // Don't render if no themes available
+  if (!availableThemes || availableThemes.length === 0) {
+    return null;
+  }
+
+  // Pre-compute resolved URLs for all themes
+  const themesWithResolvedUrls = availableThemes.map((theme: any) => ({
+    ...theme,
+    resolvedCssUrl: useBaseUrl(theme.cssFile)
+  }));
+
+  const applyTheme = useCallback((themeName: string) => {
+    // Remove existing theme links
+    const existingLinks = document.querySelectorAll(
+      'link[data-theme-switcher]'
+    );
+    existingLinks.forEach((link) => link.remove());
+
+    // Find the theme with resolved URL
+    const theme = themesWithResolvedUrls.find((t) => t.name === themeName);
+
+    if (!theme) return;
+
+    // Add new theme link
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = theme.resolvedCssUrl;
+    link.setAttribute('data-theme-switcher', 'true');
+
+    document.head.appendChild(link);
+
+    // Update configuration (this will persist automatically)
+    setCurrentTheme(themeName);
+
+    // Keep backward compatibility with localStorage
+    localStorage.setItem('docusaurus-theme-color', themeName);
+  }, [themesWithResolvedUrls, setCurrentTheme]);
+
+  // Initialize theme on component mount and when current theme changes
+  useEffect(() => {
+    if (currentTheme && themesWithResolvedUrls.length > 0) {
+      applyTheme(currentTheme);
+    }
+  }, [currentTheme, applyTheme]);
+
+  // Migrate from legacy localStorage if needed
+  useEffect(() => {
+    const initializeTheme = async () => {
+      // Check if we need to migrate from legacy localStorage
+      const legacyTheme = localStorage.getItem('docusaurus-theme-color');
+      
+      if (legacyTheme && legacyTheme !== currentTheme && 
+          themesWithResolvedUrls.some(t => t.name === legacyTheme)) {
+        // Migrate legacy theme to configuration system
+        await setCurrentTheme(legacyTheme);
+      } else if (currentTheme) {
+        // Apply current theme from configuration
+        applyTheme(currentTheme);
+      }
+    };
+
+    if (isInitialized && !themeLoading) {
+      initializeTheme();
+    }
+  }, [isInitialized, themeLoading, currentTheme, setCurrentTheme, applyTheme]);
+
+  const handleThemeChange = async (themeName: string) => {
+    applyTheme(themeName);
+    setIsOpen(false);
+  };
+
+  const currentThemeDisplayName =
+    themesWithResolvedUrls.find((t) => t.name === currentTheme)?.displayName ||
+    defaultTheme.displayName;
+
+  return (
+    <div className="theme-switcher">
+      <button
+        className="theme-switcher__button"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="Switch Theme"
+        title={`Current: ${currentThemeDisplayName} (Configurable)`}
+      >
+        <FontAwesomeIcon icon={faPalette} />
+      </button>
+
+      {isOpen && (
+        <div className="theme-switcher__dropdown">
+          <div className="theme-switcher__header">
+            Themes
+            <small style={{ opacity: 0.7, fontSize: '0.8em' }}> (Configurable)</small>
+          </div>
+          {themesWithResolvedUrls.map((theme) => (
+            <button
+              key={theme.name}
+              className={`theme-switcher__option ${
+                currentTheme === theme.name
+                  ? 'theme-switcher__option--active'
+                  : ''
+              }`}
+              onClick={() => handleThemeChange(theme.name)}
+            >
+              <span
+                className={`theme-switcher__color-preview theme-switcher__color-preview--${theme.name}`}
+              ></span>
+              {theme.displayName}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {isOpen && (
+        <div
+          className="theme-switcher__backdrop"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+    </div>
+  );
+};
+
+export default ConfigurableThemeSwitcher;

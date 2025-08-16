@@ -1,0 +1,41 @@
+header:
+  title: 'Senior Bug Producer & Coffee-to-Code Converter'
+  email: 'definitely.not.a.robot@example.com'
+  phone: '+1 555 HELP-ME'
+  links:
+    - label: 'LinkedIn (where I pretend to be professional)'
+      href: 'https://linkedin.com/in/exampleuser'
+    - label: 'GitHub (my digital cry for help)'
+      href: 'https://github.com/exampleuser'
+about:
+  title: '🧠 About (Warning: Contains Traces of Sanity)'
+  body: >
+    I am a caffeine-dependent life form who accidentally learned to code.
+    With years of experience turning perfectly good requirements into 
+    beautifully broken applications, I specialize in creating bugs that
+    are so creative, they should win awards. My superpower is writing
+    code that works on my machine but mysteriously fails everywhere else.
+    I have an unhealthy relationship with Stack Overflow and consider
+    "Did you try turning it off and on again?" as a valid debugging strategy.
+roles:
+  - company: 'TechCorp (aka The Thunderdome)'
+    title: 'Lead Developer (and Chief Bug Whisperer)'
+    period: '2022 – 2023'
+    description: "Successfully convinced management that 'it's not a bug, it's a feature' for 15 months straight"
+  - company: 'WebSolutions (RIP my sleep schedule)'
+    title: 'Senior Engineer (Junior Stress Collector)'
+    period: '2020 – 2022'
+    description: "Mastered the art of looking productive while secretly googling 'how to center a div' for the 500th time"
+  - company: 'StartupChaos Inc.'
+    title: 'Full Stack Developer (Full Stack of Problems)'
+    period: '2018 – 2020'
+    description: "Learned that 'move fast and break things' was not just a motto, but a prophecy"
+education:
+  - school: 'State University (School of Hard Knocks)'
+    degree: 'B.S. Computer Science (emphasis on the BS)'
+    gpa: "3.14159... (pi, because I'm irrational)"
+    achievements: 'Graduated without crying in public more than 3 times'
+  - school: 'YouTube University'
+    degree: 'PhD in Copy-Paste Engineering'
+    achievements: "Watched every 'Learn JavaScript in 10 minutes' video ever made"
+quote: 'Great software is built on Stack Overflow answers, prayer, and the tears of junior developers. Also, rubber ducks are excellent listeners.'

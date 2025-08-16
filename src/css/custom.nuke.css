@@ -1947,7 +1947,7 @@ div.ap-wrapper .title-bar a:hover {
   background-color: var(--ifm-hero-background-color);
   color: var(--ifm-hero-text-color);
   display: flex;
-  padding: 4rem 2rem;
+  padding: 1rem 2rem;
 }
 
 .hero--primary {

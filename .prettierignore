@@ -1,7 +1,13 @@
+# =============================================================================
+# DOCUSAURUS TEMPLATE - PRETTIER IGNORE
+# =============================================================================
+
 # Build directories
 build/
 dist/
 node_modules/
+artifacts/
+.docusaurus/
 
 # Logs
 *.log
@@ -16,13 +22,10 @@ pids
 *.seed
 *.pid.lock
 
-# Lock files
+# Lock files (generated, don't format)
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
-
-# Generated files
-.docusaurus/
 
 # IDE
 .vscode/
@@ -32,5 +35,11 @@ pnpm-lock.yaml
 .DS_Store
 Thumbs.db
 
-# GitHub workflows (avoid formatting these)
+# Version control
+.git/
+
+# CI/CD and workflows
 .github/
+
+# Auto-generated files
+data/*.json

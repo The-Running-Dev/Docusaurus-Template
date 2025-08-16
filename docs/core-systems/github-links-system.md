@@ -1,7 +1,7 @@
 ---
 id: github-links-system
 title: GitHub Links
-sidebar_position: 3
+sidebar_position: 6
 ---
 
 A flexible and professional component for displaying GitHub-related links in the Docusaurus navbar. Similar to the VersionDisplay component, it provides a centralized configuration system for managing project links with FontAwesome icons and responsive design.

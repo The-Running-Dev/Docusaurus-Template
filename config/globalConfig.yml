@@ -1,0 +1,46 @@
+# Pre-build configuration settings
+preBuild:
+  # Project root directory, relative to the project root directory
+  projectRoot: ../
+  overwriteExistingFiles: true
+  copyMarkdownFromProjectRoot: false
+  generateNavBarForPages: false
+  defaultTheme: agent
+
+site:
+  title: Docusaurus Template
+  tagline: Template for Documentation Sites
+  url: http://docs-template.subzerodev.com/
+  baseUrl: /
+  organizationName: The-Running-Dev
+  projectName: Docusaurus Template
+
+theme:
+  navbar:
+    title: Template
+    logo:
+      alt: Template
+      src: img/logo.svg
+
+features:
+  giscusComments: true
+  gitHubLinks: true
+  navBarLinks: true
+  badges: true
+  themeSwitcher: true
+  textSizeSwitcher: true
+  readerMode: true
+  versionDisplay: true
+  cvPage: true
+  portfolioPage: true
+  portfolioPageAsIndex: false
+  projectsPage: true
+  dataCaching: true
+
+projects:
+  provider: json
+  location: ./data/projects.json
+# Example of HTTP Provider
+# projects:
+#   provider: http
+#   location: http://localhost:3001/api/v1/projects

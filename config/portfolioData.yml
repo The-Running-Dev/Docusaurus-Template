@@ -1,0 +1,65 @@
+header:
+  title: Portfolio
+  subtitle: Technical Projects & Experience
+technologies:
+  - name: .NET Core
+    category: Backend
+  - name: TypeScript
+    category: Frontend
+  - name: React
+    category: Frontend
+  - name: Angular
+    category: Frontend
+  - name: Node.js
+    category: Backend
+  - name: Python
+    category: Backend
+  - name: Docker
+    category: DevOps
+  - name: Azure
+    category: Cloud
+  - name: PowerShell
+    category: Automation
+  - name: SQL Server
+    category: Database
+  - name: PostgreSQL
+    category: Database
+  - name: CI/CD
+    category: DevOps
+projects:
+  - title: Backend Projects
+    description: C# .NET, Node.js, TypeScript applications including APIs, microservices, and system integrations
+    link: /projects?filter=backend
+    icon: '🔧'
+  - title: Frontend Applications
+    description: React, Angular, and modern web applications with responsive design and user experience focus
+    link: /projects?filter=frontend
+    icon: '🎨'
+  - title: Infrastructure & DevOps
+    description: Docker containerization, CI/CD pipelines, cloud deployments, and automation solutions
+    link: /projects?filter=infrastructure
+    icon: '☁️'
+  - title: Automation & Tooling
+    description: PowerShell scripts, build tools, deployment automation, and developer productivity enhancements
+    link: /projects?filter=automation
+    icon: '⚡'
+  - title: Open Source
+    description: Package manager contributions, community projects, and collaborative development efforts
+    link: /projects?filter=open%20source
+    icon: '🤝'
+stats:
+  - number: '20+'
+    label: Years Experience
+  - number: '12+'
+    label: Technologies
+  - number: '50+'
+    label: Projects
+  - number: '5+'
+    label: Cloud Platforms
+  - number: '100+'
+    label: Deployments
+  - number: Open Source
+    label: Contributor
+seo:
+  title: Welcome
+  description: Technical portfolio showcasing full-stack development, DevOps, and automation projects across .NET, TypeScript, React, Azure, and more.

@@ -1,10 +1,10 @@
 ---
 id: prebuild-system
 title: Pre-Build System
-sidebar_position: 5
+sidebar_position: 8
 ---
 
-The Pre-Build System v2.0 automates content preparation and configuration generation before Docusaurus starts. The enhanced `PreBuild` class (`scripts/pre-build.ts`) provides comprehensive automation.
+The Pre-Build System v1.0 automates content preparation and configuration generation before Docusaurus starts. The enhanced `PreBuild` class (`scripts/pre-build.ts`) provides comprehensive automation.
 
 ## System Overview
 
@@ -15,7 +15,7 @@ The Pre-Build System v2.0 automates content preparation and configuration genera
 - **Theme Discovery**: Automatically detects and configures themes from CSS files
 - **Configuration Management**: Generates JSON configurations with metadata extraction
 
-### v2.0 Enhancements
+### v1.0 Enhancements
 
 - **Theme Auto-Detection**: Scans `static/themes/` and extracts metadata from CSS files
 - **JSON Generation**: Creates `src/themes.json` and `src/navbarLinks.json`
@@ -96,26 +96,26 @@ The pre-build script extracts:
 
 ## Configuration System
 
-### Centralized Configuration
+### YAML-Based Configuration
 
-The system reads from `config/site-config.ts`:
+The system reads from `config/globalConfig.yml`:
 
-```typescript
-import {
-  PreBuildConfig,
-  SiteConfig,
-  SiteThemeConfig
-} from '../config/site-config.ts';
+```yaml
+# config/globalConfig.yml
+preBuild:
+  projectRoot: ../
+  overwriteExistingFiles: true
+  copyMarkdownFromProjectRoot: false
+  generateNavBarForPages: false
+  defaultTheme: default
 
-// PreBuildConfig controls the build process
-export const PreBuildConfig = {
-  ProjectRoot: path.join(__dirname, '../'),
-  OverwriteExistingFiles: true,
-  DefaultTheme: 'default' // Sets default theme for themes.json
-};
-
-// Used by the pre-build system to determine behavior
-const { ProjectRoot, OverwriteExistingFiles, DefaultTheme } = PreBuildConfig;
+site:
+  title: Docusaurus Template
+  tagline: Template Documentation
+  url: http://docs-template.subzerodev.com/
+  baseUrl: /
+  organizationName: The-Running-Dev
+  projectName: Docusaurus Template
 ```
 
 ### Generated Configurations
@@ -174,6 +174,9 @@ export class PreBuild {
 
   // Navbar generation
   private generateNavbar(): void;
+
+  // YAML to JSON conversion
+  private processYamlToJson(): void;
 
   // Main orchestration
   public process(): void;
@@ -260,7 +263,7 @@ const customConfig = {
 
 ### Upgrade Steps
 
-1. **Move configurations** to `config/site-config.ts`
+1. **Move configurations** to `config/globalConfig.yml`
 2. **Add metadata** to existing CSS theme files
 3. **Run pre-build** to generate new configuration files
 4. **Verify** all themes appear in the switcher

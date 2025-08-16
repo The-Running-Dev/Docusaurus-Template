@@ -1,18 +1,195 @@
 ---
 id: api-reference
 title: API Reference
-sidebar_position: 1
+sidebar_position: 2
 ---
 
-This document provides comprehensive API reference for all components, configuration classes, and interfaces in the Docusaurus Template.
+This document provides comprehensive API reference for all components, configuration schemas, and interfaces in the Docusaurus Template v1.0.
 
-## Configuration Classes
+## Breaking Changes from Previous Versions
 
-The template uses static TypeScript classes for type-safe configuration management.
+- **Configuration System**: TypeScript configuration classes replaced with YAML files and Zod schemas
+- **Component Data Loading**: Static imports replaced with validated YAML data loading
+- **API Interfaces**: Component interfaces now use validated data types from schemas
 
-### BadgeConfig
+## Schema Validation System
 
-Manages GitHub project badge configuration with template variables and category grouping.
+The template uses Zod schemas for automatic validation of YAML configuration data.
+
+### Component Schemas
+
+All components export standardized schemas for configuration validation:
+
+```typescript
+// Component schema pattern
+export const ComponentSchema = z.object({
+  // Schema definition
+});
+
+export const componentSchema = ComponentSchema;
+export const schemaKey = 'componentName';
+```
+
+### Portfolio Component Schema
+
+**Configuration File:** `config/portfolioData.yml`
+
+```typescript
+export const PortfolioDataSchema = z.object({
+  header: z.object({
+    title: z.string(),
+    subtitle: z.string()
+  }),
+  technologies: z.array(
+    z.object({
+      name: z.string(),
+      category: z.string()
+    })
+  ),
+  projects: z.array(
+    z.object({
+      title: z.string(),
+      description: z.string(),
+      link: z.string(),
+      icon: z.string()
+    })
+  ),
+  stats: z.array(
+    z.object({
+      number: z.string(),
+      label: z.string()
+    })
+  ),
+  seo: z.object({
+    title: z.string(),
+    description: z.string()
+  })
+});
+```
+
+### Projects Component Schema
+
+**Configuration File:** `config/projects.yml`
+
+```typescript
+export const ProjectSchema = z.object({
+  title: z.string(),
+  summary: z.string(),
+  lastModified: z.string().optional(),
+  link: z.string().optional(),
+  tags: z.array(z.string()).optional()
+});
+
+export const ProjectConfigSchema = z.object({
+  categories: z.array(
+    z.object({
+      category: z.string(),
+      subCategories: z.array(
+        z.object({
+          name: z.string(),
+          projects: z.array(ProjectSchema)
+        })
+      )
+    })
+  )
+});
+```
+
+### CV Component Schema
+
+**Configuration File:** `config/cvData.yml`
+
+```typescript
+export const CVDataSchema = z.object({
+  header: z.object({
+    title: z.string(),
+    email: z.string().optional(),
+    phone: z.string().optional(),
+    links: z
+      .array(
+        z.object({
+          label: z.string(),
+          href: z.string()
+        })
+      )
+      .optional()
+  }),
+  about: z.object({
+    title: z.string(),
+    body: z.string()
+  }),
+  roles: z.array(
+    z.object({
+      icon: z.string().optional(),
+      company: z.string(),
+      title: z.string(),
+      location: z.string().optional(),
+      period: z.string(),
+      website: z.string().optional(),
+      summary: z.string().optional(),
+      achievements: z.array(z.string()).optional(),
+      tech: z.string().optional()
+    })
+  )
+});
+```
+
+### NavBar Links Component Schema
+
+**Configuration File:** `config/navBarLinks.yml`
+
+The NavBar Links component provides configurable navigation links with dropdown support and automatic positioning.
+
+```typescript
+export const NavBarLinksSchema = z.object({
+  dropdown: z.boolean().optional(),
+  dropdownLabel: z.string().optional(),
+  className: z.string().optional(),
+  showIcons: z.boolean().optional(),
+  links: z
+    .array(
+      z.object({
+        href: z.string(),
+        label: z.string(),
+        position: z.enum(['left', 'right']).optional(), // Defaults to 'left'
+        target: z.enum(['_blank', '_self']).optional(),
+        title: z.string().optional(),
+        className: z.string().optional(),
+        icon: z.union([z.string(), z.any()]).optional() // FontAwesome icon
+      })
+    )
+    .optional()
+});
+```
+
+#### Interface Definition
+
+```typescript
+export interface CustomNavBarLink {
+  href: string;
+  label: string;
+  position?: 'left' | 'right'; // Defaults to 'left' when not provided
+  target?: '_blank' | '_self';
+  title?: string;
+  className?: string;
+  icon?: IconDefinition | string;
+}
+
+// Utility function to ensure position defaults to 'left'
+export const withDefaultPosition = (
+  link: CustomNavBarLink
+): CustomNavBarLink => ({
+  ...link,
+  position: link.position || 'left'
+});
+```
+
+**Key Features:**
+
+- **Position Default**: All links default to `position: 'left'` when not specified
+- **External Link Detection**: Automatic handling of internal vs external URLs
+- **Icon Support**: FontAwesome icons via string names or IconDefinition objects
+- **Type Safety**: Full TypeScript interface validation
 
 ```typescript
 export class BadgeConfig {

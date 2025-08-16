@@ -1,0 +1,45 @@
+dropdown: true
+dropdownLabel: 'Demos'
+links:
+  - label: Badges
+    href: /demos/badges
+
+  - label: Comments
+    href: /demos/comments
+
+  - label: CV
+    href: /demos/cv
+
+  - label: Feature Flags
+    href: /demos/feature-flags
+
+  - label: GitHub Links
+    href: /demos/github-links
+
+  - label: Portfolio
+    href: /demos/portfolio
+
+  - label: Projects
+    href: /demos/projects
+
+  - label: Reader Mode
+    href: /demos/reader-mode
+    position: left
+
+  - label: Related Resources
+    href: /demos/related-resources
+
+  - label: Schema System
+    href: /demos/schema-system
+
+  - label: Text Size Switcher
+    href: /demos/text-size-switcher
+
+  - label: Theme Switcher
+    href: /demos/theme-switcher
+
+  - label: Version
+    href: /demos/version-display
+
+  - label: 404 Page
+    href: /demos/404

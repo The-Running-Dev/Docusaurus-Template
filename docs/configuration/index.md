@@ -4,49 +4,86 @@ title: Configuration
 sidebar_position: 1
 ---
 
-### Centralized Configuration System
+## YAML-Based Configuration System (v1.0)
 
-The template now uses a centralized configuration system in `config/site-config.ts`:
+The Docusaurus Template v1.0 uses a modern YAML-based configuration system with automatic schema validation. This replaces the previous TypeScript-based configuration with a more maintainable and user-friendly approach.
 
-```typescript
-// config/site-config.ts
-export const PreBuildConfig = {
-  ProjectRoot: path.join(__dirname, '../'),
-  OverwriteExistingFiles: true,
-  DefaultTheme: 'default' // Set your preferred default theme
-};
+### Core Configuration Files
 
-export const SiteConfig = {
-  title: 'Your Docs Site',
-  tagline: 'Reusable Docusaurus Template',
-  url: 'https://your-site.com',
-  baseUrl: '/',
-  organizationName: 'your-org',
-  projectName: 'your-project'
-} as const;
+All configuration is stored in YAML files under the `config/` directory:
 
-export const SiteThemeConfig = {
-  navbar: {
-    title: 'Your Site Title',
-    logo: {
-      alt: 'Your Logo Alt Text',
-      src: 'img/logo.svg'
-    }
-  }
-} as const;
+```yaml
+# config/globalConfig.yml - Main site configuration
+preBuild:
+  projectRoot: ../
+  overwriteExistingFiles: true
+  copyMarkdownFromProjectRoot: false
+  generateNavBarForPages: false
+  defaultTheme: blue
+
+site:
+  title: Docusaurus Template
+  tagline: Template for Documentation Sites
+  url: http://docs-template.subzerodev.com/
+  baseUrl: /
+  organizationName: The-Running-Dev
+  projectName: Docusaurus Template
+
+theme:
+  navbar:
+    title: Template
 ```
 
-### Legacy Configuration (Still Supported)
+### Component Configuration Files
 
-You can also directly update `docusaurus.config.ts`:
+Each component has its own YAML configuration file:
+
+```yaml
+# config/giscus.yml - Comments system
+repo: the-running-dev/docusaurus-template
+repoId: R_kgDOPPNj-Q
+category: Docs
+categoryId: DIC_kwDOPPNj-c4CtnVD
+mapping: pathname
+reactionsEnabled: true
+theme:
+  light: light
+  dark: dark
+
+# config/badges.yml - GitHub badges
+groups:
+  - name: Build
+    badges:
+      - alt: Build Status
+        src: https://img.shields.io/github/actions/workflow/status/{user}/{repository}/ci.yml
+
+# config/projects.yml - Project showcase data
+- category: 'Frontend'
+  subCategories:
+    - name: 'Angular'
+      projects:
+        - title: 'Project Name'
+          link: 'https://github.com/user/repo'
+          summary: 'Project description'
+          tags: [Angular, TypeScript]
+```
+
+### Schema Validation
+
+All YAML configurations are automatically validated using Zod schemas:
 
 ```typescript
-const config: Config = {
-  title: 'Your Docs Site',
-  tagline: 'Your tagline here',
-  url: 'https://your-site.com',
-  organizationName: 'your-org',
-  projectName: 'your-docs'
-  // ... other settings
-};
+// Automatic validation during data loading
+import { validateData } from '../schemas';
+
+// Each component schema validates its YAML data
+const portfolioData = await validateData('portfolioData', rawYamlData);
+const projectsData = await validateData('projects', rawYamlData);
 ```
+
+### Breaking Changes from Previous Versions
+
+- **Removed**: `config/site-config.ts` - Replaced with `config/globalConfig.yml`
+- **Removed**: Inline TypeScript configuration classes
+- **Added**: Schema validation for all configuration data
+- **Added**: Automatic YAML loading and type safety

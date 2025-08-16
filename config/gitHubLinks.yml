@@ -1,0 +1,20 @@
+dropdown: false
+className: ''
+dropdownLabel: 'GitHub'
+showIcons: true
+links:
+  - href: https://github.com/The-Running-Dev/Docusaurus-Template
+    label: GitHub
+    position: right
+    title: Source code on GitHub
+    icon: faGithub
+  - href: https://github.com/The-Running-Dev/Docusaurus-Template/releases
+    label: Releases
+    position: right
+    title: Releases and changelog
+    icon: faTag
+  - href: https://ghcr.io/the-running-dev/docusaurus-template
+    label: Container Registry
+    position: right
+    title: Containers
+    icon: faDocker

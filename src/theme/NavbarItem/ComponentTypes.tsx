@@ -1,3 +1,4 @@
+import ComponentTypesObject from '@theme/NavbarItem/ComponentTypes';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 import LocaleDropdownNavbarItem from '@theme/NavbarItem/LocaleDropdownNavbarItem';
@@ -7,11 +8,16 @@ import DocNavbarItem from '@theme/NavbarItem/DocNavbarItem';
 import DocSidebarNavbarItem from '@theme/NavbarItem/DocSidebarNavbarItem';
 import DocsVersionNavbarItem from '@theme/NavbarItem/DocsVersionNavbarItem';
 import DocsVersionDropdownNavbarItem from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
+
+import CVNavbarItem from './CVPageLinkNavbarItem';
+import GitHubLinksNavbarItem from './GitHubLinksNavbarItem';
+import NavBarLinksNavbarItem from './NavBarLinksNavbarItem';
+import PortfolioNavbarItem from './PortfolioPageLinkNavbarItem';
+import ProjectsNavbarItem from './ProjectsPageLinkNavbarItem';
+import ReaderModeNavbarItem from './ReaderModeNavbarItem';
+import TextSizeSwitcherNavbarItem from './TextSizeSwitcherNavbarItem';
 import ThemeSwitcherNavbarItem from './ThemeSwitcherNavbarItem';
 import VersionDisplayNavbarItem from './VersionDisplayNavbarItem';
-import GitHubLinksNavbarItem from './GitHubLinksNavbarItem';
-
-import ComponentTypesObject from '@theme/NavbarItem/ComponentTypes';
 
 // If '@theme/NavbarItem/ComponentTypes' exports a value, use typeof for the type annotation
 const ComponentTypes: typeof ComponentTypesObject = {
@@ -24,9 +30,15 @@ const ComponentTypes: typeof ComponentTypesObject = {
   docSidebar: DocSidebarNavbarItem,
   docsVersion: DocsVersionNavbarItem,
   docsVersionDropdown: DocsVersionDropdownNavbarItem,
-  'custom-themeSwitcher': ThemeSwitcherNavbarItem,
-  'custom-versionDisplay': VersionDisplayNavbarItem,
-  'custom-gitHubLinks': GitHubLinksNavbarItem
+  'custom-CV': CVNavbarItem,
+  'custom-GitHubLinks': GitHubLinksNavbarItem,
+  'custom-NavBarLinks': NavBarLinksNavbarItem,
+  'custom-Portfolio': PortfolioNavbarItem,
+  'custom-Projects': ProjectsNavbarItem,
+  'custom-ReaderMode': ReaderModeNavbarItem,
+  'custom-TextSizeSwitcher': TextSizeSwitcherNavbarItem,
+  'custom-ThemeSwitcher': ThemeSwitcherNavbarItem,
+  'custom-VersionDisplay': VersionDisplayNavbarItem
 };
 
 export default ComponentTypes;

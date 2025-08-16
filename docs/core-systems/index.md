@@ -8,6 +8,12 @@ The Docusaurus Template includes several integrated core systems that work toget
 
 ## System Overview
 
+### 🧩 Components System
+
+**[View Components System →](/docs/core-systems/components-system)**
+
+Comprehensive component architecture with feature flags, data validation, and consistent patterns for building UI components.
+
 ### 🏷️ Badge System
 
 **[View Badge System →](/docs/core-systems/badge-system)**
@@ -43,6 +49,24 @@ Automated content preparation pipeline that generates navbar links, copies markd
 **[View Version Display System →](/docs/core-systems/version-display-system)**
 
 Automated version display with date-based versioning, GitHub integration, and customizable badge styling.
+
+### 🔧 Schema System
+
+**[View Schema System →](/docs/core-systems/schema-system)**
+
+Distributed validation system with component-specific schemas and global registry for data integrity and type safety.
+
+### 🎯 Hooks System
+
+**[View Hooks System →](/docs/core-systems/hooks-system)**
+
+Custom React hooks for data fetching, feature flags, configuration management, and common UI patterns.
+
+### 💾 Data & Caching System
+
+**[View Data & Caching System →](/docs/core-systems/data-caching-system)**
+
+Efficient data loading pipeline with YAML→JSON conversion, global caching control, and schema validation.
 
 ## Integration Architecture
 

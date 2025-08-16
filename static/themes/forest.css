@@ -91,6 +91,7 @@
     rgba(46, 125, 50, 0.05) 0%,
     rgba(76, 175, 80, 0.05) 100%
   );
+  padding: 1rem 0;
 }
 
 [data-theme='dark'] .hero {

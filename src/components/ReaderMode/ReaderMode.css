@@ -1,0 +1,301 @@
+/* Reader Mode Toggle Button */
+.reader-mode {
+  position: relative;
+  display: inline-block;
+  margin-left: 0.5rem;
+}
+
+.reader-mode__button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  color: var(--ifm-navbar-link-color);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  min-width: 40px;
+  min-height: 32px;
+}
+
+.reader-mode__button:hover {
+  background-color: var(--ifm-color-emphasis-200);
+  transform: scale(1.05);
+}
+
+.reader-mode__icon {
+  transition: all 0.2s ease;
+}
+
+/* Reader Mode Active Styles */
+html.reader-mode-active {
+  /* Enhanced typography - but don't override base font size as it conflicts with text size switcher */
+  --ifm-font-family-base: Georgia, 'Times New Roman', Times, serif;
+  --ifm-line-height-base: 1.8;
+  --ifm-h1-font-size: 2.5rem;
+  --ifm-h2-font-size: 2rem;
+  --ifm-h3-font-size: 1.5rem;
+
+  /* Reader-friendly colors */
+  --ifm-color-primary: #2e3440;
+  --ifm-color-primary-dark: #1e2328;
+  --ifm-color-primary-darker: #191c20;
+  --ifm-color-primary-darkest: #0d0f11;
+  --ifm-color-primary-light: #3e4450;
+  --ifm-color-primary-lighter: #4e5461;
+  --ifm-color-primary-lightest: #6e7582;
+
+  /* Background and text colors for better readability */
+  --ifm-background-color: #fefefe;
+  --ifm-background-surface-color: #ffffff;
+  --ifm-color-content: #2e3440;
+  --ifm-color-content-secondary: #5e81ac;
+
+  /* Improved contrast */
+  --ifm-color-emphasis-0: #000000;
+  --ifm-color-emphasis-100: #f8f9fa;
+  --ifm-color-emphasis-200: #e9ecef;
+  --ifm-color-emphasis-300: #dee2e6;
+  --ifm-color-emphasis-400: #ced4da;
+  --ifm-color-emphasis-500: #adb5bd;
+  --ifm-color-emphasis-600: #6c757d;
+  --ifm-color-emphasis-700: #495057;
+  --ifm-color-emphasis-800: #343a40;
+  --ifm-color-emphasis-900: #212529;
+
+  /* Remove distractions */
+  --ifm-navbar-shadow: none;
+  --ifm-footer-background-color: transparent;
+}
+
+/* Dark mode reader styles */
+html.reader-mode-active[data-theme='dark'] {
+  --ifm-background-color: #1a1a1a;
+  --ifm-background-surface-color: #1e1e1e;
+  --ifm-color-content: #e5e7eb;
+  --ifm-color-content-secondary: #9ca3af;
+  --ifm-color-primary: #e5e7eb;
+  --ifm-color-primary-dark: #d1d5db;
+  --ifm-color-primary-darker: #c7cbd1;
+  --ifm-color-primary-darkest: #a3a8ae;
+  --ifm-color-primary-light: #f3f4f6;
+  --ifm-color-primary-lighter: #f9fafb;
+  --ifm-color-primary-lightest: #ffffff;
+}
+
+/* Hide ALL navigation and UI elements EXCEPT the navbar */
+html.reader-mode-active .footer,
+html.reader-mode-active .breadcrumbs,
+html.reader-mode-active .pagination-nav,
+html.reader-mode-active .edit-this-page,
+html.reader-mode-active .theme-doc-breadcrumbs,
+html.reader-mode-active .theme-doc-version-badge,
+html.reader-mode-active .theme-edit-this-page,
+html.reader-mode-active .theme-last-updated,
+html.reader-mode-active .theme-doc-footer,
+html.reader-mode-active .theme-doc-footer-tags-row,
+html.reader-mode-active .docusaurus-mt-lg,
+html.reader-mode-active .row .col--3,
+html.reader-mode-active .theme-doc-toc-mobile,
+html.reader-mode-active .theme-doc-toc-desktop,
+html.reader-mode-active .theme-doc-sidebar-container,
+html.reader-mode-active .table-of-contents,
+html.reader-mode-active .theme-back-to-top-button {
+  display: none !important;
+}
+
+/* Keep navbar but maintain consistent positioning */
+html.reader-mode-active .navbar {
+  background: var(--ifm-background-color) !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000; /* ensure navbar stays above main content */
+}
+
+/* Subtle styling for navbar elements in reader mode */
+html.reader-mode-active .navbar__brand,
+html.reader-mode-active .navbar__item,
+html.reader-mode-active .navbar__link {
+  opacity: 0.7 !important;
+  transition: opacity 0.2s ease !important;
+}
+
+html.reader-mode-active .navbar__brand:hover,
+html.reader-mode-active .navbar__item:hover,
+html.reader-mode-active .navbar__link:hover {
+  opacity: 1 !important;
+}
+
+/* Keep reader mode toggle fully visible */
+html.reader-mode-active .reader-mode,
+html.reader-mode-active .reader-mode .navbar__item,
+html.reader-mode-active .reader-mode .navbar__link {
+  opacity: 1 !important;
+}
+
+/* Clean layout - remove all margins and constraints */
+html.reader-mode-active .main-wrapper,
+html.reader-mode-active .container,
+html.reader-mode-active .row,
+html.reader-mode-active .col,
+html.reader-mode-active .theme-doc-markdown,
+html.reader-mode-active .markdown {
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Ensure main content area doesn't cause layout shifts */
+html.reader-mode-active .main-wrapper {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Center and constrain only the main content */
+html.reader-mode-active .theme-doc-markdown {
+  max-width: 800px !important;
+  margin: 0 auto !important;
+  padding: 2rem !important;
+  min-height: 100vh !important;
+}
+
+/* Ensure body takes full space */
+html.reader-mode-active body {
+  background: var(--ifm-background-color) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Enhanced article typography */
+html.reader-mode-active article {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  line-height: 1.8;
+  color: var(--ifm-color-content);
+}
+
+html.reader-mode-active article h1,
+html.reader-mode-active article h2,
+html.reader-mode-active article h3,
+html.reader-mode-active article h4,
+html.reader-mode-active article h5,
+html.reader-mode-active article h6 {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 700;
+  margin: 2rem 0 1rem;
+  color: var(--ifm-color-emphasis-900);
+}
+
+html.reader-mode-active[data-theme='dark'] article h1,
+html.reader-mode-active[data-theme='dark'] article h2,
+html.reader-mode-active[data-theme='dark'] article h3,
+html.reader-mode-active[data-theme='dark'] article h4,
+html.reader-mode-active[data-theme='dark'] article h5,
+html.reader-mode-active[data-theme='dark'] article h6 {
+  color: var(--ifm-color-emphasis-100);
+}
+
+html.reader-mode-active article p {
+  margin: 1.5rem 0;
+  text-align: justify;
+}
+
+html.reader-mode-active article li {
+  margin: 0.5rem 0;
+}
+
+/* Code blocks remain monospace */
+html.reader-mode-active pre,
+html.reader-mode-active code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+/* Remove shadows and borders for cleaner look */
+html.reader-mode-active .card,
+html.reader-mode-active .alert {
+  box-shadow: none;
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+/* Enhance blockquotes */
+html.reader-mode-active blockquote {
+  border-left: 4px solid var(--ifm-color-primary);
+  font-style: italic;
+  font-size: 1.1em;
+  line-height: 1.7;
+  margin: 2rem 0;
+  padding: 1rem 2rem;
+  background-color: var(--ifm-color-emphasis-100);
+}
+
+/* Reader mode button highlighting when active */
+html.reader-mode-active .reader-mode__button {
+  color: white !important;
+  box-shadow: 0 2px 8px rgba(46, 52, 64, 0.3) !important;
+  border: 2px solid var(--ifm-color-primary-dark) !important;
+  border-radius: 8px !important;
+}
+
+html.reader-mode-active .reader-mode__button:hover {
+  background-color: var(--ifm-color-primary-dark) !important;
+  color: white !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 4px 12px rgba(46, 52, 64, 0.4) !important;
+}
+
+/* Enhanced icon styling when reader mode is active */
+html.reader-mode-active .reader-mode__icon {
+  color: white !important;
+  filter: brightness(1.2) !important;
+}
+
+/* Make the button stand out more when active */
+html.reader-mode-active .reader-mode {
+  position: relative !important;
+}
+
+html.reader-mode-active .reader-mode::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    45deg,
+    var(--ifm-color-primary),
+    var(--ifm-color-primary-light)
+  );
+  border-radius: 10px;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+/* Smooth transitions */
+html.reader-mode-active * {
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    opacity 0.3s ease;
+}
+
+/* Prevent layout shifts during transitions */
+.navbar {
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease !important;
+}
+
+/* Ensure consistent navbar positioning */
+html:not(.reader-mode-active) .navbar,
+html.reader-mode-active .navbar {
+  position: sticky !important;
+  top: 0 !important;
+  will-change: auto !important;
+}

@@ -1,0 +1,261 @@
+.text-size-switcher {
+  position: relative;
+  display: inline-block;
+  margin-left: 0.5rem;
+}
+
+.text-size-switcher__button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  color: var(--ifm-navbar-link-color);
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  min-width: 40px;
+  min-height: 32px;
+}
+
+.text-size-switcher__button:hover {
+  background-color: var(--ifm-color-emphasis-200);
+}
+
+.text-size-switcher__button-icon {
+  font-weight: 600;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--ifm-navbar-link-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  transition: font-size 0.2s ease;
+}
+
+.text-size-switcher__dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 180px;
+  z-index: 1000;
+  margin-top: 0.25rem;
+  overflow: hidden;
+}
+
+.text-size-switcher__header {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-800);
+  background: var(--ifm-color-emphasis-100);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.text-size-switcher__option {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ifm-color-emphasis-800);
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.text-size-switcher__option:hover {
+  background-color: var(--ifm-color-emphasis-100);
+}
+
+.text-size-switcher__option--active {
+  background-color: var(--ifm-color-primary-lightest);
+  color: var(--ifm-color-primary-darkest);
+  font-weight: 500;
+}
+
+.text-size-switcher__size-preview {
+  width: 24px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-700);
+  flex-shrink: 0;
+}
+
+.text-size-switcher__backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  background: transparent;
+}
+
+/* Dark theme adjustments */
+[data-theme='dark'] .text-size-switcher__dropdown {
+  border-color: var(--ifm-color-emphasis-300);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .text-size-switcher__size-preview {
+  color: var(--ifm-color-emphasis-600);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .text-size-switcher__dropdown {
+    right: -1rem;
+    min-width: 160px;
+  }
+}
+
+/* Animation for dropdown */
+.text-size-switcher__dropdown {
+  animation: fadeInDown 0.2s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Text size classes that will be applied to the root element */
+.text-size-small {
+  --ifm-font-size-base: 14px;
+  --text-size-scale: 0.9;
+}
+
+.text-size-medium {
+  --ifm-font-size-base: 16px;
+  --text-size-scale: 1;
+}
+
+.text-size-large {
+  --ifm-font-size-base: 18px;
+  --text-size-scale: 1.1;
+}
+
+.text-size-extra-large {
+  --ifm-font-size-base: 20px;
+  --text-size-scale: 1.2;
+}
+
+/* Ensure text size changes apply to common elements with higher specificity */
+html.text-size-small .markdown,
+html.text-size-small article,
+html.text-size-small .theme-doc-markdown,
+html.text-size-small .theme-doc-markdown > div,
+html.text-size-small main,
+html.text-size-small .heroSubtitle,
+html.text-size-small .sectionTitle,
+html.text-size-small .techName,
+html.text-size-small .techCategory,
+html.text-size-small .projectTitle,
+html.text-size-small .projectDescription,
+html.text-size-small .statNumber,
+html.text-size-small .statLabel,
+html.text-size-small .cv-wrap,
+html.text-size-small .cv-muted,
+html.text-size-small .cv-chip,
+html.text-size-small .cv-quote {
+  font-size: 0.9rem !important;
+}
+
+html.text-size-medium .markdown,
+html.text-size-medium article,
+html.text-size-medium .theme-doc-markdown,
+html.text-size-medium .theme-doc-markdown > div,
+html.text-size-medium main,
+html.text-size-medium .heroSubtitle,
+html.text-size-medium .sectionTitle,
+html.text-size-medium .techName,
+html.text-size-medium .techCategory,
+html.text-size-medium .projectTitle,
+html.text-size-medium .projectDescription,
+html.text-size-medium .statNumber,
+html.text-size-medium .statLabel,
+html.text-size-medium .cv-wrap,
+html.text-size-medium .cv-muted,
+html.text-size-medium .cv-chip,
+html.text-size-medium .cv-quote {
+  font-size: 1rem !important;
+}
+
+html.text-size-large .markdown,
+html.text-size-large article,
+html.text-size-large .theme-doc-markdown,
+html.text-size-large .theme-doc-markdown > div,
+html.text-size-large main,
+html.text-size-large .heroSubtitle,
+html.text-size-large .sectionTitle,
+html.text-size-large .techName,
+html.text-size-large .techCategory,
+html.text-size-large .projectTitle,
+html.text-size-large .projectDescription,
+html.text-size-large .statNumber,
+html.text-size-large .statLabel,
+html.text-size-large .cv-wrap,
+html.text-size-large .cv-muted,
+html.text-size-large .cv-chip,
+html.text-size-large .cv-quote {
+  font-size: 1.1rem !important;
+}
+
+html.text-size-extra-large .markdown,
+html.text-size-extra-large article,
+html.text-size-extra-large .theme-doc-markdown,
+html.text-size-extra-large .theme-doc-markdown > div,
+html.text-size-extra-large main,
+html.text-size-extra-large .heroSubtitle,
+html.text-size-extra-large .sectionTitle,
+html.text-size-extra-large .techName,
+html.text-size-extra-large .techCategory,
+html.text-size-extra-large .projectTitle,
+html.text-size-extra-large .projectDescription,
+html.text-size-extra-large .statNumber,
+html.text-size-extra-large .statLabel,
+html.text-size-extra-large .cv-wrap,
+html.text-size-extra-large .cv-muted,
+html.text-size-extra-large .cv-chip,
+html.text-size-extra-large .cv-quote {
+  font-size: 1.2rem !important;
+}
+
+/* Fallback using CSS custom properties */
+:root[style*='--text-size-scale'] .markdown,
+:root[style*='--text-size-scale'] article,
+:root[style*='--text-size-scale'] .theme-doc-markdown,
+:root[style*='--text-size-scale'] .heroSubtitle,
+:root[style*='--text-size-scale'] .sectionTitle,
+:root[style*='--text-size-scale'] .techName,
+:root[style*='--text-size-scale'] .techCategory,
+:root[style*='--text-size-scale'] .projectTitle,
+:root[style*='--text-size-scale'] .projectDescription,
+:root[style*='--text-size-scale'] .statNumber,
+:root[style*='--text-size-scale'] .statLabel,
+:root[style*='--text-size-scale'] .cv-wrap,
+:root[style*='--text-size-scale'] .cv-muted,
+:root[style*='--text-size-scale'] .cv-chip,
+:root[style*='--text-size-scale'] .cv-quote {
+  font-size: calc(var(--text-size-scale, 1) * 1rem) !important;
+}

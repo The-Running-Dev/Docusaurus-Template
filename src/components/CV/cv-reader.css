@@ -1,0 +1,175 @@
+/* Reader Mode Styles for CV Page */
+html.reader-mode-active .cv-wrap {
+  max-width: 800px !important;
+  margin: 0 auto !important;
+  padding: 2rem !important;
+  font-family: Georgia, 'Times New Roman', Times, serif !important;
+  line-height: 1.8 !important;
+  color: var(--ifm-font-color-base) !important;
+}
+
+html.reader-mode-active .cv-section {
+  background: var(--ifm-background-surface-color) !important;
+  border: 1px solid var(--ifm-color-emphasis-300) !important;
+  box-shadow: none !important;
+  border-radius: 8px !important;
+  margin: 2rem 0 !important;
+  padding: 2rem !important;
+}
+
+html.reader-mode-active .cv-section h2 {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 700 !important;
+  margin: 0 0 1.5rem 0 !important;
+  color: var(--ifm-font-color-base) !important;
+  border-bottom: 2px solid var(--ifm-color-primary) !important;
+  padding-bottom: 0.5rem !important;
+  font-size: 1.8rem !important;
+}
+
+html.reader-mode-active .cv-header {
+  text-align: left !important;
+  margin-bottom: 2rem !important;
+  background: var(--ifm-background-surface-color) !important;
+  border: 1px solid var(--ifm-color-emphasis-300) !important;
+  padding: 2rem !important;
+  border-radius: 8px !important;
+}
+
+html.reader-mode-active .cv-header h1 {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--ifm-font-color-base) !important;
+  margin-bottom: 1rem !important;
+  font-size: 2.5rem !important;
+}
+
+html.reader-mode-active .cv-row,
+html.reader-mode-active .cv-links {
+  margin: 1rem 0 !important;
+  color: var(--ifm-font-color-base) !important;
+}
+
+html.reader-mode-active .cv-row a,
+html.reader-mode-active .cv-links a {
+  color: var(--ifm-color-primary) !important;
+  text-decoration: none !important;
+  border-bottom: 1px dotted var(--ifm-color-primary) !important;
+}
+
+html.reader-mode-active .cv-row a:hover,
+html.reader-mode-active .cv-links a:hover {
+  border-bottom-style: solid !important;
+}
+
+html.reader-mode-active .cv-badges {
+  display: block !important;
+  margin: 1.5rem 0 !important;
+}
+
+html.reader-mode-active .cv-badges img {
+  display: inline-block !important;
+  margin: 0.25rem 0.5rem 0.25rem 0 !important;
+  height: auto !important;
+}
+
+html.reader-mode-active .cv-chip {
+  display: inline-block !important;
+  margin: 0.25rem 0.5rem 0.25rem 0 !important;
+  padding: 0.25rem 0.5rem !important;
+  background: var(--ifm-color-primary) !important;
+  color: var(--ifm-color-primary-contrast-background) !important;
+  border-radius: 4px !important;
+  font-size: 0.9rem !important;
+}
+
+html.reader-mode-active .cv-timeline {
+  display: block !important;
+  mask-image: none !important;
+  overflow: visible !important;
+}
+
+html.reader-mode-active .cv-year-rail {
+  display: none !important;
+}
+
+html.reader-mode-active .cv-track {
+  display: block !important;
+}
+
+html.reader-mode-active .timeline-item {
+  display: block !important;
+  margin: 2rem 0 !important;
+  padding: 2rem !important;
+  background: var(--ifm-background-surface-color) !important;
+  border: 1px solid var(--ifm-color-emphasis-300) !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: none !important;
+  min-width: auto !important;
+  border-top: 2px solid var(--ifm-color-primary) !important;
+}
+
+html.reader-mode-active .timeline-item h3 {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 600 !important;
+  color: var(--ifm-font-color-base) !important;
+  margin-bottom: 0.5rem !important;
+  font-size: 1.3rem !important;
+}
+
+html.reader-mode-active .timeline-item .period,
+html.reader-mode-active .timeline-item .location {
+  font-style: italic !important;
+  color: var(--ifm-font-color-base) !important;
+  opacity: 0.8 !important;
+  background: transparent !important;
+  padding: 0 !important;
+  display: block !important;
+  margin: 0.5rem 0 !important;
+}
+
+html.reader-mode-active .timeline-item p {
+  color: var(--ifm-font-color-base) !important;
+  margin: 1rem 0 !important;
+  line-height: 1.7 !important;
+  font-size: 1rem !important;
+}
+
+html.reader-mode-active .timeline-item ul,
+html.reader-mode-active .timeline-item li {
+  color: var(--ifm-font-color-base) !important;
+  margin: 0.75rem 0 !important;
+  line-height: 1.7 !important;
+  font-size: 1rem !important;
+}
+
+html.reader-mode-active .timeline-item .tech {
+  background: var(--ifm-background-surface-color) !important;
+  border: 1px solid var(--ifm-color-emphasis-300) !important;
+  border-left: 3px solid var(--ifm-color-primary) !important;
+  padding: 1.5rem !important;
+  margin-top: 1.5rem !important;
+  border-radius: 8px !important;
+  color: var(--ifm-font-color-base) !important;
+}
+
+html.reader-mode-active .timeline-item .tech strong {
+  color: var(--ifm-color-primary) !important;
+}
+
+html.reader-mode-active .cv-quote {
+  font-style: italic !important;
+  font-size: 1.1rem !important;
+  text-align: center !important;
+  border-left: 4px solid var(--ifm-color-primary) !important;
+  padding: 1.5rem 2rem !important;
+  background: var(--ifm-background-surface-color) !important;
+  border-radius: 8px !important;
+  margin: 2rem 0 !important;
+  color: var(--ifm-font-color-base) !important;
+}

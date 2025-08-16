@@ -37,3 +37,5 @@ Based on the provided codebase and documentation, update the project documentati
 - README updates
 
 Flag any sections requiring additional input from the development team for clarification.
+Be mindful of the formatting and style guidelines established in the documentation.
+Keep the frontmatter headers, if they exist.

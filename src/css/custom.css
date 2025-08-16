@@ -134,7 +134,7 @@
     rgba(30, 90, 58, 0.06) 100%
   );
   border-bottom: 1px solid rgba(30, 90, 58, 0.15);
-  padding: 4rem 0;
+  padding: 1rem 0;
   position: relative;
 }
 
@@ -154,6 +154,7 @@
     rgba(34, 197, 94, 0.15) 50%,
     rgba(34, 197, 94, 0.08) 100%
   );
+  padding: 1rem 0;
   border-bottom: 1px solid rgba(34, 197, 94, 0.2);
 }
 

@@ -1,7 +1,7 @@
 ---
 id: available-scripts
 title: Scripts
-sidebar_position: 2
+sidebar_position: 4
 ---
 
 - `npm start` - Start development server (includes pre-build step)

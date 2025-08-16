@@ -1,0 +1,120 @@
+/* Reader Mode Styles for Portfolio Page */
+html.reader-mode-active .heroBanner,
+html.reader-mode-active .stats,
+html.reader-mode-active .projectShowcase,
+html.reader-mode-active .techStack {
+  max-width: 800px !important;
+  margin: 0 auto !important;
+  padding: 2rem !important;
+  font-family: Georgia, 'Times New Roman', Times, serif !important;
+  line-height: 1.8 !important;
+}
+
+html.reader-mode-active .heroBanner {
+  background: transparent !important;
+  color: var(--ifm-font-color-base) !important;
+  box-shadow: none !important;
+  border-radius: 8px !important;
+  margin-bottom: 2rem !important;
+  border: 1px solid var(--ifm-color-emphasis-300) !important;
+}
+
+html.reader-mode-active .heroSubtitle {
+  font-size: 1.2rem !important;
+  opacity: 0.8 !important;
+  font-style: italic !important;
+  color: var(--ifm-font-color-base) !important;
+}
+
+html.reader-mode-active .sectionTitle {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 700 !important;
+  margin: 2rem 0 1rem !important;
+  color: var(--ifm-font-color-base) !important;
+  border-bottom: 2px solid var(--ifm-color-primary) !important;
+  padding-bottom: 0.5rem !important;
+  text-align: left !important;
+}
+
+html.reader-mode-active .statsGrid,
+html.reader-mode-active .projectGrid,
+html.reader-mode-active .techGrid {
+  display: block !important;
+  max-width: none !important;
+}
+
+html.reader-mode-active .statItem,
+html.reader-mode-active .projectCard,
+html.reader-mode-active .techItem {
+  display: block !important;
+  margin: 1.5rem 0 !important;
+  padding: 2rem !important;
+  background: var(--ifm-background-surface-color) !important;
+  border: 1px solid var(--ifm-color-emphasis-300) !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: none !important;
+  text-decoration: none !important;
+  color: var(--ifm-font-color-base) !important;
+}
+
+html.reader-mode-active .statItem::before,
+html.reader-mode-active .projectCard::before,
+html.reader-mode-active .techItem::before {
+  display: none !important;
+}
+
+html.reader-mode-active .projectCard:hover,
+html.reader-mode-active .statItem:hover,
+html.reader-mode-active .techItem:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  color: var(--ifm-font-color-base) !important;
+}
+
+html.reader-mode-active .projectTitle,
+html.reader-mode-active .techName,
+html.reader-mode-active .statNumber {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 600 !important;
+  color: var(--ifm-font-color-base) !important;
+  margin-bottom: 1rem !important;
+  font-size: 1.3rem !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+  background-clip: initial !important;
+}
+
+html.reader-mode-active .projectDescription,
+html.reader-mode-active .statLabel {
+  font-size: 1rem !important;
+  line-height: 1.7 !important;
+  color: var(--ifm-font-color-base) !important;
+  opacity: 0.8 !important;
+  margin: 0.5rem 0 !important;
+  text-align: left !important;
+}
+
+html.reader-mode-active .projectIcon {
+  font-size: 1.5rem !important;
+  margin-bottom: 1rem !important;
+  display: block !important;
+  text-align: left !important;
+}
+
+html.reader-mode-active .techCategory {
+  display: inline-block !important;
+  padding: 0.5rem 1rem !important;
+  background: var(--ifm-color-primary) !important;
+  color: var(--ifm-color-primary-contrast-background) !important;
+  border-radius: 4px !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  margin-top: 1rem !important;
+}

@@ -1,34 +1,78 @@
 {
   "name": "docusaurus-template",
   "version": "1.0.0",
-  "private": true,
+  "description": "A comprehensive Docusaurus 3.8.1 template with TypeScript, advanced theming, commenting system, and automated build processes",
+  "private": false,
+  "license": "MIT",
+  "author": "The-Running-Dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/The-Running-Dev/Docusaurus-Template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/The-Running-Dev/Docusaurus-Template/issues"
+  },
+  "homepage": "https://github.com/The-Running-Dev/Docusaurus-Template#readme",
+  "keywords": [
+    "docusaurus",
+    "documentation",
+    "template",
+    "typescript",
+    "react",
+    "markdown",
+    "themes",
+    "giscus",
+    "comments"
+  ],
   "scripts": {
     "docusaurus": "docusaurus",
-    "prestart": "tsx ./scripts/pre-build.ts",
+    "// PRE-BUILD SCRIPTS": "",
+    "prebuild": "tsx --tsconfig ./scripts/tsconfig.json ./scripts/pre-build.ts",
+    "prebuild:prod": "cross-env NODE_ENV=production tsx --tsconfig ./scripts/tsconfig.json ./scripts/pre-build.ts",
+    "prebuild:check": "tsc --project ./scripts/tsconfig.json --noEmit",
+    "// DEVELOPMENT SCRIPTS": "",
+    "prestart": "pnpm run prebuild",
     "start": "docusaurus start",
-    "start:docker": "docusaurus start --host 0.0.0.0 --port 3000",
-    "prebuild:prod": "cross-env NODE_ENV=production tsx ./scripts/pre-build.ts",
-    "build:prod": "docusaurus build --out-dir ./artifacts",
+    "prestart:docker": "pnpm run prebuild",
+    "start:docker": "concurrently \"pnpm run watch:config\" \"docusaurus start --host 0.0.0.0 --port 3000\"",
+    "prestart:debug": "pnpm run prebuild",
+    "start:debug": "docusaurus start",
+    "dev": "concurrently \"pnpm run watch:config\" \"pnpm run start:debug\"",
+    "watch:config": "chokidar \"config/**/*.{yml,yaml}\" -c \"tsx --tsconfig ./scripts/tsconfig.json ./scripts/pre-build.ts\"",
+    "// BUILD SCRIPTS": "",
+    "prebuild:build": "pnpm run prebuild",
+    "build": "pnpm run prebuild && docusaurus build --out-dir ./artifacts",
+    "build:prod": "pnpm run prebuild:prod && docusaurus build --out-dir ./artifacts",
+    "serve": "docusaurus serve",
+    "clear": "docusaurus clear",
+    "// DOCUSAURUS UTILITIES": "",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
-    "clear": "docusaurus clear",
-    "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "typecheck": "tsc",
-    "lint": "eslint \"src/**/*.{ts,tsx}\"",
-    "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
+    "// TESTING & VALIDATION": "",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "validate:github": "tsx --tsconfig ./scripts/tsconfig.json ./scripts/validate-github-config.ts",
+    "test:schemas": "tsx --tsconfig ./scripts/tsconfig.json ./scripts/test-schema-system.ts",
+    "// CODE QUALITY": "",
+    "lint": "eslint \"src/**/*.{ts,tsx}\" \"scripts/**/*.ts\"",
+    "lint:fix": "eslint \"src/**/*.{ts,tsx}\" \"scripts/**/*.ts\" --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check-all": "pnpm run format:check && pnpm run lint && pnpm run typecheck",
+    "quality": "pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run prebuild:check && pnpm run validate:github",
+    "quality:fix": "pnpm run format && pnpm run lint:fix",
+    "// SETUP": "",
     "prepare": "husky"
   },
   "dependencies": {
     "@docusaurus/core": "3.8.1",
     "@docusaurus/preset-classic": "3.8.1",
-    "@docusaurus/theme-classic": "^3.8.1",
-    "@docusaurus/theme-common": "^3.8.1",
-    "@docusaurus/theme-mermaid": "^3.8.1",
+    "@docusaurus/theme-classic": "3.8.1",
+    "@docusaurus/theme-common": "3.8.1",
+    "@docusaurus/theme-mermaid": "3.8.1",
     "@fortawesome/fontawesome-svg-core": "^7.0.0",
     "@fortawesome/free-brands-svg-icons": "^7.0.0",
     "@fortawesome/free-solid-svg-icons": "^7.0.0",
@@ -37,22 +81,28 @@
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
     "cross-env": "^10.0.0",
+    "js-yaml": "^4.1.0",
     "markdown-to-jsx": "^7.7.12",
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-markdown": "^10.1.0"
+    "react-markdown": "^10.1.0",
+    "zod": "^4.0.16"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.8.1",
     "@docusaurus/tsconfig": "3.8.1",
     "@docusaurus/types": "3.8.1",
     "@eslint/js": "^9.32.0",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^24.1.0",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
+    "@vitest/ui": "^3.2.4",
+    "chokidar-cli": "^3.0.0",
+    "concurrently": "^9.2.0",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-jsx-a11y": "^6.0.0",
@@ -64,8 +114,14 @@
     "prettier": "^3.0.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.3",
-    "typescript": "~5.6.2"
+    "typescript": "~5.6.2",
+    "vitest": "^3.2.4"
   },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@9.0.0",
   "browserslist": {
     "production": [
       ">0.5%",
@@ -78,7 +134,8 @@
       "last 5 safari version"
     ]
   },
-  "engines": {
-    "node": ">=18.0"
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
   }
 }

@@ -2,16 +2,13 @@ import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
-import { SiteConfig, SiteThemeConfig } from './config/site-config';
-import type { NavbarLink } from './src/entities';
-import navbarData from './src/navbarLinks.json';
+import { getData } from './src/data';
+import { GlobalConfig } from './src/entities';
+import { globalConfig as configData } from './data/';
 
-const navbarLinks: NavbarLink[] = (navbarData?.links || []) as NavbarLink[];
-
+const globalConfig = getData<GlobalConfig>(configData);
 const config: Config = {
-  // Use base defaults
-  ...SiteConfig,
-  // Add additional configuration
+  ...globalConfig.site,
   trailingSlash: false,
   favicon: 'img/favicon.ico',
   onBrokenLinks: 'throw',
@@ -40,12 +37,10 @@ const config: Config = {
     ]
   ],
   themeConfig: {
-    // Merge base theme config
-    ...SiteThemeConfig,
-    // Add additional theme configuration
+    ...globalConfig.theme,
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      ...SiteThemeConfig.navbar,
+      ...globalConfig?.theme?.navbar,
       hideOnScroll: false,
       items: [
         {
@@ -55,20 +50,44 @@ const config: Config = {
           label: 'Docs'
         },
         {
-          type: 'custom-gitHubLinks',
+          type: 'custom-CV',
+          position: 'left'
+        },
+        {
+          type: 'custom-Portfolio',
+          position: 'left'
+        },
+        {
+          type: 'custom-Projects',
+          position: 'left'
+        },
+        {
+          type: 'custom-NavBarLinks',
+          position: 'left'
+        },
+
+        {
+          type: 'custom-VersionDisplay',
           position: 'right'
         },
         {
-          type: 'custom-versionDisplay',
+          type: 'custom-ThemeSwitcher',
           position: 'right'
         },
         {
-          type: 'custom-themeSwitcher',
+          type: 'custom-TextSizeSwitcher',
           position: 'right'
         },
-        // ...auto generated links,
-        ...navbarLinks
+        {
+          type: 'custom-ReaderMode',
+          position: 'right'
+        }
       ]
+    },
+    colorMode: {
+      defaultMode: 'dark',
+      disableSwitch: false,
+      respectPrefersColorScheme: false
     },
     prism: {
       theme: prismThemes.github,

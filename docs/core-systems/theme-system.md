@@ -1,12 +1,12 @@
 ---
 id: theme-system
 title: Theme System
-sidebar_position: 1
+sidebar_position: 11
 ---
 
-This template includes a sophisticated theme switching system with 10+ professionally designed color themes that are dynamically loaded and persisted in localStorage. **Version 2.0** includes significant improvements for path resolution and cross-route compatibility.
+This template includes a sophisticated theme switching system with 10+ professionally designed color themes that are dynamically loaded and persisted in localStorage. **Version 1.0** includes significant improvements for path resolution and cross-route compatibility.
 
-## 🚨 Breaking Changes in v2.0
+## 🚨 Breaking Changes in v1.0
 
 ### Path Resolution Fixed
 
@@ -16,7 +16,7 @@ This template includes a sophisticated theme switching system with 10+ professio
 
 ### Configuration Architecture
 
-- **New**: Centralized configuration in `config/site-config.ts`
+- **New**: Centralized configuration in `config/globalConfig.yml`
 - **Change**: Theme data now stored in `src/themes.json` (auto-generated)
 - **Change**: TypeScript entities moved to `src/entities/`
 
@@ -38,7 +38,7 @@ This template includes a sophisticated theme switching system with 10+ professio
 
 ## Implementation Architecture
 
-### Component Architecture (v2.0)
+### Component Architecture (v1.0)
 
 ```typescript
 // ThemeSwitcher.tsx - New implementation
@@ -64,14 +64,14 @@ const ThemeSwitcher: React.FC = () => {
 
 ### Path Resolution System
 
-**Before v2.0** (Problematic):
+**Before v1.0** (Problematic):
 
 ```typescript
 // ❌ Relative paths failed on sub-routes
 cssFile: 'themes/blue.css'; // Failed on /docs/template
 ```
 
-**v2.0** (Fixed):
+**v1.0** (Fixed):
 
 ```typescript
 // ✅ useBaseUrl resolves paths correctly on all routes
@@ -99,13 +99,13 @@ Theme configuration is now stored in `src/themes.json` (auto-generated):
 
 ### Default Theme Setting
 
-Configure the default theme in `config/site-config.ts`:
+Configure the default theme in `config/globalConfig.yml`:
 
-```typescript
-export const PreBuildConfig = {
-  OverwriteExistingFiles: true,
-  DefaultTheme: 'default' // ← Set default theme here
-};
+```yaml
+# config/globalConfig.yml
+preBuild:
+  defaultTheme: blue
+# Theme configuration is auto-generated in data/themes.json
 ```
 
 ### Theme Files Location
@@ -130,11 +130,11 @@ The ThemeSwitcher component (`src/components/ThemeSwitcher/`) provides:
 - **Dynamic Loading**: CSS files are injected via `<link>` tags with `data-theme-switcher` attribute
 - **Path Resolution**: Uses Docusaurus `useBaseUrl` for consistent paths across all routes
 - **Persistence**: Selected theme is saved in `localStorage` as `docusaurus-theme-color`
-- **Default Fallback**: Uses configured default theme from `site-config.ts`
+- **Default Fallback**: Uses configured default theme from `globalConfig.yml`
 - **URL Access**: Theme files are accessible via resolved URLs on all routes
 - **No Build Process**: Themes load instantly without requiring rebuilds
 
-### Adding a New Theme (v2.0)
+### Adding a New Theme (v1.0)
 
 To create a custom theme, follow these updated steps:
 
@@ -188,7 +188,7 @@ Add corresponding color preview styles in `src/components/ThemeSwitcher/ThemeSwi
 
 **That's it!** Your theme will automatically appear in the theme switcher dropdown after the pre-build process detects it.
 
-### v2.0 Architecture Overview
+### v1.0 Architecture Overview
 
 #### Component Structure
 
@@ -199,7 +199,7 @@ src/components/ThemeSwitcher/
 └── index.ts                 # Export barrel
 
 src/config/
-└── site-config.ts           # Theme configuration
+└── globalConfig.yml         # Theme configuration
 
 src/entities/
 ├── theme.ts                 # Theme TypeScript interface
@@ -210,7 +210,7 @@ Auto-generated:
 └── src/navbarLinks.json     # Navbar data (auto-generated)
 ```
 
-#### v2.0 Technical Implementation
+#### v1.0 Technical Implementation
 
 - **Path Resolution**: Uses Docusaurus `useBaseUrl` hook for consistent URL resolution across all routes
 - **Pre-computed URLs**: Theme URLs are resolved once at component initialization for better performance
@@ -220,7 +220,7 @@ Auto-generated:
 - **Auto-detection**: New themes are automatically detected by the pre-build script
 - **Type Safety**: Full TypeScript support with proper interfaces
 
-#### Data Flow (v2.0)
+#### Data Flow (v1.0)
 
 ```typescript
 // 1. Theme data loaded from auto-generated JSON
@@ -248,7 +248,7 @@ The theme system integrates seamlessly with Docusaurus v3.8.1:
 
 ### Theme Development Best Practices
 
-#### v2.0 Theme Metadata
+#### v1.0 Theme Metadata
 
 Include metadata comments in your CSS files for auto-detection:
 

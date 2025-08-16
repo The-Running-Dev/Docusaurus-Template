@@ -4,87 +4,88 @@ title: Overview
 sidebar_position: 1
 ---
 
-Welcome to the comprehensive documentation for the Docusaurus Template - a professional, feature-rich template for creating modern documentation sites.
+Welcome to the comprehensive documentation for the Docusaurus Template - a professional, feature-rich template for creating modern documentation sites with advanced theming, automated build processes, and data-driven components.
 
 ## What is Docusaurus Template?
 
-Docusaurus Template is a complete, ready-to-use template that includes:
+This template provides a complete foundation for documentation sites with:
 
-- 🚀 **Modern Docusaurus 3.8.1** with TypeScript support
-- 🎨 **10 Dynamic Themes** with live switching
-- 🏷️ **GitHub Badge System** with automatic project metrics
-- � **GitHub Links System** with FontAwesome icons and external indicators
-- �💬 **Giscus Comments** with consolidated architecture
-- ⚡ **Automated Build Pipeline** with pre-build content preparation
-- 🔧 **Developer Tools** with ESLint, Prettier, and quality gates
+- 🚀 **Modern Docusaurus 3.8.1** with full TypeScript support
+- 🎨 **Dynamic Theme System** with 10 professional themes and live switching
+- 💬 **Integrated Comments** via Giscus with GitHub Discussions
+- 🏷️ **GitHub Integration** with automated badges and professional navbar links
+- ⚡ **Automated Build Pipeline** with YAML-based configuration and pre-build automation
+- 🧩 **Data-Driven Components** for portfolios, projects, and CV displays
+- 🔧 **Developer Experience** with ESLint, Prettier, and comprehensive quality gates
 
-## Latest Updates
+## Key Features
 
-�️ **Architecture Enhancements (v2.0)**: Major improvements to configuration management and build system:
+### 🏗️ **Modern Architecture**
 
-- **Centralized Configuration**: New `config/site-config.ts` with `PreBuildConfig`, `SiteConfig`, and `SiteThemeConfig`
-- **Enhanced Pre-Build System**: Automatic theme detection from CSS files with metadata extraction
-- **JSON-Based Configurations**: Auto-generated `themes.json` and `navbarLinks.json` for better performance
-- **Cross-Platform Compatibility**: Improved Windows/Linux/macOS support with `cross-env` integration
-- **Theme System v2.0**: Fixed cross-route compatibility and automatic theme discovery
+- **YAML Configuration System**: Centralized configuration with Zod schema validation
+- **Pre-Build Automation**: Automatic theme detection, content preparation, and navbar generation
+- **Type Safety**: Full TypeScript support with strict type checking
+- **Cross-Platform**: Optimized for Windows, Linux, and macOS development
 
-�🎯 **Enhanced Development Workflow (v1.0.1)**: The template now includes comprehensive development tooling and quality assurance:
+### 🎨 **Professional Theming**
 
-- **Modern ESLint v9**: Flat config format with TypeScript support and optimized rules for Docusaurus
-- **Prettier Integration**: Automated code formatting with consistent style across all components
-- **Quality Gates**: Pre-commit hooks and CI/CD integration for `format:check`, `lint`, and `typecheck`
-- **Enhanced Scripts**: New developer commands including `check-all` for comprehensive quality validation
-- **Artifacts Build**: Production builds now output to configurable `./artifacts` directory
+- **10 Built-in Themes**: Material Design, custom colors, and accessibility-focused options
+- **Live Theme Switching**: Real-time theme changes with persistent user preferences
+- **CSS Custom Properties**: Easy customization and extension
+- **Responsive Design**: Mobile-first approach with modern CSS techniques
 
-🏗️ **Code Quality & Architecture**: Significant improvements to maintainability and developer experience:
+### 🧩 **Data-Driven Components**
 
-- **Static Configuration Classes**: Replaced JSON configs with TypeScript classes (`BadgeConfig`, `GitHubLinksConfig`) for better type safety
-- **Enhanced TypeScript**: Improved type definitions and Docusaurus runtime compatibility
-- **Consolidated Components**: Streamlined component architecture with better error handling
-- **Pre-Build Automation**: Enhanced content preparation with theme scanning and navbar generation
-- **Developer Tools**: Comprehensive linting, formatting, and type checking integration
+- **Portfolio Showcase**: Professional project display with filtering and categorization
+- **Project Browser**: Advanced project listing with search and URL state management
+- **CV Timeline**: Interactive professional timeline with configurable data
+- **GitHub Integration**: Automated badges, links, and repository information
+- **Schema Validation**: All components use validated configuration data
 
-## Quick Navigation
+### 🔧 **Developer Experience**
 
-### Getting Started
+- **Quality Gates**: Pre-commit hooks with format checking, linting, and type validation
+- **Modern Tooling**: ESLint 9 with flat config, Prettier, and automated formatting
+- **Build Optimization**: Production builds with artifact management and deployment ready
+- **PowerShell Scripts**: Windows-optimized development tools and automation
 
-- **[Quick Start](/docs/getting-started/quick-start)** - Get up and running in minutes
-- **[Features](/docs/getting-started/features)** - Explore all capabilities
-- **[Examples](/docs/getting-started/examples)** - Usage patterns and demonstrations
-- **[Real-World Examples](/docs/getting-started/real-world-examples)** - Production deployment scenarios
+## Quick Start
+
+Ready to get started? Choose your path:
+
+- 🚀 **[Quick Start Guide](/docs/getting-started/quick-start)** - Get up and running in 5 minutes
+- 📖 **[Complete Features](/docs/getting-started/features)** - Explore all capabilities
+- 🎯 **[Live Demos](/docs/getting-started/examples)** - Interactive component examples
+
+## Documentation Sections
 
 ### Core Systems
 
-- **[Badges](/docs/core-systems/badge-system)** - Dynamic GitHub project badges
-- **[GitHub Links](/docs/core-systems/github-links-system)** - Professional navbar links with FontAwesome icons
-- **[Themes](/docs/core-systems/theme-system)** - 10 professional color themes
-- **[Comments](/docs/core-systems/comment-system)** - Consolidated Giscus-powered discussions
-- **[Pre-Build](/docs/core-systems/prebuild-system)** - Automated content preparation
+Learn about the template's main features and how they work:
 
-### Configuration
+- **[Theme System](/docs/core-systems/theme-system)** - 10 professional themes with live switching
+- **[Component System](/docs/core-systems/components-system)** - Data-driven React components
+- **[Pre-Build System](/docs/core-systems/prebuild-system)** - Automated content preparation
+- **[Schema System](/docs/core-systems/schema-system)** - Configuration validation with Zod
+- **[Badge System](/docs/core-systems/badge-system)** - Dynamic GitHub project badges
+- **[Comment System](/docs/core-systems/comment-system)** - Integrated discussions via Giscus
 
-- **[Configuration](/docs/configuration/)** - Customize your site settings
-- **[Scripts](/docs/configuration/available-scripts)** - Development and build commands
-- **[Automation](/docs/configuration/automation-scripts)** - PowerShell development tools
-- **[Components](/docs/configuration/key-components)** - Core React components
+### Configuration & Setup
 
-### Advanced
+Master the YAML-based configuration system:
 
-- **[Project Structure](/docs/advanced/project-structure)** - Understand the template organization
-- **[Architecture](/docs/advanced/implementation-summary)** - Technical architecture
-- **[Deployment](/docs/advanced/deployment)** - Deploy to GitHub Pages and other platforms
-- **[Dependencies](/docs/advanced/dependencies)** - Required packages and tools
+- **[Configuration Overview](/docs/configuration/)** - YAML-based system with schema validation
+- **[Available Scripts](/docs/configuration/available-scripts)** - Development and build commands
+- **[Key Components](/docs/configuration/key-components)** - Component configuration examples
 
-### Reference
+### Advanced Topics
 
-- **[Status](/docs/status)** - Live badge system demonstration
+Deep dive into architecture and deployment:
 
-## Need Help?
-
-- 📖 **[Full Documentation](/docs)** - Complete template guide
-- 🚀 **[Quick Start](/docs/getting-started/quick-start)** - Get started immediately
-- 💡 **[Features](/docs/getting-started/features)** - Explore all capabilities
+- **[Project Structure](/docs/advanced/project-structure)** - Understanding the template organization
+- **[Implementation Summary](/docs/advanced/implementation-summary)** - Technical architecture details
+- **[Deployment Guide](/docs/advanced/deployment)** - Deploy to GitHub Pages and other platforms
 
 ---
 
-_Ready to build amazing documentation? Start with our [Quick Start Guide](/docs/getting-started/quick-start) to learn more._
+**Need Help?** Start with the [Quick Start Guide](/docs/getting-started/quick-start) or explore the [live component demos](/docs/getting-started/examples).

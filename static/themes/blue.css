@@ -160,8 +160,7 @@
     rgba(25, 118, 210, 0.06) 100%
   );
   border-bottom: 1px solid rgba(25, 118, 210, 0.15);
-  padding: 4rem 0;
-  position: relative;
+  padding: 1rem 0;
 }
 
 [data-theme='dark'] .hero {

@@ -1,11 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import useBaseUrl from '@docusaurus/core/lib/client/exports/useBaseUrl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPalette } from '@fortawesome/free-solid-svg-icons';
-import './ThemeSwitcher.css';
-import { themes, defaultTheme } from '../../themes';
 
+import { Features, useFeatureFlag } from '../../config/FeaturesConfig';
+import { Theme } from './models';
+import { themes, defaultTheme } from './themes';
+
+import './ThemeSwitcher.css';
+
+/**
+ * Theme Switcher Component
+ * Allows users to switch between different themes
+ */
 const ThemeSwitcher: React.FC = () => {
+  const isEnabled = useFeatureFlag(Features.ThemeSwitcher);
+
+  if (!isEnabled) {
+    return null;
+  }
+
+  return <ThemeSwitcherContent themes={themes} defaultTheme={defaultTheme} />;
+};
+
+/**
+ * Internal component that renders the actual theme switcher UI
+ */
+const ThemeSwitcherContent: React.FC<{
+  themes: Theme[];
+  defaultTheme: Theme;
+}> = ({ themes, defaultTheme }) => {
+  // Don't render if no themes
+  if (!themes || themes.length === 0) {
+    return null;
+  }
+
   const [currentTheme, setCurrentTheme] = useState<string>(defaultTheme.name);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -60,7 +89,16 @@ const ThemeSwitcher: React.FC = () => {
     defaultTheme.displayName;
 
   return (
-    <div className="theme-switcher">
+    <div
+      className="theme-switcher"
+      onBlur={(e) => {
+        // Close dropdown when focus leaves the component
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+          setIsOpen(false);
+        }
+      }}
+      tabIndex={-1}
+    >
       <button
         className="theme-switcher__button"
         onClick={() => setIsOpen(!isOpen)}

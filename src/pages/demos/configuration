@@ -1,0 +1,72 @@
+import React from 'react';
+import Layout from '@theme/Layout';
+import {
+  ConfigurationProvider,
+  ConfigurationPanel,
+  ConfigurationDemo,
+  useGlobalConfiguration
+} from '../../components/ConfigurationManager';
+
+/**
+ * Configuration Panel Container
+ * Provides the panel with required props from context
+ */
+const ConfigurationPanelContainer: React.FC = () => {
+  const { configManager, featureFlagManager } = useGlobalConfiguration();
+  
+  return (
+    <ConfigurationPanel
+      configManager={configManager}
+      featureFlagManager={featureFlagManager}
+    />
+  );
+};
+
+/**
+ * Configuration Management Demo Page
+ * Shows how to integrate the configuration system
+ */
+export default function ConfigurationDemoPage(): React.JSX.Element {
+  return (
+    <Layout
+      title="Configuration Management"
+      description="Configurable component system demonstration"
+    >
+      <ConfigurationProvider>
+        <main className="container margin-vert--lg">
+          <div className="row">
+            <div className="col col--8 col--offset-2">
+              <h1>Configuration Management System</h1>
+              
+              <div className="alert alert--info margin-bottom--lg">
+                <p>
+                  This page demonstrates the configurable component system with:
+                </p>
+                <ul>
+                  <li>✅ Runtime configuration changes</li>
+                  <li>✅ Feature flag integration</li>
+                  <li>✅ Type-safe configuration access</li>
+                  <li>✅ Event notifications for configuration changes</li>
+                  <li>✅ Persistent storage with thread-safe operations</li>
+                </ul>
+              </div>
+
+              <ConfigurationDemo />
+              
+              <div className="alert alert--success margin-top--lg">
+                <h4>🎯 Try the Configuration Panel</h4>
+                <p>
+                  Click the gear icon (⚙️) in the bottom-right corner to open 
+                  the configuration panel and manage settings in real-time!
+                </p>
+              </div>
+            </div>
+          </div>
+        </main>
+        
+        {/* Configuration Panel - appears as floating button */}
+        <ConfigurationPanelContainer />
+      </ConfigurationProvider>
+    </Layout>
+  );
+}

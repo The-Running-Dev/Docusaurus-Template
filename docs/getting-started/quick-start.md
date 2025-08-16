@@ -12,7 +12,7 @@ cp -r Docusaurus-Template my-docs-site
 cd my-docs-site
 
 # Install dependencies
-npm install
+pnpm install
 
 # Run setup script to configure template files (PowerShell)
 .\template-setup.ps1
@@ -20,15 +20,25 @@ npm install
 
 ### 2. Configure Your Site
 
-Edit the following files to customize your documentation:
+Edit the following YAML configuration files to customize your documentation:
 
-- **`docusaurus.config.ts`** - Main configuration (site title, URL, etc.)
-- **`sidebars.ts`** - Navigation structure
-- **`src/css/custom.css`** - Custom styling and colors
-- **`src/config/badge-config.ts`** - GitHub badge system configuration
-- **`src/config/giscus-config.ts`** - Comment system configuration
+#### Core Configuration Files
 
-Note: Configuration is now done via TypeScript classes, not JSON files.
+- **`config/globalConfig.yml`** - Site metadata (title, tagline, description)
+- **`config/navBarLinks.yml`** - Navigation bar links (position defaults to 'left')
+- **`config/projects.yml`** - Projects component data
+- **`config/portfolioData.yml`** - Portfolio component showcase
+- **`config/cvData.yml`** - CV/resume timeline data
+- **`config/badges.yml`** - GitHub badge system configuration
+- **`config/giscus.yml`** - Comment system configuration
+
+#### Framework Configuration
+
+- **`docusaurus.config.ts`** - Docusaurus framework settings (plugins, themes)
+- **`sidebars.ts`** - Documentation navigation structure
+- **`src/css/custom.css`** - Custom styling and theme variables
+
+**Note**: The template uses a YAML-based configuration system with automatic TypeScript type generation and validation.
 
 ### 3. Add Your Content
 
@@ -39,5 +49,5 @@ Note: Configuration is now done via TypeScript classes, not JSON files.
 ### 4. Start Development
 
 ```bash
-npm start
+pnpm start
 ```

@@ -1,0 +1,13 @@
+repo: the-running-dev/docusaurus-template
+repoId: R_kgDOPPNj-Q
+category: Docs
+categoryId: DIC_kwDOPPNj-c4CtnVD
+mapping: pathname
+reactionsEnabled: true
+emitMetadata: false
+inputPosition: bottom
+lang: en
+loading: lazy
+theme:
+  light: light
+  dark: dark

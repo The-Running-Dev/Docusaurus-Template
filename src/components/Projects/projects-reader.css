@@ -1,0 +1,207 @@
+/* Reader Mode Styles for Projects Page */
+
+/* Hide unnecessary sections in reader mode */
+html.reader-mode-active .stats {
+  display: none !important;
+}
+
+html.reader-mode-active .filterSection {
+  display: none !important;
+}
+
+html.reader-mode-active .projectControls {
+  display: none !important;
+}
+
+html.reader-mode-active .backToFilters {
+  display: none !important;
+}
+
+/* Header styling */
+html.reader-mode-active .heroBanner {
+  max-width: 800px !important;
+  margin: 0 auto !important;
+  background: transparent !important;
+  color: var(--ifm-font-color-base) !important;
+  box-shadow: none !important;
+  border-radius: 8px !important;
+  margin-bottom: 2rem !important;
+  border: 1px solid var(--ifm-color-emphasis-300) !important;
+  padding: 2rem !important;
+}
+
+html.reader-mode-active .hero__title {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--ifm-font-color-base) !important;
+  margin-bottom: 1rem !important;
+  font-size: 2.5rem !important;
+  text-align: left !important;
+}
+
+html.reader-mode-active .heroSubtitle {
+  font-size: 1.2rem !important;
+  opacity: 0.8 !important;
+  font-style: italic !important;
+  color: var(--ifm-font-color-base) !important;
+  text-align: left !important;
+}
+
+/* Project grid layout */
+html.reader-mode-active .projectGrid {
+  display: block !important;
+  max-width: 800px !important;
+  margin: 0 auto !important;
+  gap: 0 !important;
+  padding: 0 2rem !important;
+  font-family: Georgia, 'Times New Roman', Times, serif !important;
+  line-height: 1.8 !important;
+}
+
+/* Individual project card styling */
+html.reader-mode-active .projectCard {
+  display: block !important;
+  margin: 2rem 0 !important;
+  padding: 2rem !important;
+  background: var(--ifm-background-surface-color) !important;
+  border: 1px solid var(--ifm-color-emphasis-300) !important;
+  border-top: 3px solid var(--ifm-color-primary) !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: none !important;
+  width: auto !important;
+}
+
+html.reader-mode-active .projectCard:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Project card header */
+html.reader-mode-active .projectCardHeader {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  margin-bottom: 1rem !important;
+}
+
+html.reader-mode-active .projectCardTitle {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 600 !important;
+  color: var(--ifm-font-color-base) !important;
+  margin: 0 !important;
+  font-size: 1.4rem !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+  background-clip: initial !important;
+  flex: 1 !important;
+}
+
+html.reader-mode-active .projectLinkIcon {
+  margin-left: 1rem !important;
+  font-size: 1.2rem !important;
+  color: var(--ifm-color-primary) !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 24px !important;
+  height: 24px !important;
+  border: 1px solid var(--ifm-color-primary) !important;
+  border-radius: 4px !important;
+  background: transparent !important;
+}
+
+html.reader-mode-active .projectLinkIcon:hover {
+  background: var(--ifm-color-primary) !important;
+}
+
+html.reader-mode-active .projectLinkIcon svg {
+  width: 16px !important;
+  height: 16px !important;
+  fill: var(--ifm-color-primary) !important;
+  display: block !important;
+}
+
+html.reader-mode-active .projectLinkIcon:hover svg {
+  fill: var(--ifm-color-primary-contrast-background) !important;
+}
+
+/* Project summary text - Make sure it's visible */
+html.reader-mode-active .projectCard .projectSummary,
+html.reader-mode-active .projectCard p {
+  font-size: 1rem !important;
+  line-height: 1.7 !important;
+  color: var(--ifm-font-color-base) !important;
+  margin: 1rem 0 !important;
+  display: block !important;
+}
+
+/* Project tags styling - Fixed for dark background */
+html.reader-mode-active .projectTags {
+  margin: 1.5rem 0 !important;
+  display: block !important;
+}
+
+html.reader-mode-active .projectTag {
+  display: inline-block !important;
+  margin: 0.25rem 0.5rem 0.25rem 0 !important;
+  padding: 0.5rem 0.75rem !important;
+  background: transparent !important;
+  color: var(--ifm-color-primary) !important;
+  border: 1px solid var(--ifm-color-primary) !important;
+  border-radius: 4px !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+}
+
+/* Project footer with date and badges */
+html.reader-mode-active .projectFooter {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-top: 1.5rem !important;
+  padding-top: 1rem !important;
+  border-top: 1px solid var(--ifm-color-emphasis-300) !important;
+  font-style: italic !important;
+  color: var(--ifm-font-color-base) !important;
+  opacity: 0.8 !important;
+}
+
+html.reader-mode-active .projectDate {
+  font-size: 0.95rem !important;
+  color: var(--ifm-font-color-base) !important;
+  margin: 0 !important;
+}
+
+html.reader-mode-active .recentBadge {
+  display: inline-block !important;
+  padding: 0.25rem 0.5rem !important;
+  background: var(--ifm-color-success) !important;
+  color: var(--ifm-color-success-contrast-background) !important;
+  border-radius: 4px !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  font-style: normal !important;
+}
+
+/* No results message */
+html.reader-mode-active .noResults {
+  max-width: 800px !important;
+  margin: 2rem auto !important;
+  padding: 2rem !important;
+  background: var(--ifm-background-surface-color) !important;
+  border: 1px solid var(--ifm-color-emphasis-300) !important;
+  border-radius: 8px !important;
+  text-align: center !important;
+  font-style: italic !important;
+  color: var(--ifm-font-color-base) !important;
+  opacity: 0.8 !important;
+}

@@ -1,7 +1,7 @@
 ---
 id: version-display-system
 title: Version Display
-sidebar_position: 4
+sidebar_position: 12
 ---
 
 A configurable version display component for Docusaurus that shows version information in the navbar with professional styling and consolidated configuration.
@@ -203,7 +203,7 @@ By default, the component generates versions in `YYYY.MM.DD` format:
 ```typescript
 VersionConfig.version = '1.2.3'; // SemVer
 // or
-VersionConfig.version = '2.0.0-beta.1'; // Pre-release
+VersionConfig.version = '1.0.0-beta.1'; // Pre-release
 // or
 VersionConfig.version = 'v1.0-stable'; // Custom format
 ```

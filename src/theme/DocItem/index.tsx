@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 // @ts-ignore: @theme-original/* is a Docusaurus runtime alias
 import DocItem from '@theme-original/DocItem';
-import GiscusComments from '../../components/GiscusComments';
+import GiscusComments from '../../components/GiscusComments/GiscusComments';
 
 interface DocItemProps {
   content: {

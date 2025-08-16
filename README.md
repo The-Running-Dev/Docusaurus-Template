@@ -1,33 +1,34 @@
 # Docusaurus Template
 
-A comprehensive, reusable Docusaurus template for creating professional documentation sites with modern features, enhanced development workflow, and comprehensive code quality tooling.
+A comprehensive, reusable Docusaurus template for creating professional documentation sites with modern features, YAML-based configuration, and data-driven components.
 
 ## ✨ Key Features
 
 - 🚀 **Modern Docusaurus 3.8.1** with TypeScript support
-- 🎨 **Dynamic Theme System v2.0** - 10+ themes with cross-route compatibility
+- 🎨 **Dynamic Theme System** - 10+ themes with cross-route compatibility
+- 📊 **Data-Driven Components** - Portfolio, Projects, CV components with YAML configuration
 - 🏷️ **GitHub Badge System** - Automated project status badges
 - 💬 **Giscus Comments** - GitHub Discussions integration
-- ⚡ **Automated Versioning** - Date-based versioning (YYYY.MM.DD)
+- ⚡ **Schema Validation** - Zod-based validation for all configuration data
 - 🔧 **Developer Tools** - ESLint, Prettier, quality gates
 - 📦 **Enhanced Build System** - Configurable output directory with pre-build automation
-- 🎯 **Code Quality Assurance** - Comprehensive linting, formatting, and type checking
-- 🛠️ **Centralized Configuration** - TypeScript-first configuration architecture
+- 🛠️ **YAML Configuration** - User-friendly configuration system with automatic validation
 
-## 🆕 What's New in v2.0
+## 🆕 Latest Features
 
-### 🎨 Theme System Improvements
+### 📊 Component System
 
-- **Fixed**: Theme switcher now works on all routes (`/docs/template/`, etc.)
-- **New**: Automatic theme detection from CSS files
-- **New**: Theme metadata support in CSS files
-- **New**: Centralized configuration in `config/site-config.ts`
+- **Portfolio Component**: Professional project showcase with filtering (`/portfolio`)
+- **Projects Component**: Advanced project listing with search and URL state (`/projects`)
+- **CV Component**: Professional timeline display with configurable data (`/cv`)
+- **Live Demos**: Interactive demo pages for all components (`/demos/`)
 
-### 🏗️ Architecture Enhancements
+### 🔧 Enhanced Configuration System
 
-- **New**: TypeScript entities in `src/entities/`
-- **New**: JSON-based auto-generated configurations
-- **New**: Improved error handling and fallbacks
+- **YAML-Based**: Replaced TypeScript configs with user-friendly YAML files
+- **Schema Validation**: Automatic validation using Zod schemas
+- **Type Safety**: Full TypeScript support with generated types
+- **Live Reload**: Configuration changes trigger automatic reloads
 - **New**: Cross-platform build script compatibility
 
 ## 🚀 Quick Start
@@ -74,20 +75,19 @@ For detailed setup guides, configuration options, theme customization, and examp
 ### Key Documentation Sections
 
 - **[Development Workflow](/docs/advanced/development-workflow)** - Enhanced tooling and quality assurance
-- **[Migration Guide](/docs/advanced/migration-guide)** - Upgrading from previous versions
 - **[Theme System](/docs/core-systems/theme-system)** - 10 dynamic color themes
 - **[Component Architecture](/docs/core-systems/)** - Badge system, GitHub links, comments
-- **[Configuration](/docs/configuration/)** - Static TypeScript classes and setup options
+- **[Configuration](/docs/configuration/)** - YAML-based configuration system and setup options
 
-## 🎯 What's New
+## 🎯 Recent Updates
 
-### Version 1.0.1 - Enhanced Development Experience
+### Enhanced Development Experience
 
 - **Modern ESLint v9**: Flat configuration with TypeScript support
 - **Prettier Integration**: Automated code formatting with consistent styling
 - **Quality Gates**: Pre-commit hooks and CI/CD integration
 - **Enhanced Build System**: Configurable artifacts directory (`./artifacts`)
-- **Static Configuration**: TypeScript classes for better type safety and IntelliSense
+- **YAML Configuration**: User-friendly configuration with automatic validation
 
 ## 📄 License
 

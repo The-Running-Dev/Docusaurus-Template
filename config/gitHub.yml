@@ -1,0 +1,57 @@
+# GitHub Project Configuration
+# This file contains all GitHub-related configuration for the portfolio project
+
+# Repository information
+repo: 'The-Running-Dev/Portfolio'
+organization: 'The-Running-Dev'
+project: 'Portfolio'
+
+# All GitHub URLs
+urls:
+  repository: 'https://github.com/The-Running-Dev/Portfolio'
+  issues: 'https://github.com/The-Running-Dev/Portfolio/issues'
+  discussions: 'https://github.com/The-Running-Dev/Portfolio/discussions'
+  docs: 'https://github.com/The-Running-Dev/Portfolio#readme'
+  pages: 'https://portfolio.subzerodev.com'
+  packages: 'https://github.com/The-Running-Dev/Portfolio/packages'
+  api: 'https://api.github.com/repos/The-Running-Dev/Portfolio'
+  contributors: 'https://github.com/The-Running-Dev/Portfolio/contributors'
+  releases: 'https://github.com/The-Running-Dev/Portfolio/releases'
+  pulls: 'https://github.com/The-Running-Dev/Portfolio/pulls'
+  actions: 'https://github.com/The-Running-Dev/Portfolio/actions'
+  readme: 'https://github.com/The-Running-Dev/Portfolio/blob/main/README.md'
+  avatar: 'https://github.com/The-Running-Dev.png'
+
+# Project metadata
+metadata:
+  defaultBranch: 'main'
+  license: 'MIT'
+  topics:
+    - 'docusaurus'
+    - 'portfolio'
+    - 'typescript'
+    - 'documentation'
+    - 'react'
+    - 'template'
+  description: 'A modern, type-safe Docusaurus portfolio and documentation template.'
+
+# Additional configuration options
+features:
+  enableIssueLinks: true
+  enableContributorLinks: true
+  enableReleaseNotes: true
+  showBranchInfo: false
+
+# Integration settings
+integrations:
+  githubActions:
+    enabled: true
+    workflows:
+      - 'ci.yml'
+      - 'release.yml'
+      - 'deploy.yml'
+  packages:
+    enabled: true
+    registries:
+      - 'npm'
+      - 'docker'

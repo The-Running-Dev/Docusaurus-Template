@@ -1,19 +1,40 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "outDir": "./artifacts",
-    "paths": {
-      "@theme/*": ["node_modules/@docusaurus/theme-classic/lib/theme/*"],
-      "@docusaurus/*": ["node_modules/@docusaurus/*"]
-    },
-    "types": ["node"],
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
     "jsx": "react-jsx",
-    "lib": ["ES2017", "DOM", "DOM.Iterable"],
+    "baseUrl": ".",
+    "outDir": "./artifacts",
+    "paths": {
+      "@theme/*": ["node_modules/@docusaurus/theme-classic/lib/theme/*"],
+      "@docusaurus/*": ["node_modules/@docusaurus/*"],
+      "@docusaurus/Link": [
+        "node_modules/@docusaurus/core/lib/client/exports/Link"
+      ],
+      "@docusaurus/useDocusaurusContext": [
+        "node_modules/@docusaurus/core/lib/client/exports/useDocusaurusContext"
+      ],
+      "@docusaurus/useBaseUrl": [
+        "node_modules/@docusaurus/core/lib/client/exports/useBaseUrl"
+      ]
+    },
+    "types": ["node"],
     "typeRoots": ["./node_modules/@types", "./src/types"]
   },
-  "include": ["src", "docs", "config"]
+  "include": [
+    "src",
+    "docs",
+    "config",
+    "data/version-config.ts",
+    "scripts/loaders"
+  ]
 }

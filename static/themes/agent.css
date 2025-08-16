@@ -14,7 +14,7 @@
   --ifm-color-primary-lighter: #72a1ed;
   --ifm-color-primary-lightest: #9abcf2;
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(74, 124, 89, 0.1);
+  --docusaurus-highlighted-code-line-bg: rgba(37, 99, 235, 0.1);
 
   /* Text and content colors from build agent site */
   --ifm-font-color-base: #1c1e21;
@@ -97,6 +97,7 @@
     rgba(74, 124, 89, 0.05) 0%,
     rgba(122, 143, 103, 0.05) 100%
   );
+  padding: 1rem 0;
 }
 
 [data-theme='dark'] .hero {

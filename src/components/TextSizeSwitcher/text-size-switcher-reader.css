@@ -1,0 +1,98 @@
+/* Reader Mode Compatibility - Ensure TextSizeSwitcher stays visible and functional */
+html.reader-mode-active .text-size-switcher {
+  opacity: 1 !important;
+  z-index: 9999 !important;
+}
+
+html.reader-mode-active .text-size-switcher__button {
+  border: 1px solid transparent !important;
+  transition: all 0.2s ease !important;
+}
+
+html.reader-mode-active .text-size-switcher__button:hover {
+  background-color: var(--ifm-color-emphasis-200) !important;
+  transform: scale(1.05) !important;
+}
+
+html.reader-mode-active .text-size-switcher__dropdown {
+  z-index: 10000 !important;
+  background: var(--ifm-background-color) !important;
+  border: 1px solid var(--ifm-color-emphasis-300) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+}
+
+html.reader-mode-active .text-size-switcher__header {
+  background: var(--ifm-color-emphasis-100) !important;
+  color: var(--ifm-color-emphasis-800) !important;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200) !important;
+}
+
+html.reader-mode-active .text-size-switcher__option {
+  color: var(--ifm-color-emphasis-800) !important;
+  background: var(--ifm-background-color) !important;
+}
+
+html.reader-mode-active .text-size-switcher__option:hover {
+  background-color: var(--ifm-color-emphasis-100) !important;
+  color: var(--ifm-color-emphasis-900) !important;
+}
+
+html.reader-mode-active .text-size-switcher__option--active {
+  background-color: var(--ifm-color-primary-lightest) !important;
+  color: var(--ifm-color-primary-darkest) !important;
+  font-weight: 500 !important;
+}
+
+html.reader-mode-active .text-size-switcher__size-preview {
+  color: var(--ifm-color-emphasis-700) !important;
+}
+
+/* Ensure text sizes work in Reader Mode */
+html.reader-mode-active.text-size-small article,
+html.reader-mode-active.text-size-small .theme-doc-markdown,
+html.reader-mode-active.text-size-small .markdown {
+  font-size: 0.9rem !important;
+}
+
+html.reader-mode-active.text-size-medium article,
+html.reader-mode-active.text-size-medium .theme-doc-markdown,
+html.reader-mode-active.text-size-medium .markdown {
+  font-size: 1rem !important;
+}
+
+html.reader-mode-active.text-size-large article,
+html.reader-mode-active.text-size-large .theme-doc-markdown,
+html.reader-mode-active.text-size-large .markdown {
+  font-size: 1.1rem !important;
+}
+
+html.reader-mode-active.text-size-extra-large article,
+html.reader-mode-active.text-size-extra-large .theme-doc-markdown,
+html.reader-mode-active.text-size-extra-large .markdown {
+  font-size: 1.2rem !important;
+}
+
+/* Dark theme adjustments for reader mode */
+html.reader-mode-active[data-theme='dark'] .text-size-switcher__dropdown {
+  background: var(--ifm-background-color) !important;
+  border-color: var(--ifm-color-emphasis-300) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.reader-mode-active[data-theme='dark'] .text-size-switcher__header {
+  background: var(--ifm-color-emphasis-200) !important;
+  color: var(--ifm-color-emphasis-700) !important;
+}
+
+html.reader-mode-active[data-theme='dark'] .text-size-switcher__option {
+  color: var(--ifm-color-emphasis-600) !important;
+}
+
+html.reader-mode-active[data-theme='dark'] .text-size-switcher__option:hover {
+  background-color: var(--ifm-color-emphasis-200) !important;
+  color: var(--ifm-color-emphasis-700) !important;
+}
+
+html.reader-mode-active[data-theme='dark'] .text-size-switcher__size-preview {
+  color: var(--ifm-color-emphasis-500) !important;
+}

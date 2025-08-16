@@ -5,17 +5,20 @@ import globals from 'globals';
 
 export default [
   js.configs.recommended,
+  // Configuration for all TypeScript files
   {
-    files: ['src/**/*.{ts,tsx}'],
+    files: ['src/**/*.{ts,tsx}', 'scripts/**/*.ts'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: './tsconfig.json',
         sourceType: 'module'
       },
       globals: {
         ...globals.browser,
-        ...globals.node
+        ...globals.node,
+        RequestInit: 'readonly',
+        Response: 'readonly',
+        fetch: 'readonly'
       }
     },
     plugins: {
@@ -27,7 +30,10 @@ export default [
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/ban-ts-comment': 'off'
+      '@typescript-eslint/ban-ts-comment': 'off',
+      // Disable no-redeclare for TypeScript function overloads
+      'no-redeclare': 'off',
+      '@typescript-eslint/no-redeclare': 'off'
     }
   },
   {
@@ -38,7 +44,6 @@ export default [
       '.docusaurus/',
       'docusaurus.config.ts',
       'sidebars.ts',
-      'scripts/',
       '**/*.d.ts'
     ]
   }

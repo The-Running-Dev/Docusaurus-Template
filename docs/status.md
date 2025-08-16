@@ -3,9 +3,9 @@ title: Status
 sidebar_position: 19
 ---
 
-import GitHubProjectBadges from '@site/src/components/GitHubProjectBadges';
+import Badges from '@site/src/components/Badges';
 
-<GitHubProjectBadges />
+<Badges />
 
 ---
 
