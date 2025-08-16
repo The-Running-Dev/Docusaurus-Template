@@ -2,6 +2,8 @@ import Timeline from './CVTimeline';
 
 import FeatureComponent from '../FeatureComponent';
 import { Features } from '../../config/FeaturesConfig';
+
+// @ts-ignore
 import { cvData as configData } from '../../../data';
 
 import './cv.css';

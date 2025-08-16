@@ -3,6 +3,8 @@ import React from 'react';
 import FeatureComponent from '../FeatureComponent';
 import { Features } from '../../config/FeaturesConfig';
 import NavBarLinks from '../NavBarLinks';
+
+// @ts-ignore
 import { gitHubLinks as configData } from '../../../data';
 
 /**

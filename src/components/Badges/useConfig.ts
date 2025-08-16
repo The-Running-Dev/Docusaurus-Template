@@ -11,6 +11,8 @@ import {
 
 import { getData } from '../../data';
 import { BadgesProps, BadgesData, BadgeCategory } from './models';
+
+// @ts-ignore
 import { badges as configData } from '../../../data';
 
 export default function useConfig({

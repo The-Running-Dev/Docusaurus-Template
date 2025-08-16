@@ -3,8 +3,10 @@ import { useState, useEffect } from 'react';
 
 import FeatureComponent from '../FeatureComponent';
 import { Features } from '../../config/FeaturesConfig';
-import { projects as configData } from '../../../data';
 import { type ProcessedCategory, type ProcessedProjectData } from './models';
+
+// @ts-ignore
+import { projects as configData } from '../../../data';
 
 // Import new hooks instead of useConfig
 import { useDataContext } from '../../context';

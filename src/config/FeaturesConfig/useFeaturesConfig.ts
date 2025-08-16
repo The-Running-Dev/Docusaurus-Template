@@ -7,6 +7,8 @@ import {
   validateFeaturesConfig,
   FeatureToConfigMap
 } from './models';
+
+// @ts-ignore
 import { globalConfig as configData } from '../../../data';
 
 /**

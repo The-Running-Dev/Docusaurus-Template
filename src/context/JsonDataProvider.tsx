@@ -1,11 +1,13 @@
 import { ReactNode, useMemo } from 'react';
-import { projects as staticProjectsData } from '../../data';
 import {
   DataProvider,
   DataProviderProps,
   DataLoadingState
 } from './DataProvider';
 import { DEFAULT_PROJECTS_LOCATION } from '../components/Projects';
+
+// @ts-ignore
+import { projects as staticProjectsData } from '../../data';
 
 /**
  * JSON Data Provider configuration

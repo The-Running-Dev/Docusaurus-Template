@@ -34,7 +34,6 @@
   },
   "include": [
     "*.ts",
-    "../data/**/*",
     "../config/**/*",
     "../src/entities/**/*",
     "../src/schemas/**/*",
@@ -53,7 +52,8 @@
     "build",
     "../src/components/**/*.tsx",
     "../src/pages/**/*",
-    "../src/theme/**/*"
+    "../src/theme/**/*",
+    "../data/index.ts"
   ],
   "ts-node": {
     "compilerOptions": {

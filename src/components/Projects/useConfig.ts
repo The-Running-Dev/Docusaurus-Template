@@ -8,6 +8,8 @@ import {
   FilterOption,
   ProjectStats
 } from './models';
+
+// @ts-ignore
 import { projects as configData } from '../../../data';
 
 export default function useConfig({

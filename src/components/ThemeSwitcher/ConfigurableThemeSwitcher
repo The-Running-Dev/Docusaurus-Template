@@ -2,11 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPalette } from '@fortawesome/free-solid-svg-icons';
-import { 
-  useFeatureFlag, 
-  useConfiguration, 
-  useGlobalConfiguration 
+import {
+  useFeatureFlag,
+  useConfiguration,
+  useGlobalConfiguration
 } from '../ConfigurationManager';
+
+// @ts-ignore
 import { themes, defaultTheme } from '../../data';
 
 import './ThemeSwitcher.css';
@@ -16,11 +18,15 @@ import './ThemeSwitcher.css';
  * Integrates with the new configuration system while maintaining backward compatibility
  */
 const ConfigurableThemeSwitcher: React.FC = () => {
-  const { featureFlagManager, configManager, isInitialized } = useGlobalConfiguration();
-  const [isEnabled, , enabledLoading] = useFeatureFlag(featureFlagManager, 'theme-switcher');
+  const { featureFlagManager, configManager, isInitialized } =
+    useGlobalConfiguration();
+  const [isEnabled, , enabledLoading] = useFeatureFlag(
+    featureFlagManager,
+    'theme-switcher'
+  );
   const [currentTheme, setCurrentTheme, themeLoading] = useConfiguration(
-    configManager, 
-    'ui.current-theme', 
+    configManager,
+    'ui.current-theme',
     defaultTheme.name
   );
   const [availableThemes] = useConfiguration(
@@ -28,7 +34,7 @@ const ConfigurableThemeSwitcher: React.FC = () => {
     'ui.available-themes',
     themes
   );
-  
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   // Don't render while loading or if disabled
@@ -47,32 +53,35 @@ const ConfigurableThemeSwitcher: React.FC = () => {
     resolvedCssUrl: useBaseUrl(theme.cssFile)
   }));
 
-  const applyTheme = useCallback((themeName: string) => {
-    // Remove existing theme links
-    const existingLinks = document.querySelectorAll(
-      'link[data-theme-switcher]'
-    );
-    existingLinks.forEach((link) => link.remove());
+  const applyTheme = useCallback(
+    (themeName: string) => {
+      // Remove existing theme links
+      const existingLinks = document.querySelectorAll(
+        'link[data-theme-switcher]'
+      );
+      existingLinks.forEach((link) => link.remove());
 
-    // Find the theme with resolved URL
-    const theme = themesWithResolvedUrls.find((t) => t.name === themeName);
+      // Find the theme with resolved URL
+      const theme = themesWithResolvedUrls.find((t) => t.name === themeName);
 
-    if (!theme) return;
+      if (!theme) return;
 
-    // Add new theme link
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = theme.resolvedCssUrl;
-    link.setAttribute('data-theme-switcher', 'true');
+      // Add new theme link
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = theme.resolvedCssUrl;
+      link.setAttribute('data-theme-switcher', 'true');
 
-    document.head.appendChild(link);
+      document.head.appendChild(link);
 
-    // Update configuration (this will persist automatically)
-    setCurrentTheme(themeName);
+      // Update configuration (this will persist automatically)
+      setCurrentTheme(themeName);
 
-    // Keep backward compatibility with localStorage
-    localStorage.setItem('docusaurus-theme-color', themeName);
-  }, [themesWithResolvedUrls, setCurrentTheme]);
+      // Keep backward compatibility with localStorage
+      localStorage.setItem('docusaurus-theme-color', themeName);
+    },
+    [themesWithResolvedUrls, setCurrentTheme]
+  );
 
   // Initialize theme on component mount and when current theme changes
   useEffect(() => {
@@ -86,9 +95,12 @@ const ConfigurableThemeSwitcher: React.FC = () => {
     const initializeTheme = async () => {
       // Check if we need to migrate from legacy localStorage
       const legacyTheme = localStorage.getItem('docusaurus-theme-color');
-      
-      if (legacyTheme && legacyTheme !== currentTheme && 
-          themesWithResolvedUrls.some(t => t.name === legacyTheme)) {
+
+      if (
+        legacyTheme &&
+        legacyTheme !== currentTheme &&
+        themesWithResolvedUrls.some((t) => t.name === legacyTheme)
+      ) {
         // Migrate legacy theme to configuration system
         await setCurrentTheme(legacyTheme);
       } else if (currentTheme) {
@@ -126,7 +138,10 @@ const ConfigurableThemeSwitcher: React.FC = () => {
         <div className="theme-switcher__dropdown">
           <div className="theme-switcher__header">
             Themes
-            <small style={{ opacity: 0.7, fontSize: '0.8em' }}> (Configurable)</small>
+            <small style={{ opacity: 0.7, fontSize: '0.8em' }}>
+              {' '}
+              (Configurable)
+            </small>
           </div>
           {themesWithResolvedUrls.map((theme) => (
             <button

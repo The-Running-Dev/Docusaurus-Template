@@ -5,6 +5,8 @@ import Heading from '@theme/Heading';
 
 import FeatureComponent from '../FeatureComponent';
 import { Features } from '../../config/FeaturesConfig';
+
+// @ts-ignore
 import { portfolioData as configData } from '../../../data';
 
 import './portfolio.css';

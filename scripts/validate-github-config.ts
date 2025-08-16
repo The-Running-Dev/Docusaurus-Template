@@ -26,7 +26,7 @@ async function validateConfiguration() {
     // 1. Load and validate configuration
     const config = getGitHubConfig();
     assertValidGitHubConfig(config);
-    console.log('✅ Configuration structure is valid');
+    console.log('✅ Configuration Structure is Valid');
 
     // 2. Display configuration summary
     const { repo, organization, project } = getRepositoryInfo();
@@ -47,17 +47,19 @@ async function validateConfiguration() {
     const urlValidation = await validateGitHubUrls(config);
 
     if (urlValidation.invalid.length > 0) {
-      console.log('❌ Invalid URLs found:');
+      console.log('❌ Invalid URLs Found:');
+
       urlValidation.invalid.forEach((invalid) =>
         console.log(`   - ${invalid}`)
       );
+
       process.exit(1);
     }
 
-    console.log(`✅ All ${urlValidation.valid.length} URLs are valid`);
+    console.log(`✅ All ${urlValidation.valid.length} URLs are Valid`);
 
     // 4. Test URL utilities
-    console.log('\n🛠️  Testing URL utilities...');
+    console.log('\n🛠️  Testing URL Utilities...');
     const { repository, issues, api } = getGitHubUrls();
     const readmeUrl = getRepositoryUrl(`/blob/${defaultBranch}/README.md`);
     const contributorsApi = getApiUrl('/contributors');
@@ -69,7 +71,7 @@ async function validateConfiguration() {
     console.log(`   Contributors API: ${contributorsApi}`);
 
     // 5. Test immutability
-    console.log('\n🔒 Testing immutability...');
+    console.log('\n🔒 Testing Immutability...');
     const immutabilityTests = [
       () => Object.isFrozen(config),
       () => Object.isFrozen(config.urls),
@@ -79,17 +81,18 @@ async function validateConfiguration() {
 
     const immutableResults = immutabilityTests.map((test) => test());
     if (immutableResults.every(Boolean)) {
-      console.log('✅ Configuration is properly immutable');
+      console.log('✅ Configuration is Properly Immutable');
     } else {
-      console.log('❌ Configuration immutability test failed');
+      console.log('❌ Configuration Immutability Test Failed');
+
       process.exit(1);
     }
 
     // 6. Generate build info
     console.log('\n📊 Build Information:');
-    console.log(`   Build time: ${new Date().toISOString()}`);
-    console.log(`   Configuration version: 1.0.0`);
-    console.log(`   Node version: ${process.version}`);
+    console.log(`   Build Time: ${new Date().toISOString()}`);
+    console.log(`   Configuration Version: 1.0.0`);
+    console.log(`   Node Version: ${process.version}`);
 
     // 7. Generate environment variables for CI/CD
     console.log('\n🌍 Environment Variables for CI/CD:');
@@ -104,7 +107,7 @@ async function validateConfiguration() {
       '\n🎉 GitHub Configuration System validation completed successfully!'
     );
   } catch (error) {
-    console.error('\n❌ Configuration validation failed:');
+    console.error('\n❌ Configuration Validation Failed:');
     console.error(error instanceof Error ? error.message : String(error));
     process.exit(1);
   }
@@ -113,7 +116,7 @@ async function validateConfiguration() {
 // Run validation if this script is executed directly
 if (require.main === module) {
   validateConfiguration().catch((error) => {
-    console.error('Validation script failed:', error);
+    console.error('Validation Script Failed:', error);
     process.exit(1);
   });
 }

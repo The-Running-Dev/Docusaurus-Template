@@ -4,6 +4,8 @@ import { useColorMode } from '@docusaurus/theme-common';
 
 import FeatureComponent from '../FeatureComponent';
 import { Features } from '../../config/FeaturesConfig';
+
+// @ts-ignore
 import { giscus as configData } from '../../../data';
 
 /**

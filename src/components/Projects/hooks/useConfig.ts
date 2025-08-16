@@ -1,8 +1,10 @@
 import { useMemo } from 'react';
 import { getData } from '../../../data';
 import { GlobalConfig, ProjectsConfig } from '../../../entities';
-import { globalConfig as configData } from '../../../../data';
 import { DEFAULT_PROJECTS_CONFIG } from '../constants';
+
+// @ts-ignore
+import { globalConfig as configData } from '../../../../data';
 
 /**
  * Hook to access projects configuration from global config

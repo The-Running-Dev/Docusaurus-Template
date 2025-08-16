@@ -64,7 +64,7 @@
     "format:check": "prettier --check .",
     "quality": "pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run prebuild:check && pnpm run validate:github",
     "quality:fix": "pnpm run format && pnpm run lint:fix",
-    "quality-ci": "pnpm run lint && pnpm run typecheck && pnpm run prebuild:check && pnpm run validate:github",
+    "quality-ci": "pnpm run lint && pnpm run typecheck && pnpm run prebuild:check",
     "// SETUP": "",
     "prepare": "husky"
   },

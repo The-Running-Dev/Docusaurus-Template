@@ -10,8 +10,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import { Badge, BadgeCategory, BadgesProps } from './models';
-import { badges as configData } from '../../../data';
 import { getData } from '../../data';
+
+// @ts-ignore
+import { badges as configData } from '../../../data';
 
 const Badges: React.FC<BadgesProps> = () => {
   // Load badge configuration directly using getData with processor

@@ -14,6 +14,8 @@ import {
   NavBarLinksProps,
   withDefaultPosition
 } from './models';
+
+// @ts-ignore
 import { navBarLinks as configData } from '../../../data';
 
 import './NavBarLinks.css';

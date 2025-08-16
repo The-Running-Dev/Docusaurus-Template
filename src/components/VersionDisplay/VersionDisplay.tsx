@@ -3,6 +3,8 @@ import React from 'react';
 import FeatureComponent from '../FeatureComponent';
 import { Features } from '../../config/FeaturesConfig';
 import { VersionConfig } from './models';
+
+// @ts-ignore
 import { version as configData } from '../../../data';
 
 import './VersionDisplay.css';

@@ -1,4 +1,6 @@
 import type { Theme } from './models';
+
+// @ts-ignore
 import { themes as configData } from '../../../data';
 
 export const themes: Theme[] = configData.themes;

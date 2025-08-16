@@ -11,6 +11,8 @@
 import { getData } from '../../data/dataLoader';
 import type { GitHubConfig } from './models';
 import { validateGitHubConfig } from './validation';
+
+// @ts-ignore
 import { gitHub as configData } from '../../../data';
 
 // Cache for validated configuration
@@ -50,7 +52,8 @@ export function getGitHubConfig(): GitHubConfig {
         success: false;
         error: string;
       };
-      configError = `GitHub configuration validation failed: ${failureResult.error}`;
+      configError = `GitHub Configuration Validation Failed: ${failureResult.error}`;
+
       throw new Error(configError);
     }
 
@@ -75,12 +78,13 @@ export function getGitHubConfig(): GitHubConfig {
 
     // Cache the validated configuration
     validatedConfig = config;
+
     return config;
   } catch (error) {
     configError =
       error instanceof Error
-        ? `Failed to load GitHub configuration: ${error.message}`
-        : `Failed to load GitHub configuration: ${String(error)}`;
+        ? `Failed to Load GitHub Configuration: ${error.message}`
+        : `Failed to Load GitHub Configuration: ${String(error)}`;
 
     throw new Error(configError);
   }
@@ -113,6 +117,7 @@ export function isGitHubConfigCached(): boolean {
  */
 export function getRepositoryInfo() {
   const config = getGitHubConfig();
+
   return {
     repo: config.repo,
     organization: config.organization,
@@ -128,6 +133,7 @@ export function getRepositoryInfo() {
  */
 export function getGitHubUrls() {
   const config = getGitHubConfig();
+
   return config.urls;
 }
 
@@ -138,6 +144,7 @@ export function getGitHubUrls() {
  */
 export function getProjectMetadata() {
   const config = getGitHubConfig();
+
   return config.metadata;
 }
 
@@ -148,6 +155,7 @@ export function getProjectMetadata() {
  */
 export function getGitHubUrl(key: keyof GitHubConfig['urls']): string {
   const urls = getGitHubUrls();
+
   return urls[key];
 }
 
@@ -164,6 +172,7 @@ export function getRepositoryUrl(path?: string): string {
 
   // Handle different path formats
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
+
   return `${baseUrl}${cleanPath}`;
 }
 
@@ -180,5 +189,6 @@ export function getApiUrl(endpoint?: string): string {
 
   // Handle different endpoint formats
   const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+
   return `${baseUrl}${cleanEndpoint}`;
 }

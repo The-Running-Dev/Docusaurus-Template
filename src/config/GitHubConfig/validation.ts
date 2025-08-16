@@ -65,12 +65,12 @@ export function validateGitHubConfig(
         .join(', ');
       return {
         success: false,
-        error: `GitHub configuration validation failed: ${errorMessages}`
+        error: `GitHub Configuration Validation Failed: ${errorMessages}`
       };
     }
     return {
       success: false,
-      error: `Unexpected validation error: ${String(error)}`
+      error: `Unexpected Validation Error: ${String(error)}`
     };
   }
 }
@@ -103,7 +103,7 @@ export async function validateGitHubUrls(
         invalid.push(`${key}: Not a GitHub URL`);
       }
     } catch {
-      invalid.push(`${key}: Invalid URL format`);
+      invalid.push(`${key}: Invalid URL Format`);
     }
   }
 
@@ -195,7 +195,7 @@ export function createGitHubConfigTemplate(
 ): GitHubConfig {
   const parsed = parseRepoString(repo);
   if (!parsed) {
-    throw new Error(`Invalid repository format: ${repo}`);
+    throw new Error(`Invalid Repository Format: ${repo}`);
   }
 
   const {
@@ -229,6 +229,7 @@ export function assertValidGitHubConfig(
   config: unknown
 ): asserts config is GitHubConfig {
   const result = validateGitHubConfig(config);
+
   if (!result.success) {
     throw new Error((result as { success: false; error: string }).error);
   }
