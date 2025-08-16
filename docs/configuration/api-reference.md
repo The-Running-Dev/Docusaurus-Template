@@ -6,6 +6,112 @@ sidebar_position: 2
 
 This document provides comprehensive API reference for all components, configuration schemas, and interfaces in the Docusaurus Template v1.0.
 
+## Configuration Management System (v1.0)
+
+The template now includes a comprehensive configuration management system with the following new components:
+
+### ConfigurationManager
+
+Thread-safe configuration management with persistence and event notifications.
+
+```typescript
+class ConfigurationManager {
+  constructor(options: ConfigurationManagerOptions = {});
+
+  // Core methods
+  async initialize(): Promise<void>;
+  async registerSchema<T>(schema: ConfigurationSchema<T>): Promise<void>;
+  async getValue<T>(key: string): Promise<T | null>;
+  async setValue<T>(
+    key: string,
+    value: T,
+    source?: 'user' | 'system' | 'external'
+  ): Promise<boolean>;
+
+  // Subscription methods
+  subscribe<T>(key: string, callback: ConfigurationSubscription<T>): () => void;
+
+  // Utility methods
+  async getAllValues(): Promise<Record<string, ConfigValue>>;
+  async reset(): Promise<void>;
+  async reload(): Promise<void>;
+}
+```
+
+#### ConfigurationManagerOptions
+
+```typescript
+interface ConfigurationManagerOptions {
+  storage?: ConfigurationStorage;
+  enablePersistence?: boolean;
+  enableLogging?: boolean;
+  validationMode?: 'strict' | 'lenient';
+  namespace?: string;
+}
+```
+
+### FeatureFlagManager
+
+Advanced feature flag management extending the configuration system.
+
+```typescript
+class FeatureFlagManager {
+  constructor(configManager: ConfigurationManager);
+
+  // Initialization
+  async initializeFromFeaturesConfig(
+    featuresConfig: FeaturesConfig
+  ): Promise<void>;
+
+  // Feature flag operations
+  async defineFlag(
+    key: string,
+    defaultEnabled: boolean,
+    options?: Partial<FeatureFlag>
+  ): Promise<void>;
+  async isFeatureEnabled(key: string): Promise<boolean>;
+  async setFeatureEnabled(key: string, enabled: boolean): Promise<boolean>;
+
+  // State management
+  async getFeatureFlagsState(): Promise<FeatureFlagState>;
+  setEvaluationContext(key: string, value: ConfigValue): void;
+  subscribeToFeature(
+    key: string,
+    callback: (enabled: boolean, flag?: FeatureFlag) => void
+  ): () => void;
+}
+```
+
+#### FeatureFlag Interface
+
+```typescript
+interface FeatureFlag {
+  key: string;
+  enabled: boolean;
+  description?: string;
+  rolloutPercentage?: number;
+  conditions?: Record<string, ConfigValue>;
+}
+```
+
+### Configuration Storage
+
+Flexible storage backend support:
+
+```typescript
+interface ConfigurationStorage {
+  getItem(key: string): Promise<string | null>;
+  setItem(key: string, value: string): Promise<void>;
+  removeItem(key: string): Promise<void>;
+  clear(): Promise<void>;
+}
+```
+
+#### Built-in Storage Implementations
+
+- **LocalStorageConfigurationStorage**: Browser localStorage with namespace support
+- **MemoryConfigurationStorage**: In-memory storage for testing
+
 ## Breaking Changes from Previous Versions
 
 - **Configuration System**: TypeScript configuration classes replaced with YAML files and Zod schemas

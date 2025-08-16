@@ -67,13 +67,16 @@ src/theme/NotFound/
 
 ### Component Architecture
 
+The 404 system uses a modern reusable component architecture:
+
 ```tsx
-export default function Custom404Page(): React.JSX.Element {
+// Reusable core component (v1.0)
+export default function Custom404Component(): React.JSX.Element {
   const [excuse, setExcuse] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [catFact, setCatFact] = useState('');
 
-  // Auto-rotating excuse system
+  // Auto-rotating excuse system (enhanced)
   useEffect(() => {
     const interval = setInterval(() => {
       setExcuse((prev) => (prev + 1) % excuses.length);
@@ -92,9 +95,30 @@ export default function Custom404Page(): React.JSX.Element {
     setCatFact(catFacts[Math.floor(Math.random() * catFacts.length)]);
   };
 
-  // ... render logic
+  // Enhanced render logic with accessibility
 }
 ```
+
+#### Theme-Level Integration (New in v1.0)
+
+```tsx
+// Theme NotFound Content component
+import Custom404 from '../../../components/Custom404';
+
+export default function ContentWrapper(): ReactNode {
+  return (
+    <>
+      <Custom404 />
+    </>
+  );
+}
+```
+
+This architecture provides:
+
+- **Reusability**: Same component used in pages and theme
+- **Global Coverage**: Handles ALL 404s through theme integration
+- **Component Isolation**: Separated logic from presentation
 
 ### CSS Animations
 

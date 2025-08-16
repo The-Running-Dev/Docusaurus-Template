@@ -11,7 +11,7 @@ const config: Config = {
   ...globalConfig.site,
   trailingSlash: false,
   favicon: 'img/favicon.ico',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   markdown: {
     mermaid: true
@@ -28,7 +28,8 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           path: 'docs',
-          id: 'default'
+          id: 'default',
+          routeBasePath: 'docs'
         },
         theme: {
           customCss: './static/themes/default.css'

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 /**
  * API Hook Configuration
@@ -88,12 +88,34 @@ export function useApi<T = any>(config: UseApiConfig = {}): UseApiState<T> {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 
+  // Refs for cleanup and abort handling
+  const abortRef = useRef<AbortController | null>(null);
+  const timeoutRef = useRef<number | null>(null);
+  const mountedRef = useRef(true);
+
+  // Cleanup effect
+  useEffect(() => {
+    mountedRef.current = true;
+
+    return () => {
+      mountedRef.current = false;
+
+      if (abortRef.current) abortRef.current.abort();
+
+      if (timeoutRef.current !== null) {
+        clearTimeout(timeoutRef.current);
+
+        timeoutRef.current = null;
+      }
+    };
+  }, []);
+
   /**
    * Fetch data with retry logic
    */
   const fetchData = useCallback(
     async (attempt: number = 1): Promise<void> => {
-      if (!mergedConfig.endpoint) {
+      if (!mergedConfig.endpoint || !mountedRef.current) {
         return;
       }
 
@@ -101,10 +123,14 @@ export function useApi<T = any>(config: UseApiConfig = {}): UseApiState<T> {
       setError(null);
 
       try {
-        const response = await fetch(
-          mergedConfig.endpoint,
-          mergedConfig.options
-        );
+        // Abort previous request if exists
+        abortRef.current?.abort();
+        abortRef.current = new AbortController();
+
+        const response = await fetch(mergedConfig.endpoint, {
+          ...mergedConfig.options,
+          signal: abortRef.current.signal
+        });
 
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -112,19 +138,27 @@ export function useApi<T = any>(config: UseApiConfig = {}): UseApiState<T> {
 
         const jsonData = await response.json();
 
+        // Check if component is still mounted before updating state
+        if (!mountedRef.current) return;
+
         setData(jsonData);
       } catch (err) {
         const error =
           err instanceof Error ? err : new Error('Unknown API Error');
 
+        // Skip retry logic if this was an abort or component unmounted
+        if (error.name === 'AbortError' || !mountedRef.current) {
+          return;
+        }
+
         // Retry logic
-        if (attempt < mergedConfig.retryAttempts) {
+        if (attempt < mergedConfig.retryAttempts && mountedRef.current) {
           console.warn(
             `API Fetch Attempt ${attempt} Failed, Retrying in ${mergedConfig.retryDelay}ms...`,
             error.message
           );
 
-          setTimeout(() => {
+          timeoutRef.current = window.setTimeout(() => {
             fetchData(attempt + 1);
           }, mergedConfig.retryDelay);
 
@@ -132,14 +166,17 @@ export function useApi<T = any>(config: UseApiConfig = {}): UseApiState<T> {
         }
 
         // Max retries reached
-        console.error(
-          'API Fetch Failed After All Retry Attempts:',
-          error.message
-        );
-
-        setError(error);
+        if (mountedRef.current) {
+          console.error(
+            'API Fetch Failed After All Retry Attempts:',
+            error.message
+          );
+          setError(error);
+        }
       } finally {
-        setLoading(false);
+        if (mountedRef.current) {
+          setLoading(false);
+        }
       }
     },
     [
@@ -154,6 +191,17 @@ export function useApi<T = any>(config: UseApiConfig = {}): UseApiState<T> {
    * Reset state to initial values
    */
   const reset = useCallback(() => {
+    // Cancel any pending operations
+    if (abortRef.current) {
+      abortRef.current.abort();
+      abortRef.current = null;
+    }
+    if (timeoutRef.current !== null) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+
+    // Reset state
     setData(null);
     setLoading(false);
     setError(null);

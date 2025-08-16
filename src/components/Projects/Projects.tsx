@@ -41,15 +41,18 @@ export default function Projects(): ReactNode {
   // Get raw data from data context
   const { data: rawData, loadingState, meta } = useDataContext();
 
+  // Guard against unsafe rawData to prevent runtime exceptions
+  const isRawReady = rawData != null;
+
   // Process data using the processor hook
   const {
     processedData,
     loading: processingLoading,
     error: processingError
-  } = useProcessor(rawData, {
+  } = useProcessor(isRawReady ? rawData : { categories: [] }, {
     selectedCategory: selectedFilter,
-    selectedDateRange: selectedDateRange,
-    searchTerm: searchTerm
+    selectedDateRange,
+    searchTerm
   });
 
   // Combine loading states

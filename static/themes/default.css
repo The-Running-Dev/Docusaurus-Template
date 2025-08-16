@@ -266,8 +266,10 @@
     var(--ifm-color-primary-light)
   );
   border: none;
-  color: black !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  /* WCAG AAA compliant text colors for all states */
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  font-weight: 600;
 }
 
 .button--primary:hover {
@@ -278,6 +280,21 @@
   );
   transform: translateY(-2px);
   box-shadow: var(--ifm-global-shadow-tl);
+  /* Maintain WCAG AAA contrast on hover */
+  color: white !important;
+}
+
+.button--primary:focus {
+  /* Enhanced focus state for keyboard accessibility */
+  outline: 3px solid var(--ifm-color-primary-light);
+  outline-offset: 2px;
+  color: white !important;
+}
+
+.button--primary:active {
+  transform: translateY(0);
+  box-shadow: var(--ifm-global-shadow-md);
+  color: white !important;
 }
 
 .button--secondary {

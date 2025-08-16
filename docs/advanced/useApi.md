@@ -51,33 +51,58 @@ const ProjectsComponent: React.FC = () => {
 
 ```tsx
 interface UseApiConfig {
-  enabled?: boolean; // Disabled by default
-  endpoint?: string; // API endpoint URL
-  options?: RequestInit; // Fetch options
-  autoFetch?: boolean; // Auto-fetch on mount (default: true)
-  retryAttempts?: number; // Retry attempts (default: 3)
-  retryDelay?: number; // Retry delay in ms (default: 1000)
+  /** API endpoint URL */
+  endpoint?: string;
+
+  /** Request options */
+  options?: RequestInit;
+
+  /** Auto-fetch on mount */
+  autoFetch?: boolean;
+
+  /** Retry attempts on failure */
+  retryAttempts?: number;
+
+  /** Retry delay in milliseconds */
+  retryDelay?: number;
 }
 ```
 
-### Enabling API Fetching
+### Default Configuration
 
-To enable the API fetching functionality, simply pass `enabled: true` to the hook:
+The useApi hook now has improved default configuration:
 
 ```tsx
-const { data, loading, error } = useApi({
-  enabled: true,
+const DEFAULT_CONFIG: Required<UseApiConfig> = {
+  endpoint: '',
+  options: {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  },
+  autoFetch: true,
+  retryAttempts: 3,
+  retryDelay: 1000
+};
+```
+
+### Simple API Calls
+
+```tsx
+const { data, loading, error, refetch, reset } = useApi({
   endpoint: '/api/projects'
 });
 ```
 
 ## Advanced Usage
 
-### With Custom Options
+### Enhanced Error Handling and Cleanup
+
+The useApi hook now includes improved error handling and cleanup:
 
 ```tsx
-const { data, loading, error } = useApi({
-  enabled: true,
+const { data, loading, error, refetch, reset } = useApi({
   endpoint: '/api/projects',
   options: {
     method: 'POST',
@@ -91,6 +116,14 @@ const { data, loading, error } = useApi({
   retryDelay: 2000
 });
 ```
+
+### Cleanup and Abort Handling
+
+The hook now automatically handles:
+
+- **Request Abortion**: Automatic cleanup when component unmounts
+- **Memory Leak Prevention**: Proper cleanup of timeouts and references
+- **Mount State Checking**: Prevents state updates on unmounted components
 
 ### Manual Fetching
 
@@ -118,18 +151,25 @@ interface UseApiState<T = any> {
   data: T | null; // API response data
   loading: boolean; // Loading state
   error: Error | null; // Error state
-  enabled: boolean; // Whether API is enabled
   refetch: () => Promise<void>; // Manual refetch function
   reset: () => void; // Reset state function
 }
 ```
 
+### Enhanced Error Handling
+
+The hook now provides improved error handling:
+
+- **AbortError Handling**: Gracefully handles request cancellation
+- **Component Mount Checking**: Prevents state updates after unmount
+- **Memory Leak Prevention**: Automatic cleanup of resources
+
 ## Security Considerations
 
-- **Disabled by default** to prevent accidental API calls
-- Requires explicit feature flag activation
-- Supports custom headers for authentication
-- Error messages are safely handled and displayed
+- **Request Cancellation**: All requests are automatically cancelled when components unmount
+- **Memory Safety**: Proper cleanup prevents memory leaks and zombie requests
+- **Error Boundary**: Safe error handling prevents application crashes
+- **Request Isolation**: Each hook instance manages its own abort controller
 
 ## Example API Response
 

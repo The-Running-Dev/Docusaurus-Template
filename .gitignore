@@ -160,3 +160,5 @@ set-environment.ps1
 
 # Static files
 static/CNAME
+
+data/index.ts

@@ -8,7 +8,7 @@ import type {
   ConfigurationStorage,
   ValidationResult
 } from '../types/configuration';
-import { LocalStorageConfigurationStorage } from '../entities/configurationStorage';
+import { LocalStorageConfigurationStorage } from './configurationStorage';
 
 /**
  * Configuration Manager
