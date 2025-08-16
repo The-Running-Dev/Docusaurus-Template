@@ -27,6 +27,19 @@ param(
     [Parameter()][string]$projectDir = $PSScriptRoot
 )
 
+$docsDir = Join-Path $projectDir 'docs'
+$indexFile = Join-Path $docsDir 'index.md'
+
+if (-not (Test-Path $docsDir)) {
+    Write-Host "🔄 Creating Docs Directory..." -ForegroundColor Cyan
+    New-Item -ItemType Directory -Path $docsDir | Out-Null
+}
+
+if (-not (Test-Path $indexFile)) {
+    Write-Host "🔄 Creating Empty Index File..." -ForegroundColor Cyan
+    New-Item -ItemType File -Path $indexFile | Out-Null
+}
+
 Write-Host "🚀 Template Setup Completed!" -ForegroundColor Green
 Write-Host "Next steps:" -ForegroundColor Cyan
 Write-Host "  1. Run '.\template-build.ps1' to start development" -ForegroundColor White

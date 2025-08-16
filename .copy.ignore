@@ -7,5 +7,9 @@ custom.nuke.css
 Dockerfile
 LICENSE
 README.md
+README-Organization.md
 vscode.code-workspace
+
 docs/**
+src/pages/index.md
+src/pages/demos/**

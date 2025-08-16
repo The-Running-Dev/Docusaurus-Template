@@ -1,140 +1,107 @@
-#!/usr/bin/env pwsh
-
 <#
 .SYNOPSIS
-    Builds and serves the Docker Build Agent documentation locally for development.
-
+    Dynamically builds and executes a Docker command to run the Docusaurus development server.
 .DESCRIPTION
-    This script provides a streamlined way to build and serve the Docusaurus documentation
-    for local development. It performs two main phases:
-    
-    1. Template Build Phase: Uses the Docker Build Agent to prepare the documentation
-       environment and copy necessary template files
-    2. Development Server Phase: Installs dependencies and starts a local development
-       server with hot-reload capabilities
-    
-    The script is designed for documentation contributors who need to preview changes
-    locally before committing.
+    This script inspects the official 'docs-template' Docker image to discover its default file structure.
+    It then compares this structure with the local directory files.
 
-.PARAMETER SkipTemplateSetup
-    Skip Phase 1 (template setup) and go directly to the development server.
-    Useful when template files are already in the repository.
+    For every file that exists both locally and in the image's '/template' directory, a Docker volume
+    mount (-v) is dynamically created. This ensures that local customizations are reflected inside the
+    container, while any missing local files are sourced from the image itself.
 
+    The script also maps port 3000 for local access and creates an anonymous volume for 'node_modules'
+    to prevent local dependencies from overwriting the container's own modules.
 .EXAMPLE
-    .\start-docs.ps1
-    
-    Builds the documentation and starts a development server at http://localhost:3000
-
-.EXAMPLE
-    .\start-docs.ps1 -SkipTemplateSetup
-    
-    Skips template setup and starts the development server directly
-
-.EXAMPLE
-    .\start-docs.ps1 -SkipTemplateSetup
-    
-    Skips template setup and starts the development server directly
-
-.NOTES
-    Requirements:
-    - Docker must be installed and running (only if not using -SkipTemplateSetup)
-    - pnpm must be available in the host system PATH
-    - The documentation directory must contain a valid Docusaurus project
-    
-    The script will:
-    - Mount the current directory to the Docker container (Phase 1 only)
-    - Use the Build Agent's node-template-build command (Phase 1 only)
-    - Skip container-based package installation (handled by host pnpm)
-    - Start a new PowerShell window with the development server
-    
-    Author: Docker Build Agent Team
-    Version: 1.0
+    ./docs-image.ps1
+    # This command inspects the image, generates volume mounts for all matching local files,
+    # and starts the Docusaurus development server, accessible at http://localhost:3000.
 #>
+[CmdletBinding()]
+param()
 
-param(
-    [switch]$SkipTemplateSetup
-)
+# --- Configuration ---
+$imageName = "ghcr.io/the-running-dev/docs-template:latest"
+$imageTemplatePath = "/template"
+$localPath = $PSScriptRoot
+$docsDir = Join-Path $localPath 'docs'
 
-# Configuration - Find directory containing docusaurus.config.ts
-$docusaurusConfigPath = Get-ChildItem -Path . -Name "docusaurus.config.ts" -Recurse | Select-Object -First 1
-if ($docusaurusConfigPath) {
-    $appDir = Split-Path $docusaurusConfigPath -Parent
+# --- Function Definition ---
 
-    if ([string]::IsNullOrEmpty($appDir) -or $appDir -eq '.') {
-        $appDir = '.'
+function Get-ImageFileSystem {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)][string]$ImageName,
+        [Parameter(Mandatory)][string]$PathTemplate
+    )
+
+    Write-Host "[INFO] Inspecting Image '$ImageName' for Files in '$PathTemplate'..."
+    try {
+        # Run a temporary container to list all files recursively, overriding the default entrypoint.
+        # Exclude the node_modules directory from the find command for efficiency.
+        $fileList = docker run --rm --entrypoint "" $ImageName find $PathTemplate -path "$PathTemplate/node_modules" -prune -o -type f -print
+        
+        # Process the raw file list into clean, relative paths.
+        $relativePaths = $fileList | ForEach-Object {
+            $_.Substring($PathTemplate.Length).TrimStart('/')
+        }
+
+        Write-Host "[OK] Found $($relativePaths.Count) Files in the Image." -ForegroundColor Green
+
+        return $relativePaths
     }
+    catch {
+        Write-Error "Failed to Inspect Image '$ImageName'. Please Ensure Docker is Running and the Image is Pulled."
 
-    Write-Host "📍 Found Docusaurus Config at: $docusaurusConfigPath" -ForegroundColor Cyan
-    Write-Host "📁 Using App Directory: $appDir" -ForegroundColor Cyan
-} else {
-    Write-Host "❌ Error: docusaurus.config.ts not Found in Current Directory or Subdirectories" -ForegroundColor Red
-    
+        return $null
+    }
+}
+
+# --- Main Script Logic ---
+
+# 1. Get the list of all files from the '/template' directory in the Docker image.
+$imageFiles = Get-ImageFileSystem -ImageName $imageName -PathTemplate $imageTemplatePath
+
+if (-not $imageFiles) {
+    Write-Error "Could not Retrieve File List from Image. Aborting."
+
     exit 1
 }
 
-# Phase 1: Template Build using Docker Build Agent (Optional)
-# This phase prepares the documentation environment by:
-# - Mounting the workspace to the container
-# - Using node-template-build to copy templates and setup files
-# - Configuring for pnpm package manager
-# - Skipping container-based installation (we'll install on host)
-# - Setting development mode (not production)
+# 2. Dynamically generate volume mount arguments.
+$volumeMounts = @()
+Write-Host "[INFO] Comparing Local Files with Image Files to Generate Volume Mounts..."
 
-if (-not $SkipTemplateSetup) {
-    Write-Host "🔨 Phase 1: Preparing Documentation Environment..." -ForegroundColor Cyan
+foreach ($file in $imageFiles) {
+    $localFilePath = Join-Path $localPath $file
 
-    & docker run `
-        --rm `
-        -v ./:/workspace `
-        -it ghcr.io/the-running-dev/build-agent:latest `
-        node-template-build `
-            -AppDir $appDir `
-            -PackageManager 'pnpm' `
-            -SkipInstall `
-            -IsProduction:$false
-} else {
-    Write-Host "⏭️  Phase 1: Skipping Template Setup (using existing template files)..." -ForegroundColor Yellow
+    if (Test-Path $localFilePath) {
+        # If a local file exists that matches one in the image, create a volume mount for it.
+        $absoluteLocalPath = (Resolve-Path $localFilePath).Path
+        $containerPath = "$imageTemplatePath/$file"
+        
+        # Add the -v flag and its value as separate arguments for robustness.
+        $volumeMounts += "-v"
+        $volumeMounts += "$absoluteLocalPath`:$containerPath"
+
+        Write-Host "  [+] Mounting Local File: $file"
+    }
 }
 
-# Phase 2: Local Development Server Setup
-# This phase sets up and starts the Docusaurus development server:
-# - Resolves the full path to the documentation directory
-# - Creates a command script for the new PowerShell session
-# - Installs dependencies using pnpm
-# - Runs prebuild steps (if any)
-# - Starts the development server with hot-reload
-Write-Host "🚀 Phase 2: Starting Development Server..." -ForegroundColor Green
+# 3. Construct the final Docker command.
+$dockerArgs = @(
+    "run",
+    "--rm",
+    "-p", "3000:3000", # Separate the flag from the value
+    "-it"
+)
+$dockerArgs += $volumeMounts
+if (Test-Path $docsDir) {
+    $dockerArgs += "-v", "./docs:/template/docs" # Mount the local docs directory
+}
+$dockerArgs += "-v", "/template/node_modules" # Anonymous volume to protect node_modules
+$dockerArgs += $imageName
 
-$appDirPath = Join-Path . $appDir -Resolve
+# 4. Execute the command.
+Write-Host "[INFO] Starting Container with Dynamically Generated Mounts..." -ForegroundColor Cyan
 
-# Create command script for the new PowerShell session
-# This will run in the documentation directory
-$command = @"
-Write-Host "📁 Changing to App Directory: $appDirPath" -ForegroundColor Yellow
-Set-Location '$appDirPath'
-
-Write-Host "📦 Installing Dependencies with pnpm..." -ForegroundColor Yellow
-& pnpm install
-
-Write-Host "⚙️ Running Pre-Build Step..." -ForegroundColor Yellow
-& pnpm run prebuild:prod
-
-Write-Host "🌐 Starting Development Server..." -ForegroundColor Green
-Write-Host "   📍 URL: http://localhost:3000" -ForegroundColor Cyan
-Write-Host "   🔄 Hot-Reload Enabled for Live Editing" -ForegroundColor Cyan
-& pnpm start
-"@
-
-# Start the development server in a new PowerShell window
-# -NoExit keeps the window open after the server starts
-# This allows you to see server logs and stop it with Ctrl+C
-Write-Host "🪟 Opening New Window for Development Server..." -ForegroundColor Magenta
-
-Start-Process pwsh `
-    -ArgumentList  `
-    "-NoExit", `
-    "-Command", $command
-
-Write-Host "✅ Documentation Build Complete!" -ForegroundColor Green
-Write-Host "   The Development Server Should Start Shortly in the New Window." -ForegroundColor White
-Write-Host "   Visit http://localhost:3000 to View Your Documentation." -ForegroundColor White
+& docker $dockerArgs
