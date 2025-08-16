@@ -1,7 +1,7 @@
 ---
 id: schema-system
 title: Schema System
-sidebar_position: 10
+sidebar_position: 11
 ---
 
 ## Overview

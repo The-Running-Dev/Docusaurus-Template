@@ -1,7 +1,7 @@
 ---
 id: theme-system
 title: Theme System
-sidebar_position: 11
+sidebar_position: 12
 ---
 
 This template includes a sophisticated theme switching system with 10+ professionally designed color themes that are dynamically loaded and persisted in localStorage. **Version 1.0** includes significant improvements for path resolution and cross-route compatibility.

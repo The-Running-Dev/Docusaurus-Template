@@ -1,7 +1,7 @@
 ---
 id: prebuild-system
 title: Pre-Build System
-sidebar_position: 8
+sidebar_position: 9
 ---
 
 The Pre-Build System v1.0 automates content preparation and configuration generation before Docusaurus starts. The enhanced `PreBuild` class (`scripts/pre-build.ts`) provides comprehensive automation.

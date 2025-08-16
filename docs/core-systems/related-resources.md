@@ -1,7 +1,7 @@
 ---
 id: related-resources
 title: Related Resources
-sidebar_position: 9
+sidebar_position: 10
 ---
 
 A reusable React component that displays a styled card containing related documentation links and resources. Perfect for adding contextual navigation at the end of demo pages, documentation sections, or anywhere users might need quick access to related content.

@@ -1,7 +1,7 @@
 ---
 id: hooks-system
 title: Custom Hooks
-sidebar_position: 7
+sidebar_position: 8
 ---
 
 This documentation covers the custom React hooks available in the template.
