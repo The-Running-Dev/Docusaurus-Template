@@ -107,7 +107,6 @@ export class PreBuild {
 
   constructor() {
     // Setup config first, then load it
-    // Note: createDataIndex() will be called after YAML processing in processYamlToJson()
     this.setupConfig();
     this.config = this.loadConfig();
   }
@@ -639,9 +638,6 @@ export class PreBuild {
     console.log(
       `[INFO] YAML to JSON Conversion Completed: ${processedCount} File(s) Processed`
     );
-
-    // Create the index.ts file after YAML processing
-    this.createDataIndex();
   }
 
   /**
@@ -739,6 +735,7 @@ export class PreBuild {
    * 2. Copy markdown files from project root (copyMarkdown)
    * 3. Generate navigation configuration (generateNavbar)
    * 4. Generate theme configuration (generateThemeConfig)
+   * 5. Create data index file for TypeScript imports (createDataIndex)
    *
    * ## Features:
    * - Comprehensive error handling for the entire process
@@ -756,6 +753,7 @@ export class PreBuild {
       this.copyMarkdown();
       this.generateNavbar();
       this.generateThemeConfig();
+      this.createDataIndex();
 
       console.log('[INFO] Pre Build Process Completed Successfully');
     } catch (error) {
