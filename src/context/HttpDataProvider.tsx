@@ -207,8 +207,8 @@ export function HttpDataProvider({
       loadingState,
       refetch: handleRefetch,
       resetError: handleResetError,
-      meta: { 
-        provider: 'HTTP', 
+      meta: {
+        provider: 'HTTP',
         source: 'api',
         endpoint: apiUrl,
         cached: !!getCachedData(),

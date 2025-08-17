@@ -1,5 +1,9 @@
 import React, { useMemo } from 'react';
-import { useFeatureFlag, FeatureToConfigMap, Features } from '../../config/FeaturesConfig';
+import {
+  useFeatureFlag,
+  FeatureToConfigMap,
+  Features
+} from '../../config/FeaturesConfig';
 import { getData } from '../../data';
 import JsonDataProvider from '../../context/JsonDataProvider';
 import HttpDataProvider from '../../context/HttpDataProvider';
@@ -29,7 +33,10 @@ function DataProviderComponent<TData = any, TProcessedData = TData>({
   defaultData,
   processor,
   children
-}: DataProviderComponentProps<TData, TProcessedData>): React.ReactElement | null {
+}: DataProviderComponentProps<
+  TData,
+  TProcessedData
+>): React.ReactElement | null {
   const isEnabled = useFeatureFlag(feature);
 
   if (!isEnabled) {

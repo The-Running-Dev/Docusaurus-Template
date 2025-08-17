@@ -46,7 +46,9 @@ export default function DebugInfo({
         zIndex: 1000
       }}
     >
-      🔧 Data: {loading ? 'LOADING' : error ? 'ERROR' : meta?.provider || 'LOADED'} {meta?.cached ? '(CACHED)' : ''}
+      🔧 Data:{' '}
+      {loading ? 'LOADING' : error ? 'ERROR' : meta?.provider || 'LOADED'}{' '}
+      {meta?.cached ? '(CACHED)' : ''}
       {data?.technologies && (
         <>
           <br />

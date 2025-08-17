@@ -11,7 +11,10 @@ import './cv-reader.css';
 
 export default function CV() {
   return (
-    <DataProviderComponent<CVData> feature={Features.CVPage} defaultData={DEFAULT_CV_DATA}>
+    <DataProviderComponent<CVData>
+      feature={Features.CVPage}
+      defaultData={DEFAULT_CV_DATA}
+    >
       {(userCVData, loading, error, meta) => {
         if (loading) {
           return (
@@ -24,7 +27,9 @@ export default function CV() {
         if (error) {
           return (
             <div className="cv-wrap">
-              <p className="cv-muted">Failed to load CV data. Using default data.</p>
+              <p className="cv-muted">
+                Failed to load CV data. Using default data.
+              </p>
             </div>
           );
         }

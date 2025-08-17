@@ -12,4 +12,3 @@ export interface DataProviderComponentProps<TData, TProcessedData = TData> {
     meta?: any
   ) => React.ReactNode;
 }
-
