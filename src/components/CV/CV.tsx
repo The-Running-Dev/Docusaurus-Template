@@ -1,6 +1,7 @@
 import Timeline from './CVTimeline';
 
-import DataComponent from '../DataComponent';
+import DataProviderComponent from '../DataComponent';
+import DebugInfo from '../DebugInfo';
 import { Features } from '../../config/FeaturesConfig';
 import { CVData } from './models';
 import { DEFAULT_CV_DATA } from './constants';
@@ -10,7 +11,7 @@ import './cv-reader.css';
 
 export default function CV() {
   return (
-    <DataComponent<CVData> feature={Features.CVPage} defaultData={DEFAULT_CV_DATA}>
+    <DataProviderComponent<CVData> feature={Features.CVPage} defaultData={DEFAULT_CV_DATA}>
       {(userCVData, loading, error, meta) => {
         if (loading) {
           return (
@@ -139,20 +140,31 @@ export default function CV() {
               </section>
             ) : null}
 
-            {process.env.NODE_ENV === 'development' && meta && (
-              <div className="debug-panel">
-                <h3>Debug Info</h3>
-                <p>Provider: {meta.provider}</p>
-                <p>Source: {meta.source}</p>
-                <p>Data Size: {meta.dataSize} bytes</p>
-                <p>Timestamp: {meta.timestamp}</p>
-                {meta.endpoint && <p>Endpoint: {meta.endpoint}</p>}
-                {meta.cached !== undefined && <p>Cached: {meta.cached ? 'Yes' : 'No'}</p>}
-              </div>
-            )}
+            <DebugInfo
+              loading={loading}
+              error={error}
+              meta={meta}
+              customMetrics={[
+                {
+                  label: 'Roles',
+                  value: roles?.length || 0,
+                  icon: '💼'
+                },
+                {
+                  label: 'Education',
+                  value: education?.length || 0,
+                  icon: '🎓'
+                },
+                {
+                  label: 'Badges',
+                  value: badges?.length || 0,
+                  icon: '🏆'
+                }
+              ]}
+            />
           </div>
         );
       }}
-    </DataComponent>
+    </DataProviderComponent>
   );
 }

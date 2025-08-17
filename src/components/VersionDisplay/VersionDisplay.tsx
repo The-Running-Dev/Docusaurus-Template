@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DataComponent from '../DataComponent';
+import DataProviderComponent from '../DataComponent';
 
 import { Features } from '../../config/FeaturesConfig';
 import { VersionConfig } from './models';
@@ -28,7 +28,7 @@ const VersionDisplay: React.FC = () => {
   };
 
   return (
-    <DataComponent<VersionConfig>
+    <DataProviderComponent<VersionConfig>
       feature={Features.VersionDisplay}
       defaultData={DEFAULT_VERSION_DATA}
     >
@@ -74,7 +74,7 @@ const VersionDisplay: React.FC = () => {
           </span>
         );
       }}
-    </DataComponent>
+    </DataProviderComponent>
   );
 };
 

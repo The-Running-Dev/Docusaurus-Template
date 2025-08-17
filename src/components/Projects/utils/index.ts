@@ -2,7 +2,5 @@
  * Barrel export for Projects utilities
  */
 
-export {
-  calculateCategoryResults,
-  calculateTechnologyResults
-} from './searchCalculations';
+export * from './searchCalculations';
+export * from './processorHelpers';

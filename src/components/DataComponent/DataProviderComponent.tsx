@@ -4,7 +4,7 @@ import { getData } from '../../data';
 import JsonDataProvider from '../../context/JsonDataProvider';
 import HttpDataProvider from '../../context/HttpDataProvider';
 import { useDataContext } from '../../context/DataProvider';
-import { DataComponentProps } from './models';
+import { DataProviderComponentProps } from './models';
 
 // @ts-ignore
 import { globalConfig as configData } from '../../../data';
@@ -18,18 +18,18 @@ function getProviderType(source: string): 'json' | 'http' {
 }
 
 /**
- * DataComponent - Provides data based on feature flags and configuration
+ * DataProviderComponent - Provides data based on feature flags and configuration
  *
  * This component wraps the data fetching logic and provides a consistent interface
  * for consuming data in React components. It supports both static JSON data and
  * dynamic HTTP data sources.
  */
-function DataComponent<TData = any, TProcessedData = TData>({
+function DataProviderComponent<TData = any, TProcessedData = TData>({
   feature,
   defaultData,
   processor,
   children
-}: DataComponentProps<TData, TProcessedData>): React.ReactElement | null {
+}: DataProviderComponentProps<TData, TProcessedData>): React.ReactElement | null {
   const isEnabled = useFeatureFlag(feature);
 
   if (!isEnabled) {
@@ -125,4 +125,4 @@ function DataRenderer<TData = any, TProcessedData = TData>({
   );
 }
 
-export default DataComponent;
+export default DataProviderComponent;

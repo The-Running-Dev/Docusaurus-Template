@@ -1,7 +1,8 @@
 import type { ReactNode, RefObject } from 'react';
 import { useState, useEffect } from 'react';
 
-import DataComponent from '../DataComponent';
+import DataProviderComponent from '../DataComponent';
+import DebugInfo from '../DebugInfo';
 import { Features } from '../../config/FeaturesConfig';
 import { type ProcessedCategory, type ProcessedProjectData } from './models';
 import { useProcessor, useUrlFilter, useSearch, useScrollRefs } from './hooks';
@@ -18,12 +19,13 @@ import './projects.css';
 import './projects-reader.css';
 
 /**
- * Enhanced Projects component using DataComponent architecture
- * This component works with static data and provides all filtering/search functionality
+ * Enhanced Projects component using DataProviderComponent architecture
+ * This component works with static or http data and provides
+ * all filtering/search functionality
  */
 export default function Projects(): ReactNode {
   return (
-    <DataComponent
+    <DataProviderComponent
       feature={Features.ProjectsPage}
       defaultData={DEFAULT_PROJECTS_DATA}
     >
@@ -70,8 +72,7 @@ export default function Projects(): ReactNode {
                     marginTop: '1rem'
                   }}
                 >
-                  Please check your data source configuration or try refreshing
-                  the page.
+                  Please Check Your Data Source Configuration.
                 </p>
               </div>
             </div>
@@ -88,13 +89,13 @@ export default function Projects(): ReactNode {
 
         return <ProjectsContent rawData={rawData} meta={meta} />;
       }}
-    </DataComponent>
+    </DataProviderComponent>
   );
 }
 
 /**
  * Inner component that handles all the projects logic
- * Separated to keep the DataComponent wrapper clean
+ * Separated to keep the DataProviderComponent wrapper clean
  */
 function ProjectsContent({
   rawData,
@@ -229,25 +230,16 @@ function ProjectsContent({
           scrollToFilters={scrollToFilters}
         />
       </main>
-      {/* Performance/Debug info for development */}
-      {process.env.NODE_ENV === 'development' && (
-        <div
-          style={{
-            position: 'fixed',
-            bottom: '10px',
-            right: '10px',
-            background: 'rgba(0,0,0,0.8)',
-            color: 'white',
-            padding: '8px',
-            borderRadius: '4px',
-            fontSize: '12px',
-            zIndex: 1000
-          }}
-        >
-          🔧 Data: {meta?.provider || 'LOADED'} {meta?.cached ? '(CACHED)' : ''}{' '}
-          📊 Projects: {processedData.stats.totalProjects}
-        </div>
-      )}
+      <DebugInfo
+        meta={meta}
+        customMetrics={[
+          {
+            label: 'Projects',
+            value: processedData.stats.totalProjects,
+            icon: '📊'
+          }
+        ]}
+      />
     </>
   );
 }

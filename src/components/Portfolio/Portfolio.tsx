@@ -3,7 +3,8 @@ import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/core/lib/client/exports/useDocusaurusContext';
 import Heading from '@theme/Heading';
 
-import DataComponent from '../DataComponent';
+import DataProviderComponent from '../DataComponent';
+import DebugInfo from '../DebugInfo';
 
 import { Features } from '../../config/FeaturesConfig';
 import { DEFAULT_PORTFOLIO_DATA } from './constants';
@@ -13,7 +14,7 @@ import './portfolio-reader.css';
 
 export default function Portfolio(): ReactNode {
   return (
-    <DataComponent
+    <DataProviderComponent
       feature={Features.PortfolioPage}
       defaultData={DEFAULT_PORTFOLIO_DATA}
     >
@@ -50,31 +51,16 @@ export default function Portfolio(): ReactNode {
               <Showcase data={data} />
               <TechStack data={data} />
             </main>
-            {/* Performance/Debug info for development */}
-            {process.env.NODE_ENV === 'development' && (
-              <div
-                style={{
-                  position: 'fixed',
-                  bottom: '10px',
-                  right: '10px',
-                  background: 'rgba(0,0,0,0.8)',
-                  color: 'white',
-                  padding: '8px',
-                  borderRadius: '4px',
-                  fontSize: '12px',
-                  zIndex: 1000
-                }}
-              >
-                🔧 Data: {loading ? 'LOADING' : error ? 'ERROR' : meta?.provider || 'LOADED'} {meta?.cached ? '(CACHED)' : ''}
-                📊 Technologies: {data.technologies?.length || 0}
-                📦 Projects: {data.projects?.length || 0}
-                📈 Stats: {data.stats?.length || 0}
-              </div>
-            )}
+            <DebugInfo
+              loading={loading}
+              error={error}
+              meta={meta}
+              data={data}
+            />
           </>
         );
       }}
-    </DataComponent>
+    </DataProviderComponent>
   );
 }
 

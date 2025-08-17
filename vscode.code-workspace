@@ -4,5 +4,7 @@
       "path": "."
     }
   ],
-  "settings": {}
+  "settings": {
+    "claudeCodeChat.permissions.yoloMode": true
+  }
 }

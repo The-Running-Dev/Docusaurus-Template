@@ -1,8 +1,9 @@
-import React from 'react';
-
 /**
  * Models for Projects component
  */
+
+import React from 'react';
+
 export interface ProjectConfig {
   categories: ProjectCategory[];
 }
@@ -106,8 +107,11 @@ export interface FilterButtonProps {
 
 export interface SearchBoxProps {
   searchTerm: string;
+
   setSearchTerm: (term: string) => void;
+
   searchInputRef: React.RefObject<HTMLInputElement>;
+
   handleClearSearch: () => void;
 }
 

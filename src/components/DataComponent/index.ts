@@ -1,3 +1,3 @@
-export { default } from './DataComponent';
-export * from './DataComponent';
+export { default } from './DataProviderComponent';
+export * from './DataProviderComponent';
 export * from './models';

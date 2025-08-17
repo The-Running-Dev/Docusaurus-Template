@@ -1,4 +1,4 @@
-/** Default location for portfolio data */
+/** Default location for CV data */
 
 // @ts-ignore
 import * as jsonData from '../../../data';

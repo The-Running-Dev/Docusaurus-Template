@@ -9,7 +9,7 @@ import {
   generateDateOptions,
   generateTagOptions,
   applyDateFiltering
-} from './processorHelpers';
+} from '../utils';
 
 /**
  * Processor configuration options
