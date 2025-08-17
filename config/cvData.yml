@@ -17,25 +17,35 @@ about:
     code that works on my machine but mysteriously fails everywhere else.
     I have an unhealthy relationship with Stack Overflow and consider
     "Did you try turning it off and on again?" as a valid debugging strategy.
+badges:
+  - alt: 'JavaScript'
+    src: 'https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black'
+  - alt: 'React'
+    src: 'https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB'
+chips:
+  - 'Bug Whisperer'
+  - 'Coffee Dependent'
+  - 'Stack Overflow Expert'
+timelineTitle: '💼 Professional Experience (aka My Journey Through Code Hell)'
 roles:
   - company: 'TechCorp (aka The Thunderdome)'
     title: 'Lead Developer (and Chief Bug Whisperer)'
     period: '2022 – 2023'
-    description: "Successfully convinced management that 'it's not a bug, it's a feature' for 15 months straight"
+    summary: "Successfully convinced management that 'it's not a bug, it's a feature' for 15 months straight"
   - company: 'WebSolutions (RIP my sleep schedule)'
     title: 'Senior Engineer (Junior Stress Collector)'
     period: '2020 – 2022'
-    description: "Mastered the art of looking productive while secretly googling 'how to center a div' for the 500th time"
+    summary: "Mastered the art of looking productive while secretly googling 'how to center a div' for the 500th time"
   - company: 'StartupChaos Inc.'
     title: 'Full Stack Developer (Full Stack of Problems)'
     period: '2018 – 2020'
-    description: "Learned that 'move fast and break things' was not just a motto, but a prophecy"
+    summary: "Learned that 'move fast and break things' was not just a motto, but a prophecy"
+educationTitle: '🎓 Education & Learning (Academic & Self-Inflicted)'
 education:
   - school: 'State University (School of Hard Knocks)'
     degree: 'B.S. Computer Science (emphasis on the BS)'
-    gpa: "3.14159... (pi, because I'm irrational)"
-    achievements: 'Graduated without crying in public more than 3 times'
+    details: "3.14159... (pi, because I'm irrational) - Graduated without crying in public more than 3 times"
   - school: 'YouTube University'
     degree: 'PhD in Copy-Paste Engineering'
-    achievements: "Watched every 'Learn JavaScript in 10 minutes' video ever made"
+    details: "Watched every 'Learn JavaScript in 10 minutes' video ever made"
 quote: 'Great software is built on Stack Overflow answers, prayer, and the tears of junior developers. Also, rubber ducks are excellent listeners.'

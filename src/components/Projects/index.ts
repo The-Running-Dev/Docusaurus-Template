@@ -26,13 +26,7 @@ export { default as Projects } from './Projects';
 export * from './models';
 
 // Hooks (for external use if needed)
-export {
-  useApiData,
-  useConfig,
-  useSearch,
-  useScrollRefs,
-  useUrlFilter
-} from './hooks';
+export { useSearch, useScrollRefs, useUrlFilter } from './hooks';
 
 // Components (for external use if needed)
 export {

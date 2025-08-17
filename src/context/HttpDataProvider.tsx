@@ -207,7 +207,14 @@ export function HttpDataProvider({
       loadingState,
       refetch: handleRefetch,
       resetError: handleResetError,
-      meta: { endpoint: apiUrl, provider: 'http' }
+      meta: { 
+        provider: 'HTTP', 
+        source: 'api',
+        endpoint: apiUrl,
+        cached: !!getCachedData(),
+        timestamp: new Date().toISOString(),
+        dataSize: rawData ? JSON.stringify(rawData).length : 0
+      }
     }),
     [rawData, loadingState, handleRefetch, handleResetError, apiUrl]
   );

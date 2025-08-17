@@ -1,19 +1,10 @@
 import type { ReactNode, RefObject } from 'react';
 import { useState, useEffect } from 'react';
 
-import FeatureComponent from '../FeatureComponent';
+import DataComponent from '../DataComponent';
 import { Features } from '../../config/FeaturesConfig';
 import { type ProcessedCategory, type ProcessedProjectData } from './models';
-
-// @ts-ignore
-import { projects as configData } from '../../../data';
-
-// Import new hooks instead of useConfig
-import { useDataContext } from '../../context';
-import { useProcessor } from './hooks';
-
-// Import custom hooks, components, and utilities
-import { useUrlFilter, useSearch, useScrollRefs } from './hooks';
+import { useProcessor, useUrlFilter, useSearch, useScrollRefs } from './hooks';
 import {
   FilterButton,
   SearchBox,
@@ -21,15 +12,97 @@ import {
   ProjectStats
 } from './components';
 import { calculateCategoryResults, calculateTechnologyResults } from './utils';
+import { DEFAULT_PROJECTS_DATA } from './constants';
 
 import './projects.css';
 import './projects-reader.css';
 
 /**
- * Enhanced Projects component using the new data provider architecture
- * This component can work with any data provider (JSON or API)
+ * Enhanced Projects component using DataComponent architecture
+ * This component works with static data and provides all filtering/search functionality
  */
 export default function Projects(): ReactNode {
+  return (
+    <DataComponent
+      feature={Features.ProjectsPage}
+      defaultData={DEFAULT_PROJECTS_DATA}
+    >
+      {(rawData, loading, error, meta) => {
+        if (loading) {
+          return (
+            <div className="portfolio-wrap">
+              <div style={{ padding: '2rem', textAlign: 'center' }}>
+                <p className="portfolio-muted">🔄 Loading Projects...</p>
+                <p
+                  style={{
+                    fontSize: '0.9rem',
+                    color: '#666',
+                    marginTop: '0.5rem'
+                  }}
+                >
+                  Fetching Data and Filtering...
+                </p>
+              </div>
+            </div>
+          );
+        }
+
+        if (error) {
+          return (
+            <div className="portfolio-wrap">
+              <div style={{ padding: '2rem', textAlign: 'center' }}>
+                <p className="portfolio-muted" style={{ color: '#d32f2f' }}>
+                  ❌ Data Loading Error
+                </p>
+                <p
+                  style={{
+                    fontSize: '0.9rem',
+                    color: '#666',
+                    marginTop: '0.5rem'
+                  }}
+                >
+                  {error.message}
+                </p>
+                <p
+                  style={{
+                    fontSize: '0.8rem',
+                    color: '#888',
+                    marginTop: '1rem'
+                  }}
+                >
+                  Please check your data source configuration or try refreshing
+                  the page.
+                </p>
+              </div>
+            </div>
+          );
+        }
+
+        if (!Array.isArray(rawData) || rawData.length === 0) {
+          return (
+            <div className="portfolio-wrap">
+              <p className="portfolio-muted">No Projects Found.</p>
+            </div>
+          );
+        }
+
+        return <ProjectsContent rawData={rawData} meta={meta} />;
+      }}
+    </DataComponent>
+  );
+}
+
+/**
+ * Inner component that handles all the projects logic
+ * Separated to keep the DataComponent wrapper clean
+ */
+function ProjectsContent({
+  rawData,
+  meta
+}: {
+  rawData: any[];
+  meta?: any;
+}): ReactNode {
   const [selectedFilter, setSelectedFilter] = useUrlFilter();
   const [selectedDateRange, setSelectedDateRange] = useState('most-recent');
   const [showAllTags, setShowAllTags] = useState(false);
@@ -38,28 +111,16 @@ export default function Projects(): ReactNode {
   const { filtersRef, projectsRef, scrollToProjects, scrollToFilters } =
     useScrollRefs();
 
-  // Get raw data from data context
-  const { data: rawData, loadingState, meta } = useDataContext();
-
-  // Guard against unsafe rawData to prevent runtime exceptions
-  const isRawReady = rawData != null;
-
   // Process data using the processor hook
   const {
     processedData,
     loading: processingLoading,
     error: processingError
-  } = useProcessor(isRawReady ? rawData : { categories: [] }, {
+  } = useProcessor(rawData || [], {
     selectedCategory: selectedFilter,
     selectedDateRange,
     searchTerm
   });
-
-  // Combine loading states
-  const isLoading = loadingState.loading || processingLoading;
-
-  // Combine error states
-  const hasError = loadingState.error || processingError;
 
   // Auto-set date range to "all-dates" when searching
   useEffect(() => {
@@ -114,130 +175,80 @@ export default function Projects(): ReactNode {
     }
   }, [processedData, selectedFilter]);
 
-  // Handle error state
-  if (hasError) {
-    const errorMessage =
-      loadingState.error?.message ||
-      processingError?.message ||
-      'Unknown error';
-    const isDataError = !!loadingState.error;
-    const isProcessingError = !!processingError;
-
+  // Handle processing error
+  if (processingError) {
     return (
       <div className="portfolio-wrap">
         <div style={{ padding: '2rem', textAlign: 'center' }}>
           <p className="portfolio-muted" style={{ color: '#d32f2f' }}>
-            ❌ {isDataError ? 'Data Loading Error' : 'Data Processing Error'}
+            ❌ Data Processing Error
           </p>
           <p style={{ fontSize: '0.9rem', color: '#666', marginTop: '0.5rem' }}>
-            {errorMessage}
+            {processingError.message}
           </p>
-          {isDataError && (
-            <p style={{ fontSize: '0.8rem', color: '#888', marginTop: '1rem' }}>
-              Please check your data source configuration or try refreshing the
-              page.
-            </p>
-          )}
-          {isProcessingError && (
-            <p style={{ fontSize: '0.8rem', color: '#888', marginTop: '1rem' }}>
-              There was an issue processing the project data. Please try
-              refreshing the page.
-            </p>
-          )}
+          <p style={{ fontSize: '0.8rem', color: '#888', marginTop: '1rem' }}>
+            There was an issue processing the project data. Please try
+            refreshing the page.
+          </p>
         </div>
       </div>
     );
   }
 
-  // Handle loading states with detailed messaging
-  if (isLoading) {
-    let loadingMessage = '🔄 Loading Projects...';
-    let loadingDetails = 'Fetching data and processing filters...';
-
+  // Handle processing loading
+  if (processingLoading || !processedData) {
     return (
       <div className="portfolio-wrap">
         <div style={{ padding: '2rem', textAlign: 'center' }}>
-          <p className="portfolio-muted">{loadingMessage}</p>
-          {loadingDetails && (
-            <p
-              style={{ fontSize: '0.9rem', color: '#666', marginTop: '0.5rem' }}
-            >
-              {loadingDetails}
-            </p>
-          )}
+          <p className="portfolio-muted">🔄 Processing Data...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <FeatureComponent feature={Features.ProjectsPage} configData={configData}>
-      {(data) => {
-        if (!Array.isArray(data) || data.length === 0) {
-          return (
-            <div className="portfolio-wrap">
-              <p className="portfolio-muted">No Projects Found.</p>
-            </div>
-          );
-        }
-
-        // Ensure processedData is available before rendering
-        if (!processedData) {
-          return (
-            <div className="portfolio-wrap">
-              <div style={{ padding: '2rem', textAlign: 'center' }}>
-                <p className="portfolio-muted">🔄 Processing Data...</p>
-              </div>
-            </div>
-          );
-        }
-
-        return (
-          <>
-            <ProjectHeader categoryText={processedData.categoryText} />
-            <main>
-              <ProjectStats stats={processedData.stats} />
-              <ProjectCategories
-                processedData={processedData}
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-                selectedFilter={selectedFilter}
-                selectedDateRange={selectedDateRange}
-                setSelectedDateRange={setSelectedDateRange}
-                searchInputRef={searchInputRef}
-                handleClearSearch={handleClearSearch}
-                handleFilterToggle={handleFilterToggle}
-                showAllTags={showAllTags}
-                setShowAllTags={setShowAllTags}
-                filtersRef={filtersRef}
-                projectsRef={projectsRef}
-                scrollToProjects={scrollToProjects}
-                scrollToFilters={scrollToFilters}
-              />
-            </main>
-            {/* Performance/Debug info for development */}
-            {process.env.NODE_ENV === 'development' && (
-              <div
-                style={{
-                  position: 'fixed',
-                  bottom: '10px',
-                  right: '10px',
-                  background: 'rgba(0,0,0,0.8)',
-                  color: 'white',
-                  padding: '8px',
-                  borderRadius: '4px',
-                  fontSize: '12px',
-                  zIndex: 1000
-                }}
-              >
-                🔧 Data: {meta?.provider?.toUpperCase() || 'Unknown'}
-                📊 Projects: {processedData.stats.totalProjects}
-              </div>
-            )}
-          </>
-        );
-      }}
-    </FeatureComponent>
+    <>
+      <ProjectHeader categoryText={processedData.categoryText} />
+      <main>
+        <ProjectStats stats={processedData.stats} />
+        <ProjectCategories
+          processedData={processedData}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          selectedFilter={selectedFilter}
+          selectedDateRange={selectedDateRange}
+          setSelectedDateRange={setSelectedDateRange}
+          searchInputRef={searchInputRef}
+          handleClearSearch={handleClearSearch}
+          handleFilterToggle={handleFilterToggle}
+          showAllTags={showAllTags}
+          setShowAllTags={setShowAllTags}
+          filtersRef={filtersRef}
+          projectsRef={projectsRef}
+          scrollToProjects={scrollToProjects}
+          scrollToFilters={scrollToFilters}
+        />
+      </main>
+      {/* Performance/Debug info for development */}
+      {process.env.NODE_ENV === 'development' && (
+        <div
+          style={{
+            position: 'fixed',
+            bottom: '10px',
+            right: '10px',
+            background: 'rgba(0,0,0,0.8)',
+            color: 'white',
+            padding: '8px',
+            borderRadius: '4px',
+            fontSize: '12px',
+            zIndex: 1000
+          }}
+        >
+          🔧 Data: {meta?.provider || 'LOADED'} {meta?.cached ? '(CACHED)' : ''}{' '}
+          📊 Projects: {processedData.stats.totalProjects}
+        </div>
+      )}
+    </>
   );
 }
 
@@ -510,6 +521,7 @@ function ProjectCategories({
                       let searchResultCount = 0;
                       if (searchTerm && hasSearchResults) {
                         const tagKey = option.key.substring(4); // Remove 'tag-' prefix
+
                         processedData.categories.forEach((cat) => {
                           cat.subCategories.forEach((sub) => {
                             sub.projects.forEach((project) => {
@@ -608,10 +620,22 @@ function ProjectCategories({
               </p>
             </div>
           ) : (
-            <ProjectDisplay
-              categories={processedData.categories}
-              scrollToFilters={scrollToFilters}
-            />
+            (() => {
+              // Calculate if there are any search results
+              const hasSearchResults = processedData.categories.some((cat) =>
+                cat.subCategories.some((sub) => sub.projects.length > 0)
+              );
+              return (
+                <ProjectDisplay
+                  categories={processedData.categories}
+                  searchTerm={searchTerm}
+                  hasSearchResults={hasSearchResults}
+                  selectedFilter={selectedFilter}
+                  handleFilterToggle={handleFilterToggle}
+                  scrollToFilters={scrollToFilters}
+                />
+              );
+            })()
           )}
         </div>
       </div>
@@ -621,9 +645,17 @@ function ProjectCategories({
 
 function ProjectDisplay({
   categories,
+  searchTerm,
+  hasSearchResults,
+  selectedFilter,
+  handleFilterToggle,
   scrollToFilters
 }: {
   categories: ProcessedCategory[];
+  searchTerm: string;
+  hasSearchResults: boolean;
+  handleFilterToggle: (tag: string) => void;
+  selectedFilter: string | undefined;
   scrollToFilters: () => void;
 }) {
   // Flatten all projects from all categories and subcategories
@@ -684,11 +716,41 @@ function ProjectDisplay({
 
               {project.tags && project.tags.length > 0 && (
                 <div className="projectTags">
-                  {project.tags.map((tag, tagIdx) => (
-                    <span key={tagIdx} className="projectTag">
-                      {tag}
-                    </span>
-                  ))}
+                  {project.tags.map((tag, tagIdx) => {
+                    // Determine if this tag is active (selected)
+                    const normalizedTagKey = `tag-${tag.toLowerCase().replace(/\s+/g, '-')}`;
+                    const isActive = searchTerm
+                      ? hasSearchResults
+                      : selectedFilter === normalizedTagKey;
+
+                    return (
+                      <span key={tagIdx} className="">
+                        <button
+                          key={tag}
+                          onClick={
+                            searchTerm
+                              ? undefined
+                              : () => handleFilterToggle(normalizedTagKey)
+                          }
+                          disabled={!!searchTerm}
+                          className={`filterButton ${
+                            searchTerm
+                              ? hasSearchResults
+                                ? 'active disabled'
+                                : 'disabled'
+                              : isActive
+                                ? 'active'
+                                : ''
+                          }`}
+                          aria-label={`Filter by ${tag}`}
+                          title={`Filter by ${tag}`}
+                          data-category="tag"
+                        >
+                          {tag}
+                        </button>
+                      </span>
+                    );
+                  })}
                 </div>
               )}
 

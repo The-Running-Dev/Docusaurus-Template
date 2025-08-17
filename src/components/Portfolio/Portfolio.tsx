@@ -3,21 +3,38 @@ import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/core/lib/client/exports/useDocusaurusContext';
 import Heading from '@theme/Heading';
 
-import FeatureComponent from '../FeatureComponent';
-import { Features } from '../../config/FeaturesConfig';
+import DataComponent from '../DataComponent';
 
-// @ts-ignore
-import { portfolioData as configData } from '../../../data';
+import { Features } from '../../config/FeaturesConfig';
+import { DEFAULT_PORTFOLIO_DATA } from './constants';
 
 import './portfolio.css';
 import './portfolio-reader.css';
 
 export default function Portfolio(): ReactNode {
   return (
-    <FeatureComponent feature={Features.PortfolioPage} configData={configData}>
-      {(data) => {
+    <DataComponent
+      feature={Features.PortfolioPage}
+      defaultData={DEFAULT_PORTFOLIO_DATA}
+    >
+      {(data, loading, error, meta) => {
+        if (loading) {
+          return (
+            <div className="portfolio-wrap">
+              <p>Loading Portfolio...</p>
+            </div>
+          );
+        }
+
+        if (error) {
+          return (
+            <div className="portfolio-wrap">
+              <p>Error Loading Portfolio: {error.message}</p>
+            </div>
+          );
+        }
+
         if (!data?.header) {
-          // last-resort guard to avoid crashing the page
           return (
             <div className="portfolio-wrap">
               <p className="portfolio-muted">No Portfolio Data Found.</p>
@@ -27,22 +44,43 @@ export default function Portfolio(): ReactNode {
 
         return (
           <>
-            <HomepageHeader />
+            <Header data={data} />
             <main>
-              <Stats />
-              <ProjectShowcase />
-              <TechStack />
+              <Stats data={data} />
+              <Showcase data={data} />
+              <TechStack data={data} />
             </main>
+            {/* Performance/Debug info for development */}
+            {process.env.NODE_ENV === 'development' && (
+              <div
+                style={{
+                  position: 'fixed',
+                  bottom: '10px',
+                  right: '10px',
+                  background: 'rgba(0,0,0,0.8)',
+                  color: 'white',
+                  padding: '8px',
+                  borderRadius: '4px',
+                  fontSize: '12px',
+                  zIndex: 1000
+                }}
+              >
+                🔧 Data: {loading ? 'LOADING' : error ? 'ERROR' : meta?.provider || 'LOADED'} {meta?.cached ? '(CACHED)' : ''}
+                📊 Technologies: {data.technologies?.length || 0}
+                📦 Projects: {data.projects?.length || 0}
+                📈 Stats: {data.stats?.length || 0}
+              </div>
+            )}
           </>
         );
       }}
-    </FeatureComponent>
+    </DataComponent>
   );
 }
 
-function HomepageHeader() {
+function Header({ data }: { data: any }) {
   const { siteConfig } = useDocusaurusContext();
-  const { header } = configData;
+  const { header } = data;
 
   return (
     <header className={clsx('hero hero--primary', 'heroBanner')}>
@@ -56,8 +94,8 @@ function HomepageHeader() {
   );
 }
 
-function TechStack() {
-  const { technologies } = configData;
+function TechStack({ data }: { data: any }) {
+  const { technologies } = data;
 
   return (
     <section className="techStack">
@@ -78,15 +116,13 @@ function TechStack() {
   );
 }
 
-function ProjectShowcase() {
-  const { projects } = configData;
+function Showcase({ data }: { data: any }) {
+  const { projects } = data;
 
   return (
     <section className="projectShowcase">
       <div className="container">
-        <Heading as="h2" className="sectionTitle">
-          Categories
-        </Heading>
+        <Heading as="h2" className="sectionTitle"></Heading>
         <div className="projectGrid">
           {projects.map((project, idx) => (
             <a key={idx} href={project.link} className="projectCard">
@@ -103,8 +139,8 @@ function ProjectShowcase() {
   );
 }
 
-function Stats() {
-  const { stats } = configData;
+function Stats({ data }: { data: any }) {
+  const { stats } = data;
 
   return (
     <section className="stats">

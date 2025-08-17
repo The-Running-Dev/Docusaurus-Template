@@ -1,31 +1,69 @@
 header:
   title: Portfolio
   subtitle: Technical Projects & Experience
+
 technologies:
   - name: .NET Core
     category: Backend
+  - name: ASP.NET (WebAPI, MVC, Razor Pages)
+    category: Backend
+  - name: C#
+    category: Backend
+  - name: Node.js
+    category: Backend
   - name: TypeScript
+    category: Frontend
+  - name: JavaScript (ES6+)
     category: Frontend
   - name: React
     category: Frontend
   - name: Angular
     category: Frontend
-  - name: Node.js
-    category: Backend
+  - name: jQuery / jQueryUI
+    category: Frontend
+  - name: Redux, RxJS
+    category: Frontend
+  - name: HTML, CSS, Sass, Bootstrap
+    category: Frontend
   - name: Python
     category: Backend
-  - name: Docker
-    category: DevOps
-  - name: Azure
-    category: Cloud
-  - name: PowerShell
-    category: Automation
-  - name: SQL Server
+  - name: SQL Server / T-SQL
     category: Database
   - name: PostgreSQL
     category: Database
-  - name: CI/CD
+  - name: MySQL / MariaDB
+    category: Database
+  - name: MongoDB
+    category: Database
+  - name: DynamoDB
+    category: Database
+  - name: VoltDB
+    category: Database
+  - name: Docker
     category: DevOps
+  - name: Kubernetes / AKS
+    category: DevOps
+  - name: CI/CD (YAML Pipelines, Jenkins, Octopus, TeamCity)
+    category: DevOps
+  - name: Azure (Functions, ServiceBus, App Service, ARM, DataLake)
+    category: Cloud
+  - name: AWS (Lambda, SNS, SQS, EC2, S3, RDS, Dynamo)
+    category: Cloud
+  - name: Bash
+    category: Automation
+  - name: PowerShell (Carbon, Chocolatey, Psake, Pester)
+    category: Automation
+  - name: ORM (Entity Framework, Dapper, TypeORM)
+    category: Backend
+  - name: Testing (NUnit, Jasmine, Karma, Mocha, Sinon, Protractor, Moq)
+    category: QA
+  - name: Business Intelligence (PowerBI, Tableau, QuickSight)
+    category: Data/BI
+  - name: Design Patterns / SOLID / DDD
+    category: Architecture
+  - name: Agile / SCRUM
+    category: Methodology
+
 projects:
   - title: Backend Projects
     description: C# .NET, Node.js, TypeScript applications including APIs, microservices, and system integrations
@@ -36,30 +74,42 @@ projects:
     link: /projects?filter=frontend
     icon: '🎨'
   - title: Infrastructure & DevOps
-    description: Docker containerization, CI/CD pipelines, cloud deployments, and automation solutions
+    description: Docker containerization, Kubernetes, CI/CD pipelines, cloud deployments (Azure, AWS), and automation solutions
     link: /projects?filter=infrastructure
     icon: '☁️'
   - title: Automation & Tooling
-    description: PowerShell scripts, build tools, deployment automation, and developer productivity enhancements
+    description: PowerShell, Bash, build pipelines, deployment automation, developer productivity tools
     link: /projects?filter=automation
     icon: '⚡'
+  - title: Business Intelligence
+    description: Data visualization and reporting using PowerBI, Tableau, Amazon QuickSight
+    link: /projects?filter=bi
+    icon: '📊'
   - title: Open Source
-    description: Package manager contributions, community projects, and collaborative development efforts
+    description: Package manager contributions, GitHub projects, community-driven collaboration
     link: /projects?filter=open%20source
     icon: '🤝'
+
 stats:
   - number: '20+'
     label: Years Experience
-  - number: '12+'
+  - number: '25+'
     label: Technologies
   - number: '50+'
-    label: Projects
+    label: Projects Delivered
+  - number: '10+'
+    label: Languages & Frameworks
   - number: '5+'
     label: Cloud Platforms
   - number: '100+'
-    label: Deployments
+    label: CI/CD Automations
+  - number: '7'
+    label: Leadership Roles
+  - number: '4'
+    label: Countries (USA, Spain, Bulgaria, Remote Global)
   - number: Open Source
     label: Contributor
+
 seo:
   title: Welcome
-  description: Technical portfolio showcasing full-stack development, DevOps, and automation projects across .NET, TypeScript, React, Azure, and more.
+  description: Technical portfolio showcasing 20+ years of full-stack development, solution architecture, DevOps, cloud, and automation across .NET, TypeScript, React, Azure, AWS, and more.

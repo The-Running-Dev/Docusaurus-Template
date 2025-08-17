@@ -16,9 +16,6 @@ export interface GlobalConfig {
 
   /** Features configuration (optional) */
   features?: FeaturesConfig;
-
-  /** Projects configuration (optional) */
-  projects?: ProjectsConfig;
 }
 
 /**
@@ -104,9 +101,11 @@ export interface NavbarConfig {
  * Defines how projects data is loaded and accessed
  */
 export interface ProjectsConfig {
-  /** Data provider type - 'json' for static JSON files, 'http' for API */
-  provider: 'json' | 'http';
+  /** Location of the data - file path for 'json', URL for 'http' */
+  location: string;
+}
 
+export interface PortfolioConfig {
   /** Location of the data - file path for 'json', URL for 'http' */
   location: string;
 }

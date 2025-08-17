@@ -169,6 +169,7 @@ function processData(rawData: any[]) {
         (sum, sub) => sum + sub.projects.length,
         0
       );
+
       return totalProjectsB - totalProjectsA;
     });
 

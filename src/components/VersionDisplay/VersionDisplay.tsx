@@ -1,11 +1,10 @@
 import React from 'react';
 
-import FeatureComponent from '../FeatureComponent';
+import DataComponent from '../DataComponent';
+
 import { Features } from '../../config/FeaturesConfig';
 import { VersionConfig } from './models';
-
-// @ts-ignore
-import { version as configData } from '../../../data';
+import { DEFAULT_VERSION_DATA } from './constants';
 
 import './VersionDisplay.css';
 
@@ -29,11 +28,19 @@ const VersionDisplay: React.FC = () => {
   };
 
   return (
-    <FeatureComponent<VersionConfig>
+    <DataComponent<VersionConfig>
       feature={Features.VersionDisplay}
-      configData={configData}
+      defaultData={DEFAULT_VERSION_DATA}
     >
-      {(config) => {
+      {(config, loading, error) => {
+        if (loading) {
+          return <span className="version-display">Loading...</span>;
+        }
+
+        if (error) {
+          return <span className="version-display">v1.0.0</span>;
+        }
+
         const version = config.version || getDefaultVersion();
         const prefix = config.prefix || 'v';
         const displayText = `${prefix}${version}`;
@@ -67,7 +74,7 @@ const VersionDisplay: React.FC = () => {
           </span>
         );
       }}
-    </FeatureComponent>
+    </DataComponent>
   );
 };
 

@@ -1,18 +1,32 @@
 import Timeline from './CVTimeline';
 
-import FeatureComponent from '../FeatureComponent';
+import DataComponent from '../DataComponent';
 import { Features } from '../../config/FeaturesConfig';
-
-// @ts-ignore
-import { cvData as configData } from '../../../data';
+import { CVData } from './models';
+import { DEFAULT_CV_DATA } from './constants';
 
 import './cv.css';
 import './cv-reader.css';
 
 export default function CV() {
   return (
-    <FeatureComponent feature={Features.CVPage} configData={configData}>
-      {(userCVData) => {
+    <DataComponent<CVData> feature={Features.CVPage} defaultData={DEFAULT_CV_DATA}>
+      {(userCVData, loading, error, meta) => {
+        if (loading) {
+          return (
+            <div className="cv-wrap">
+              <p className="cv-muted">Loading CV data...</p>
+            </div>
+          );
+        }
+
+        if (error) {
+          return (
+            <div className="cv-wrap">
+              <p className="cv-muted">Failed to load CV data. Using default data.</p>
+            </div>
+          );
+        }
         if (!userCVData?.header) {
           // last-resort guard to avoid crashing the page
           return (
@@ -124,9 +138,21 @@ export default function CV() {
                 />
               </section>
             ) : null}
+
+            {process.env.NODE_ENV === 'development' && meta && (
+              <div className="debug-panel">
+                <h3>Debug Info</h3>
+                <p>Provider: {meta.provider}</p>
+                <p>Source: {meta.source}</p>
+                <p>Data Size: {meta.dataSize} bytes</p>
+                <p>Timestamp: {meta.timestamp}</p>
+                {meta.endpoint && <p>Endpoint: {meta.endpoint}</p>}
+                {meta.cached !== undefined && <p>Cached: {meta.cached ? 'Yes' : 'No'}</p>}
+              </div>
+            )}
           </div>
         );
       }}
-    </FeatureComponent>
+    </DataComponent>
   );
 }

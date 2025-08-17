@@ -23,6 +23,7 @@ export function calculateStats(categories: ProcessedCategory[]): ProjectStats {
       subCategory.projects.forEach((project) => {
         if (project.lastModified) {
           const projectDate = new Date(project.lastModified);
+
           if (projectDate >= sixMonthsAgo) {
             recentProjects++;
           }

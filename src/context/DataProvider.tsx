@@ -35,8 +35,8 @@ export interface DataContextValue<T = any> {
 
   /** Optional metadata about the data source */
   meta?: {
-    location?: string;
     provider?: string;
+    source?: string;
     [key: string]: any;
   };
 }
