@@ -1,7 +1,8 @@
+import DataProvider from '../DataProvider';
+import DebugInfo from '../DebugInfo';
+import Loading from '../Loading';
 import Timeline from './CVTimeline';
 
-import DataProviderComponent from '../DataComponent';
-import DebugInfo from '../DebugInfo';
 import { Features } from '../../config/FeaturesConfig';
 import { CVData } from './models';
 import { DEFAULT_CV_DATA } from './constants';
@@ -11,16 +12,17 @@ import './cv-reader.css';
 
 export default function CV() {
   return (
-    <DataProviderComponent<CVData>
+    <DataProvider<CVData>
       feature={Features.CVPage}
       defaultData={DEFAULT_CV_DATA}
     >
       {(userCVData, loading, error, meta) => {
         if (loading) {
           return (
-            <div className="cv-wrap">
-              <p className="cv-muted">Loading CV data...</p>
-            </div>
+            <Loading
+              message="🔄 Loading CV..."
+              useWrap={true}
+            />
           );
         }
 
@@ -28,7 +30,7 @@ export default function CV() {
           return (
             <div className="cv-wrap">
               <p className="cv-muted">
-                Failed to load CV data. Using default data.
+                Failed to Load CV Data. Using Default Data.
               </p>
             </div>
           );
@@ -37,7 +39,7 @@ export default function CV() {
           // last-resort guard to avoid crashing the page
           return (
             <div className="cv-wrap">
-              <p className="cv-muted">No CV data found.</p>
+              <p className="cv-muted">No CV Data Found.</p>
             </div>
           );
         }
@@ -149,27 +151,24 @@ export default function CV() {
               loading={loading}
               error={error}
               meta={meta}
-              customMetrics={[
+              metrics={[
                 {
-                  label: 'Roles',
-                  value: roles?.length || 0,
-                  icon: '💼'
+                  label: '💼 Roles',
+                  value: roles?.length || 0
                 },
                 {
-                  label: 'Education',
-                  value: education?.length || 0,
-                  icon: '🎓'
+                  label: '🎓 Education',
+                  value: education?.length || 0
                 },
                 {
-                  label: 'Badges',
-                  value: badges?.length || 0,
-                  icon: '🏆'
+                  label: '🏆 Badges',
+                  value: badges?.length || 0
                 }
               ]}
             />
           </div>
         );
       }}
-    </DataProviderComponent>
+    </DataProvider>
   );
 }

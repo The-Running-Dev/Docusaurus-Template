@@ -1,10 +1,12 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
+// import { useLocation } from '@docusaurus/router';
 
 import { useFeaturesConfig } from '../../config/FeaturesConfig';
 
 const PortfolioPageLinkNavbarItem: React.FC = () => {
   const featuresConfig = useFeaturesConfig();
+  const { pathname } = typeof window !== 'undefined' ? { pathname: window.location.pathname } : { pathname: '/' };
 
   // Don't render if Portfolio page is disabled
   if (!featuresConfig.portfolioPage) {
@@ -16,11 +18,14 @@ const PortfolioPageLinkNavbarItem: React.FC = () => {
     return null;
   }
 
+  const isActive = pathname === '/portfolio' || pathname.startsWith('/portfolio/');
+
   return (
     <Link
       to="/portfolio"
-      className="navbar__item navbar__link"
-      activeClassName="navbar__link--active"
+      className={`navbar__item navbar__link ${
+        isActive ? 'navbar__link--active' : ''
+      }`}
     >
       Portfolio
     </Link>

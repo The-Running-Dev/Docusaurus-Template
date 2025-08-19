@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DataProviderComponent from '../DataComponent';
+import DataProvider from '../DataProvider';
 
 import { Features } from '../../config/FeaturesConfig';
 import { VersionConfig } from './models';
@@ -28,17 +28,24 @@ const VersionDisplay: React.FC = () => {
   };
 
   return (
-    <DataProviderComponent<VersionConfig>
+    <DataProvider<VersionConfig>
       feature={Features.VersionDisplay}
       defaultData={DEFAULT_VERSION_DATA}
     >
-      {(config, loading, error) => {
+      {(config, loading, error, meta) => {
         if (loading) {
           return <span className="version-display">Loading...</span>;
         }
 
         if (error) {
           return <span className="version-display">v1.0.0</span>;
+        }
+
+        // Ensure config is not null/undefined
+        if (!config) {
+          return (
+            <span className="version-display">v{getDefaultVersion()}</span>
+          );
         }
 
         const version = config.version || getDefaultVersion();
@@ -74,7 +81,7 @@ const VersionDisplay: React.FC = () => {
           </span>
         );
       }}
-    </DataProviderComponent>
+    </DataProvider>
   );
 };
 

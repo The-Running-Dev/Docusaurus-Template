@@ -16,6 +16,26 @@
                 "focus": false,
                 "panel": "new"
             }
+        },
+        {
+            "label": "verify",
+            "type": "shell",
+            "command": "npm run verify",
+            "options": { "cwd": "${workspaceFolder}" },
+            "problemMatcher": ["$tsc", "$eslint-stylish"]
+        },
+        {
+            "label": "test",
+            "type": "shell",
+            "command": "npm test --silent",
+            "options": { "cwd": "${workspaceFolder}" },
+            "problemMatcher": ["$ts-jest"] 
+        },
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "npm run build",
+            "options": { "cwd": "${workspaceFolder}" }
         }
     ]
 }

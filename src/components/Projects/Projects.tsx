@@ -1,11 +1,13 @@
 import type { ReactNode, RefObject } from 'react';
 import { useState, useEffect } from 'react';
 
-import DataProviderComponent from '../DataComponent';
+import DataProvider from '../DataProvider';
 import DebugInfo from '../DebugInfo';
+import Loading from '../Loading';
 import { Features } from '../../config/FeaturesConfig';
 import { type ProcessedCategory, type ProcessedProjectData } from './models';
 import { useProcessor, useUrlFilter, useSearch, useScrollRefs } from './hooks';
+import { FilterErrorBoundary } from './hooks/FilterErrorBoundary';
 import {
   FilterButton,
   SearchBox,
@@ -17,35 +19,27 @@ import { DEFAULT_PROJECTS_DATA } from './constants';
 
 import './projects.css';
 import './projects-reader.css';
+import './hooks/filter-transitions.css';
 
 /**
- * Enhanced Projects component using DataProviderComponent architecture
+ * Enhanced Projects component using DataProvider architecture
  * This component works with static or http data and provides
  * all filtering/search functionality
  */
 export default function Projects(): ReactNode {
   return (
-    <DataProviderComponent
+    <DataProvider
       feature={Features.ProjectsPage}
       defaultData={DEFAULT_PROJECTS_DATA}
     >
-      {(rawData, loading, error, meta) => {
+      {(data, loading, error, meta) => {
         if (loading) {
           return (
-            <div className="portfolio-wrap">
-              <div style={{ padding: '2rem', textAlign: 'center' }}>
-                <p className="portfolio-muted">🔄 Loading Projects...</p>
-                <p
-                  style={{
-                    fontSize: '0.9rem',
-                    color: '#666',
-                    marginTop: '0.5rem'
-                  }}
-                >
-                  Fetching Data and Filtering...
-                </p>
-              </div>
-            </div>
+            <Loading
+              message="🔄 Loading Projects..."
+              secondaryMessage="Fetching Data and Filtering..."
+              useWrap={true}
+            />
           );
         }
 
@@ -79,7 +73,7 @@ export default function Projects(): ReactNode {
           );
         }
 
-        if (!Array.isArray(rawData) || rawData.length === 0) {
+        if (!Array.isArray(data) || data.length === 0) {
           return (
             <div className="portfolio-wrap">
               <p className="portfolio-muted">No Projects Found.</p>
@@ -87,9 +81,13 @@ export default function Projects(): ReactNode {
           );
         }
 
-        return <ProjectsContent rawData={rawData} meta={meta} />;
+        return (
+          <FilterErrorBoundary>
+            <ProjectsContent rawData={data} meta={meta} />
+          </FilterErrorBoundary>
+        );
       }}
-    </DataProviderComponent>
+    </DataProvider>
   );
 }
 
@@ -104,7 +102,7 @@ function ProjectsContent({
   rawData: any[];
   meta?: any;
 }): ReactNode {
-  const [selectedFilter, setSelectedFilter] = useUrlFilter();
+  const { selectedFilter, setSelectedFilter, isLoading: isFilterLoading, error: filterError } = useUrlFilter();
   const [selectedDateRange, setSelectedDateRange] = useState('most-recent');
   const [showAllTags, setShowAllTags] = useState(false);
   const { searchTerm, setSearchTerm, searchInputRef, handleClearSearch } =
@@ -198,13 +196,7 @@ function ProjectsContent({
 
   // Handle processing loading
   if (processingLoading || !processedData) {
-    return (
-      <div className="portfolio-wrap">
-        <div style={{ padding: '2rem', textAlign: 'center' }}>
-          <p className="portfolio-muted">🔄 Processing Data...</p>
-        </div>
-      </div>
-    );
+    return <Loading message="🔄 Processing Data..." useWrap={true} />;
   }
 
   return (
@@ -228,15 +220,27 @@ function ProjectsContent({
           projectsRef={projectsRef}
           scrollToProjects={scrollToProjects}
           scrollToFilters={scrollToFilters}
+          isFilterLoading={isFilterLoading}
         />
       </main>
       <DebugInfo
         meta={meta}
-        customMetrics={[
+        metrics={[
           {
-            label: 'Projects',
-            value: processedData.stats.totalProjects,
-            icon: '📊'
+            label: '📁 Projects',
+            value: processedData.stats.totalProjects
+          },
+          {
+            label: '🕒 Recent',
+            value: processedData.stats.recentProjects
+          },
+          {
+            label: '🧬 Technologies',
+            value: processedData.stats.totalTechnologies
+          },
+          {
+            label: '📅 Average Age',
+            value: processedData.stats.averageAge
           }
         ]}
       />
@@ -259,7 +263,8 @@ function ProjectCategories({
   filtersRef,
   projectsRef,
   scrollToProjects,
-  scrollToFilters
+  scrollToFilters,
+  isFilterLoading
 }: {
   processedData: ProcessedProjectData;
   searchTerm: string;
@@ -276,6 +281,7 @@ function ProjectCategories({
   projectsRef: RefObject<HTMLDivElement>;
   scrollToProjects: () => void;
   scrollToFilters: () => void;
+  isFilterLoading: boolean;
 }) {
   const filteredProjectCount = processedData.categories.reduce(
     (total, category) =>
@@ -361,6 +367,7 @@ function ProjectCategories({
                     option={option}
                     isSelected={isActive}
                     isDisabled={!!searchTerm}
+                    isLoading={isFilterLoading}
                     hasSearchResults={hasSearchResults}
                     searchResultCount={searchResultCount}
                     totalCount={totalCategoryProjects}
@@ -406,6 +413,7 @@ function ProjectCategories({
                     option={option}
                     isSelected={isActive}
                     isDisabled={!!searchTerm}
+                    isLoading={isFilterLoading}
                     hasSearchResults={hasSearchResults}
                     searchResultCount={searchResultCount}
                     totalCount={totalTechnologyProjects}

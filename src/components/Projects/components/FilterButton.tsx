@@ -8,6 +8,7 @@ export function FilterButton({
   option,
   isSelected,
   isDisabled,
+  isLoading = false,
   hasSearchResults = false,
   searchResultCount = 0,
   totalCount = 0,
@@ -22,10 +23,19 @@ export function FilterButton({
   };
 
   const getButtonClass = () => {
-    if (searchTerm) {
-      return hasSearchResults ? 'active disabled' : 'disabled';
+    let classes = [];
+    
+    if (isLoading) {
+      classes.push('loading');
     }
-    return isSelected ? 'active' : '';
+    
+    if (searchTerm) {
+      classes.push(hasSearchResults ? 'active disabled' : 'disabled');
+    } else {
+      if (isSelected) classes.push('active');
+    }
+    
+    return classes.join(' ');
   };
 
   return (

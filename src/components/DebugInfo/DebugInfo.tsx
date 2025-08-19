@@ -1,5 +1,11 @@
 import type { ReactNode } from 'react';
 
+export interface DebugMetric {
+  label: string;
+  value: string | number;
+  icon?: string;
+}
+
 export interface DebugInfoProps {
   loading?: boolean;
   error?: Error | null;
@@ -8,29 +14,22 @@ export interface DebugInfoProps {
     cached?: boolean;
     [key: string]: any;
   };
-  data?: {
-    technologies?: any[];
-    projects?: any[];
-    stats?: any[];
-    [key: string]: any;
-  };
-  customMetrics?: Array<{
-    label: string;
-    value: string | number;
-    icon?: string;
-  }>;
+  metrics?: DebugMetric[];
 }
 
 export default function DebugInfo({
   loading,
   error,
   meta,
-  data,
-  customMetrics
+  metrics = []
 }: DebugInfoProps): ReactNode {
   if (process.env.NODE_ENV !== 'development') {
     return null;
   }
+
+  const statusIcon = loading ? 'LOADING' : error ? 'ERROR' : 'LOADED';
+  const providerInfo = meta?.provider || 'DEFAULT';
+  const cacheStatus = meta?.cached ? '(CACHED)' : '';
 
   return (
     <div
@@ -46,31 +45,12 @@ export default function DebugInfo({
         zIndex: 1000
       }}
     >
-      🔧 Data:{' '}
-      {loading ? 'LOADING' : error ? 'ERROR' : meta?.provider || 'LOADED'}{' '}
-      {meta?.cached ? '(CACHED)' : ''}
-      {data?.technologies && (
-        <>
-          <br />
-          📊 Technologies: {data.technologies.length || 0}
-        </>
-      )}
-      {data?.projects && (
-        <>
-          <br />
-          📦 Projects: {data.projects.length || 0}
-        </>
-      )}
-      {data?.stats && (
-        <>
-          <br />
-          📈 Stats: {data.stats.length || 0}
-        </>
-      )}
-      {customMetrics?.map((metric, index) => (
+      🔧 Data: {statusIcon} | {providerInfo} {cacheStatus}
+      {metrics.map((metric, index) => (
         <span key={index}>
           <br />
-          {metric.icon || '📊'} {metric.label}: {metric.value}
+          {metric.icon ? `${metric.icon} ` : ''}
+          {metric.label}: {metric.value}
         </span>
       ))}
     </div>

@@ -63,6 +63,8 @@ export function useDataContext<T = any>(): DataContextValue<T> {
  * Base data provider props
  */
 export interface DataProviderProps {
+  source?: string;
+
   children: ReactNode;
 }
 

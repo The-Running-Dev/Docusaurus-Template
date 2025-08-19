@@ -26,9 +26,6 @@ const DEFAULT_CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
  * API Data Provider configuration
  */
 export interface HttpDataProviderProps extends DataProviderProps {
-  /** API endpoint URL */
-  endpoint?: string;
-
   /** Additional request options */
   options?: RequestInit;
 
@@ -54,7 +51,7 @@ export interface HttpDataProviderProps extends DataProviderProps {
  */
 export function HttpDataProvider({
   children,
-  endpoint,
+  source,
   options,
   autoFetch = true,
   enableCache = true,
@@ -62,10 +59,10 @@ export function HttpDataProvider({
 }: HttpDataProviderProps): ReactNode {
   // Construct API URL with query parameters
   const apiUrl = useMemo(() => {
-    const url = new URL(endpoint);
+    const url = new URL(source);
 
     return url.toString();
-  }, [endpoint]);
+  }, [source]);
 
   // Check cache before making API call
   const getCachedData = useCallback(() => {

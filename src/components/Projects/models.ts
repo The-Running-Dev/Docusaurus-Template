@@ -98,6 +98,7 @@ export interface FilterButtonProps {
   option: FilterOption;
   isSelected: boolean;
   isDisabled: boolean;
+  isLoading?: boolean;
   hasSearchResults?: boolean;
   searchResultCount?: number;
   totalCount?: number;

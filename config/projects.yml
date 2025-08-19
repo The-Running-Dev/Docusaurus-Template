@@ -214,14 +214,14 @@
             - Screenshot
             - Web Tools
 
-    - name: 'NodeJS'
+    - name: 'Node.JS'
       projects:
         - title: 'BarStrad-Bot'
           link: 'https://github.com/The-Running-Dev/BarStrad-Bot'
           lastModified: ''
           summary: 'A TypeScript-based Discord bot for restaurants and bars, featuring multilingual support, order management, and containerized deployment.'
           tags:
-            - NodeJS
+            - Node.JS
             - TypeScript
             - Discord.js
             - Restaurant
@@ -231,9 +231,9 @@
         - title: 'Docker-Webhooks'
           link: 'https://github.com/The-Running-Dev/Docker-Webhooks'
           lastModified: 2025-04-08T08:34:00Z
-          summary: 'A NodeJS API with Express to manage local docker containers. I created this to expose through Cloudflared, so I can pull and update my local running Docker images based on posting a Webhook from a GitHub workflow. Still in progress.'
+          summary: 'A Node.JS API with Express to manage local docker containers. I created this to expose through Cloudflared, so I can pull and update my local running Docker images based on posting a Webhook from a GitHub workflow. Still in progress.'
           tags:
-            - NodeJS
+            - Node.JS
             - Express
             - Docker
             - Cloudflare
@@ -242,9 +242,9 @@
         - title: 'NetAssure API'
           link: 'https://github.com/The-Running-Dev/Demo-NetAssure/tree/master/web-client/server'
           lastModified: 2019-04-16T21:23:00Z
-          summary: 'A project for a network hardware company that aims to manage and expose device data hosted in Zabbix. This is the web API, written on top of NodeJS with Express and hosted on CentOS. This project used Docker and Docker Compose for managing the app code and infrastructure, and TeamCity as the build server, on top of CentOS.'
+          summary: 'A project for a network hardware company that aims to manage and expose device data hosted in Zabbix. This is the web API, written on top of Node.JS with Express and hosted on CentOS. This project used Docker and Docker Compose for managing the app code and infrastructure, and TeamCity as the build server, on top of CentOS.'
           tags:
-            - NodeJS
+            - Node.JS
             - Express
             - Docker
             - TeamCity
@@ -257,7 +257,7 @@
           lastModified: 2019-04-16T21:23:00Z
           summary: 'A project that triggers sending notifications to an user when certain conditions are met. Made to be hosted as a micro-service on AWS Lambda.'
           tags:
-            - NodeJS
+            - Node.JS
             - AWS Lambda
             - Microservices
             - Notifications
@@ -267,7 +267,7 @@
           lastModified: 2017-07-19T00:07:00Z
           summary: 'A demo application as a micro service I created as a take home project for a company I interviewed with. It takes the user’s ZIP code, calls an external API to get the weather for that service, and then suggest the appropriate clothing to buy. It comes with a simple Angular UI to be able to test the application locally without constructing the initial API call yourself. The UI demo no longer functions as the underlying weather API has changed.'
           tags:
-            - NodeJS
+            - Node.JS
             - Angular
             - REST API
             - Weather

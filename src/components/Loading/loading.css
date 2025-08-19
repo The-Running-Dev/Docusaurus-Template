@@ -1,0 +1,75 @@
+/* ===== LOADING COMPONENT STYLES ===== */
+
+/* Loading container with portfolio-style wrapper */
+.loading-wrap {
+  background: var(--ifm-background-surface-color);
+  border-radius: var(--ifm-global-radius);
+  box-shadow: var(--ifm-global-shadow-lw);
+  padding: 2rem;
+  text-align: center;
+  margin: 1rem 0;
+  border: 1px solid var(--ifm-color-emphasis-300);
+}
+
+/* Loading container without wrapper styling */
+.loading-container {
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Primary loading message text */
+.loading-message {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+/* Secondary loading message text */
+.loading-secondary {
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.9rem;
+  margin: 0;
+  margin-top: 0.5rem;
+}
+
+/* Muted text style (similar to portfolio-muted) */
+.loading-muted {
+  color: var(--ifm-color-emphasis-500);
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+/* Loading animation for the emoji */
+.loading-message:first-child {
+  animation: loading-pulse 2s ease-in-out infinite;
+}
+
+@keyframes loading-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Dark theme adjustments */
+[data-theme='dark'] .loading-wrap {
+  background: var(--ifm-card-background-color);
+  border-color: var(--ifm-color-emphasis-300);
+}
+
+[data-theme='dark'] .loading-message {
+  color: var(--ifm-color-emphasis-700);
+}
+
+[data-theme='dark'] .loading-secondary {
+  color: var(--ifm-color-emphasis-600);
+}
+
+[data-theme='dark'] .loading-muted {
+  color: var(--ifm-color-emphasis-600);
+}

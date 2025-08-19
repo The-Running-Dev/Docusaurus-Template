@@ -66,7 +66,6 @@ const config: Config = {
           type: 'custom-NavBarLinks',
           position: 'left'
         },
-
         {
           type: 'custom-VersionDisplay',
           position: 'right'

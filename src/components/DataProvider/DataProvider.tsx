@@ -4,9 +4,11 @@ import {
   FeatureToConfigMap,
   Features
 } from '../../config/FeaturesConfig';
-import { getData } from '../../data';
+
 import JsonDataProvider from '../../context/JsonDataProvider';
 import HttpDataProvider from '../../context/HttpDataProvider';
+
+import { getData } from '../../data';
 import { useDataContext } from '../../context/DataProvider';
 import { DataProviderComponentProps } from './models';
 
@@ -22,13 +24,13 @@ function getProviderType(source: string): 'json' | 'http' {
 }
 
 /**
- * DataProviderComponent - Provides data based on feature flags and configuration
+ * DataProvider - Provides data based on feature flags and configuration
  *
  * This component wraps the data fetching logic and provides a consistent interface
  * for consuming data in React components. It supports both static JSON data and
  * dynamic HTTP data sources.
  */
-function DataProviderComponent<TData = any, TProcessedData = TData>({
+function DataProvider<TData = any, TProcessedData = TData>({
   feature,
   defaultData,
   processor,
@@ -37,7 +39,7 @@ function DataProviderComponent<TData = any, TProcessedData = TData>({
   TData,
   TProcessedData
 >): React.ReactElement | null {
-  const isEnabled = useFeatureFlag(feature);
+  const isEnabled = feature ? useFeatureFlag(feature) : true;
 
   if (!isEnabled) {
     return null;
@@ -45,15 +47,19 @@ function DataProviderComponent<TData = any, TProcessedData = TData>({
 
   // Check if there's a configured data source
   const dataConfig = useMemo(() => {
+    if (!feature) {
+      return null;
+    }
+    
     try {
       const globalConfigData = getData(configData);
       const configKey = FeatureToConfigMap[feature as Features];
       const featureConfig = globalConfigData[configKey];
 
-      if (featureConfig?.data) {
+      if (featureConfig?.source) {
         return {
-          source: featureConfig.data,
-          provider: getProviderType(featureConfig.data)
+          source: featureConfig.source,
+          provider: getProviderType(featureConfig.source)
         };
       }
     } catch (error) {
@@ -68,14 +74,14 @@ function DataProviderComponent<TData = any, TProcessedData = TData>({
     if (dataConfig.provider === 'http') {
       // Use HttpDataProvider for HTTP URLs
       return (
-        <HttpDataProvider endpoint={dataConfig.source} autoFetch={true}>
+        <HttpDataProvider source={dataConfig.source} autoFetch={true}>
           <DataRenderer processor={processor}>{children}</DataRenderer>
         </HttpDataProvider>
       );
     } else {
       // Use JsonDataProvider for local file paths
       return (
-        <JsonDataProvider data={defaultData}>
+        <JsonDataProvider data={defaultData} source={dataConfig.source}>
           <DataRenderer processor={processor}>{children}</DataRenderer>
         </JsonDataProvider>
       );
@@ -132,4 +138,4 @@ function DataRenderer<TData = any, TProcessedData = TData>({
   );
 }
 
-export default DataProviderComponent;
+export default DataProvider;

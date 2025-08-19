@@ -15,7 +15,8 @@ export interface JsonDataProviderProps extends DataProviderProps {
 
 export function JsonDataProvider({
   children,
-  data
+  data,
+  source
 }: JsonDataProviderProps): ReactNode {
   // Static data doesn't have loading states since it's imported at build time
   const loadingState: DataLoadingState = useMemo(
@@ -38,12 +39,12 @@ export function JsonDataProvider({
       meta: {
         provider: 'JSON',
         source: 'static',
-        location: location || 'default',
+        location: source || 'default',
         timestamp: new Date().toISOString(),
         dataSize: data ? JSON.stringify(data).length : 0
       }
     }),
-    [data, loadingState]
+    [data, loadingState, source]
   );
 
   return <DataProvider value={contextValue}>{children}</DataProvider>;

@@ -1,0 +1,211 @@
+/* ===== TOOLTIP COMPONENT STYLES ===== */
+
+.tooltip-wrapper {
+  position: relative;
+  /* Let the wrapper take the natural size of its child */
+}
+
+/* Main tooltip container */
+.tooltip {
+  position: absolute;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  
+  /* Large, prominent sizing */
+  min-width: 280px;
+  max-width: 400px;
+}
+
+/* Position variations */
+.tooltip--top {
+  bottom: calc(100% + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tooltip--bottom {
+  top: calc(100% + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tooltip--left {
+  right: calc(100% + 16px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.tooltip--right {
+  left: calc(100% + 16px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Show tooltip on wrapper hover */
+.tooltip-wrapper:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Tooltip content box */
+.tooltip__content {
+  background: var(--ifm-color-emphasis-900);
+  color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--ifm-color-emphasis-700);
+  overflow: hidden;
+}
+
+/* Dark theme adjustments */
+[data-theme='dark'] .tooltip__content {
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-color-emphasis-900);
+  border-color: var(--ifm-color-emphasis-300);
+}
+
+/* Tooltip header */
+.tooltip__header {
+  background: var(--ifm-color-primary);
+  color: #ffffff;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] .tooltip__header {
+  background: var(--ifm-color-primary-dark);
+}
+
+.tooltip__title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+  display: block;
+}
+
+/* Tooltip body */
+.tooltip__body {
+  padding: 1rem;
+}
+
+/* Tags container */
+.tooltip__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Individual tag styling */
+.tooltip__tag {
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-800);
+  padding: 0.4rem 0.7rem;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  transition: all 0.2s ease;
+  
+  /* Tag hover effect */
+}
+
+.tooltip__tag:hover {
+  background: var(--ifm-color-primary-lightest);
+  color: var(--ifm-color-primary-darkest);
+  border-color: var(--ifm-color-primary);
+  transform: translateY(-1px);
+}
+
+[data-theme='dark'] .tooltip__tag {
+  background: var(--ifm-color-emphasis-700);
+  color: var(--ifm-color-emphasis-100);
+  border-color: var(--ifm-color-emphasis-600);
+}
+
+[data-theme='dark'] .tooltip__tag:hover {
+  background: var(--ifm-color-primary-darkest);
+  color: var(--ifm-color-primary-lightest);
+  border-color: var(--ifm-color-primary-light);
+}
+
+/* Tooltip arrows */
+.tooltip__arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.tooltip__arrow--top {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-top-color: var(--ifm-color-emphasis-900);
+}
+
+.tooltip__arrow--bottom {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-bottom-color: var(--ifm-color-emphasis-900);
+}
+
+.tooltip__arrow--left {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 8px solid transparent;
+  border-left-color: var(--ifm-color-emphasis-900);
+}
+
+.tooltip__arrow--right {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 8px solid transparent;
+  border-right-color: var(--ifm-color-emphasis-900);
+}
+
+/* Dark theme arrow colors */
+[data-theme='dark'] .tooltip__arrow--top {
+  border-top-color: var(--ifm-color-emphasis-100);
+}
+
+[data-theme='dark'] .tooltip__arrow--bottom {
+  border-bottom-color: var(--ifm-color-emphasis-100);
+}
+
+[data-theme='dark'] .tooltip__arrow--left {
+  border-left-color: var(--ifm-color-emphasis-100);
+}
+
+[data-theme='dark'] .tooltip__arrow--right {
+  border-right-color: var(--ifm-color-emphasis-100);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .tooltip {
+    min-width: 250px;
+    max-width: 300px;
+  }
+  
+  .tooltip__header {
+    padding: 0.6rem 0.8rem;
+  }
+  
+  .tooltip__body {
+    padding: 0.8rem;
+  }
+  
+  .tooltip__tag {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+  }
+}

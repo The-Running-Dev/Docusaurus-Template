@@ -5,6 +5,17 @@
     }
   ],
   "settings": {
-    "claudeCodeChat.permissions.yoloMode": true
+    "claudeCodeChat.permissions.yoloMode": true,
+    // Turn Agent mode on and let it run workspace tasks
+    "chat.agent.enabled": true,
+    "github.copilot.chat.agent.runTasks": true,
+    "github.copilot.chat.agent.autoFix": true,
+
+    // Prefer terse chat: disable conversation summarization
+    // (Settings UI: GitHub > Copilot > Chat > “Summarize Agent Conversation History”)
+    "github.copilot.chat.summarizeAgentConversationHistory": false,
+
+    // Make terminals & tools run from your project root
+    "terminal.integrated.cwd": "${workspaceFolder}"
   }
 }

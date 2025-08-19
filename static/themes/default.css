@@ -854,13 +854,13 @@ a:hover {
 }
 
 .navbar__link:hover {
-  color: var(--ifm-link-color) !important;
+  color: var(--ifm-link-hover-color) !important;
 }
 
 /* Active navbar link with theme-aware emphasis */
 .navbar__item--active .navbar__link,
 .navbar__link--active {
-  color: var(--ifm-link-color) !important;
+  color: var(--ifm-link-hover-color) !important;
   font-weight: 600;
 }
 

@@ -27,7 +27,7 @@
 
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 0.5rem;
   max-width: 750px;
   margin: 0 auto;
@@ -207,6 +207,19 @@
   display: inline-block;
   background: var(--ifm-color-emphasis-700);
   margin: 0 auto;
+}
+
+/* Sub-categories indicator styling */
+.techIndicator {
+  font-size: 0.7rem;
+  color: var(--ifm-color-primary);
+  margin-left: 0.3rem;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.tooltip-wrapper:hover .techIndicator {
+  opacity: 1;
 }
 
 @media screen and (max-width: 768px) {

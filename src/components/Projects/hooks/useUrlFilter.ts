@@ -1,44 +1,180 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect, useCallback, useRef, useMemo } from 'react';
+
+// Constants
+const DEBOUNCE_DELAY = 200;
+const MAX_RETRY_ATTEMPTS = 3;
+
+// TypeScript interfaces
+export interface FilterState {
+  value: string;
+  isLoading: boolean;
+  error: string | null;
+}
+
+export interface FilterOptions {
+  debounceMs?: number;
+  maxRetries?: number;
+}
+
+export interface UseUrlFilterReturn {
+  selectedFilter: string;
+  setSelectedFilter: (filter: string) => void;
+  isLoading: boolean;
+  error: string | null;
+}
 
 /**
  * Custom hook for managing filter state with URL synchronization
- * Handles reading filter from URL params on load and updating URL when filter changes
+ * Debounces URL updates for improved performance and better SPA behavior
  */
-export function useUrlFilter() {
+export function useUrlFilter(options: FilterOptions = {}): UseUrlFilterReturn {
+  const { debounceMs = DEBOUNCE_DELAY, maxRetries = MAX_RETRY_ATTEMPTS } = options;
+  
   const [selectedFilter, setSelectedFilter] = useState('most-recent');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const debounceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isInitializedRef = useRef(false);
+  const retryCountRef = useRef(0);
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const filterParam = urlParams.get('filter');
-
-    if (filterParam) {
-      setSelectedFilter(filterParam);
+  // Memoized URL params parsing for performance
+  const currentUrlParams = useMemo(() => {
+    if (typeof window === 'undefined') return null;
+    try {
+      return new URLSearchParams(window.location.search);
+    } catch {
+      return null;
     }
   }, []);
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
+  // Initialize filter from URL params on mount (synchronous)
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined' || isInitializedRef.current) return;
 
-    const url = new URL(window.location.href);
-    const current = url.searchParams.get('filter') ?? null;
-    const desired =
-      selectedFilter && selectedFilter !== 'most-recent'
-        ? selectedFilter
-        : null;
+    try {
+      const filterParam = currentUrlParams?.get('filter');
 
-    // No-op if already matches to avoid redundant history updates
-    if (current === desired) return;
+      if (filterParam) {
+        setSelectedFilter(filterParam);
+      }
+      
+      isInitializedRef.current = true;
+      setError(null);
+    } catch (err) {
+      const errorMsg = `Failed to parse URL params: ${err}`;
+      console.warn(errorMsg);
+      setError(errorMsg);
+      isInitializedRef.current = true;
+    }
+  }, [currentUrlParams]);
 
-    if (desired) {
-      url.searchParams.set('filter', desired);
-    } else {
-      url.searchParams.delete('filter');
+  // Retry mechanism for URL operations
+  const retryUrlOperation = useCallback((operation: () => void, attemptCount = 0) => {
+    try {
+      operation();
+      retryCountRef.current = 0;
+      setError(null);
+    } catch (err) {
+      const errorMsg = `URL operation failed: ${err}`;
+      console.warn(errorMsg);
+      
+      if (attemptCount < maxRetries) {
+        setTimeout(() => retryUrlOperation(operation, attemptCount + 1), 100 * (attemptCount + 1));
+      } else {
+        setError(errorMsg);
+        setSelectedFilter('most-recent'); // Fallback recovery
+      }
+    }
+  }, [maxRetries]);
+
+  // Debounced URL update function
+  const updateUrl = useCallback((filter: string) => {
+    if (typeof window === 'undefined' || !isInitializedRef.current) return;
+
+    // Clear existing timeout
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
     }
 
-    window.history.replaceState(null, '', url.toString());
+    setIsLoading(true);
+    
+    // Debounce URL updates to prevent excessive history entries
+    debounceTimeoutRef.current = setTimeout(() => {
+      const urlOperation = () => {
+        const url = new URL(window.location.href);
+        const desired = filter && filter !== 'most-recent' ? filter : null;
+        const current = url.searchParams.get('filter') ?? null;
+
+        // No-op if already matches to avoid redundant history updates
+        if (current === desired) {
+          setIsLoading(false);
+          return;
+        }
+
+        if (desired) {
+          url.searchParams.set('filter', desired.toLowerCase());
+        } else {
+          url.searchParams.delete('filter');
+        }
+
+        const newUrl = url.pathname + (url.search ? url.search : '');
+
+        // Only update if the URL actually changed
+        if (window.location.pathname + window.location.search !== newUrl) {
+          window.history.replaceState(
+            { ...window.history.state, filter },
+            '',
+            newUrl
+          );
+        }
+        
+        setIsLoading(false);
+      };
+
+      retryUrlOperation(urlOperation);
+    }, debounceMs);
+  }, [debounceMs, retryUrlOperation]);
+
+  // Update URL when filter changes (debounced)
+  useEffect(() => {
+    updateUrl(selectedFilter);
+  }, [selectedFilter, updateUrl]);
+
+  // Clean up timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Handle browser back/forward navigation
+  const handlePopState = useCallback(() => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const filterParam = urlParams.get('filter') || 'most-recent';
+      
+      if (filterParam !== selectedFilter) {
+        setSelectedFilter(filterParam);
+        setError(null);
+      }
+    } catch (err) {
+      const errorMsg = `Failed to handle popstate: ${err}`;
+      console.warn(errorMsg);
+      setError(errorMsg);
+    }
   }, [selectedFilter]);
 
-  return [selectedFilter, setSelectedFilter] as const;
+  useEffect(() => {
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [handlePopState]);
+
+  return {
+    selectedFilter,
+    setSelectedFilter,
+    isLoading,
+    error
+  };
 }
