@@ -6,7 +6,10 @@ import { useFeaturesConfig } from '../../config/FeaturesConfig';
 
 const CVPageLinkNavbarItem: React.FC = () => {
   const featuresConfig = useFeaturesConfig();
-  const { pathname } = typeof window !== 'undefined' ? { pathname: window.location.pathname } : { pathname: '/' };
+  const { pathname } =
+    typeof window !== 'undefined'
+      ? { pathname: window.location.pathname }
+      : { pathname: '/' };
 
   // Don't render if CV page is disabled
   if (!featuresConfig.cvPage) {

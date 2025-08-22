@@ -1,4 +1,11 @@
-import { useState, useEffect, useLayoutEffect, useCallback, useRef, useMemo } from 'react';
+import {
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useCallback,
+  useRef,
+  useMemo
+} from 'react';
 
 // Constants
 const DEBOUNCE_DELAY = 200;
@@ -28,8 +35,9 @@ export interface UseUrlFilterReturn {
  * Debounces URL updates for improved performance and better SPA behavior
  */
 export function useUrlFilter(options: FilterOptions = {}): UseUrlFilterReturn {
-  const { debounceMs = DEBOUNCE_DELAY, maxRetries = MAX_RETRY_ATTEMPTS } = options;
-  
+  const { debounceMs = DEBOUNCE_DELAY, maxRetries = MAX_RETRY_ATTEMPTS } =
+    options;
+
   const [selectedFilter, setSelectedFilter] = useState('most-recent');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -57,7 +65,7 @@ export function useUrlFilter(options: FilterOptions = {}): UseUrlFilterReturn {
       if (filterParam) {
         setSelectedFilter(filterParam);
       }
-      
+
       isInitializedRef.current = true;
       setError(null);
     } catch (err) {
@@ -69,71 +77,80 @@ export function useUrlFilter(options: FilterOptions = {}): UseUrlFilterReturn {
   }, [currentUrlParams]);
 
   // Retry mechanism for URL operations
-  const retryUrlOperation = useCallback((operation: () => void, attemptCount = 0) => {
-    try {
-      operation();
-      retryCountRef.current = 0;
-      setError(null);
-    } catch (err) {
-      const errorMsg = `URL operation failed: ${err}`;
-      console.warn(errorMsg);
-      
-      if (attemptCount < maxRetries) {
-        setTimeout(() => retryUrlOperation(operation, attemptCount + 1), 100 * (attemptCount + 1));
-      } else {
-        setError(errorMsg);
-        setSelectedFilter('most-recent'); // Fallback recovery
+  const retryUrlOperation = useCallback(
+    (operation: () => void, attemptCount = 0) => {
+      try {
+        operation();
+        retryCountRef.current = 0;
+        setError(null);
+      } catch (err) {
+        const errorMsg = `URL operation failed: ${err}`;
+        console.warn(errorMsg);
+
+        if (attemptCount < maxRetries) {
+          setTimeout(
+            () => retryUrlOperation(operation, attemptCount + 1),
+            100 * (attemptCount + 1)
+          );
+        } else {
+          setError(errorMsg);
+          setSelectedFilter('most-recent'); // Fallback recovery
+        }
       }
-    }
-  }, [maxRetries]);
+    },
+    [maxRetries]
+  );
 
   // Debounced URL update function
-  const updateUrl = useCallback((filter: string) => {
-    if (typeof window === 'undefined' || !isInitializedRef.current) return;
+  const updateUrl = useCallback(
+    (filter: string) => {
+      if (typeof window === 'undefined' || !isInitializedRef.current) return;
 
-    // Clear existing timeout
-    if (debounceTimeoutRef.current) {
-      clearTimeout(debounceTimeoutRef.current);
-    }
+      // Clear existing timeout
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
 
-    setIsLoading(true);
-    
-    // Debounce URL updates to prevent excessive history entries
-    debounceTimeoutRef.current = setTimeout(() => {
-      const urlOperation = () => {
-        const url = new URL(window.location.href);
-        const desired = filter && filter !== 'most-recent' ? filter : null;
-        const current = url.searchParams.get('filter') ?? null;
+      setIsLoading(true);
 
-        // No-op if already matches to avoid redundant history updates
-        if (current === desired) {
+      // Debounce URL updates to prevent excessive history entries
+      debounceTimeoutRef.current = setTimeout(() => {
+        const urlOperation = () => {
+          const url = new URL(window.location.href);
+          const desired = filter && filter !== 'most-recent' ? filter : null;
+          const current = url.searchParams.get('filter') ?? null;
+
+          // No-op if already matches to avoid redundant history updates
+          if (current === desired) {
+            setIsLoading(false);
+            return;
+          }
+
+          if (desired) {
+            url.searchParams.set('filter', desired.toLowerCase());
+          } else {
+            url.searchParams.delete('filter');
+          }
+
+          const newUrl = url.pathname + (url.search ? url.search : '');
+
+          // Only update if the URL actually changed
+          if (window.location.pathname + window.location.search !== newUrl) {
+            window.history.replaceState(
+              { ...window.history.state, filter },
+              '',
+              newUrl
+            );
+          }
+
           setIsLoading(false);
-          return;
-        }
+        };
 
-        if (desired) {
-          url.searchParams.set('filter', desired.toLowerCase());
-        } else {
-          url.searchParams.delete('filter');
-        }
-
-        const newUrl = url.pathname + (url.search ? url.search : '');
-
-        // Only update if the URL actually changed
-        if (window.location.pathname + window.location.search !== newUrl) {
-          window.history.replaceState(
-            { ...window.history.state, filter },
-            '',
-            newUrl
-          );
-        }
-        
-        setIsLoading(false);
-      };
-
-      retryUrlOperation(urlOperation);
-    }, debounceMs);
-  }, [debounceMs, retryUrlOperation]);
+        retryUrlOperation(urlOperation);
+      }, debounceMs);
+    },
+    [debounceMs, retryUrlOperation]
+  );
 
   // Update URL when filter changes (debounced)
   useEffect(() => {
@@ -154,7 +171,7 @@ export function useUrlFilter(options: FilterOptions = {}): UseUrlFilterReturn {
     try {
       const urlParams = new URLSearchParams(window.location.search);
       const filterParam = urlParams.get('filter') || 'most-recent';
-      
+
       if (filterParam !== selectedFilter) {
         setSelectedFilter(filterParam);
         setError(null);

@@ -9,9 +9,9 @@ import DebugInfo from '../DebugInfo';
 import Loading from '../Loading';
 import Tooltip from '../Tooltip';
 
-import { Features, useFeaturesConfig } from '../../config/FeaturesConfig';
+import { Features, useFeaturesConfig } from '../../config';
 import { DEFAULT_PORTFOLIO_DATA } from './constants';
-
+import { PortfolioData, Project, StatItem, TechnologyItem } from './models';
 import './portfolio.css';
 import './portfolio-reader.css';
 
@@ -34,9 +34,11 @@ function createLink(
 
   if (dataType === 'technology') {
     const tag = text.toLowerCase();
+
     return `/projects?filter=tag-${encodeURIComponent(tag)}`;
   } else if (dataType === 'project') {
     const tag = text.toLowerCase();
+
     return `/projects?filter=${encodeURIComponent(tag)}`;
   }
 
@@ -74,17 +76,11 @@ export default function Portfolio(): ReactNode {
 
         return (
           <>
-            <Header data={data} />
+            <Header data={data as PortfolioData} />
             <main>
               <Stats data={data} />
-              <Showcase
-                data={data}
-                featuresConfig={featuresConfig}
-              />
-              <TechStack
-                data={data}
-                featuresConfig={featuresConfig}
-              />
+              <Showcase data={data} featuresConfig={featuresConfig} />
+              <TechStack data={data} featuresConfig={featuresConfig} />
             </main>
             <DebugInfo
               loading={loading}
@@ -121,7 +117,7 @@ export default function Portfolio(): ReactNode {
   );
 }
 
-function Header({ data }: { data: any }) {
+function Header({ data }: { data: PortfolioData }) {
   const { siteConfig } = useDocusaurusContext();
   const { header } = data;
 
@@ -144,7 +140,7 @@ function Stats({ data }: { data: any }) {
     <section className="stats">
       <div className="container">
         <div className="statsGrid">
-          {stats.map((stat, idx) => (
+          {stats.map((stat: StatItem, idx: number) => (
             <div key={idx} className="statItem">
               <div className="statNumber">{stat.number}</div>
               <div className="statLabel">{stat.label}</div>
@@ -170,7 +166,7 @@ function Showcase({
       <div className="container">
         <Heading as="h2" className="sectionTitle"></Heading>
         <div className="projectGrid">
-          {projects.map((project, idx) => {
+          {projects.map((project: Project, idx: number) => {
             const projectLink = createLink(
               project,
               project.tag,
@@ -251,7 +247,7 @@ function TechStack({
           Technologies & Skills
         </Heading>
         <div className="techGrid">
-          {flattenedTechs.map((tech, idx) => {
+          {flattenedTechs.map((tech, idx: number) => {
             const techCardContent = (
               <div key={idx} className="techItem">
                 <span className="techName">

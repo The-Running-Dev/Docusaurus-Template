@@ -38,8 +38,11 @@ export class FilterErrorBoundary extends Component<Props, State> {
             <p className="portfolio-muted" style={{ color: '#d32f2f' }}>
               ⚠️ Filter Error
             </p>
-            <p style={{ fontSize: '0.9rem', color: '#666', marginTop: '0.5rem' }}>
-              Filter functionality temporarily unavailable. Please refresh the page.
+            <p
+              style={{ fontSize: '0.9rem', color: '#666', marginTop: '0.5rem' }}
+            >
+              Filter functionality temporarily unavailable. Please refresh the
+              page.
             </p>
             <button
               onClick={() => window.location.reload()}

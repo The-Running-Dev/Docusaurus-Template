@@ -50,13 +50,13 @@ import Tooltip from '../Tooltip';
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | required | Content to wrap with tooltip |
-| `title` | `string` | required | Title/heading for the tooltip |
-| `items` | `string[]` | required | Array of items to display as tags |
-| `position` | `'top' \| 'bottom' \| 'left' \| 'right' \| 'auto'` | `'auto'` | Tooltip position (auto detects best placement) |
-| `className` | `string` | `''` | Custom CSS class |
+| Prop        | Type                                               | Default  | Description                                    |
+| ----------- | -------------------------------------------------- | -------- | ---------------------------------------------- |
+| `children`  | `ReactNode`                                        | required | Content to wrap with tooltip                   |
+| `title`     | `string`                                           | required | Title/heading for the tooltip                  |
+| `items`     | `string[]`                                         | required | Array of items to display as tags              |
+| `position`  | `'top' \| 'bottom' \| 'left' \| 'right' \| 'auto'` | `'auto'` | Tooltip position (auto detects best placement) |
+| `className` | `string`                                           | `''`     | Custom CSS class                               |
 
 ## Visual Design
 
@@ -78,6 +78,7 @@ import Tooltip from '../Tooltip';
 The component uses CSS custom properties for theming and responds to the `data-theme` attribute for dark mode support.
 
 Key classes:
+
 - `.tooltip-wrapper` - Container wrapper
 - `.tooltip` - Main tooltip container
 - `.tooltip__content` - Content box

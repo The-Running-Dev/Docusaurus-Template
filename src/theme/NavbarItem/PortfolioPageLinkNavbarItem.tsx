@@ -6,7 +6,10 @@ import { useFeaturesConfig } from '../../config/FeaturesConfig';
 
 const PortfolioPageLinkNavbarItem: React.FC = () => {
   const featuresConfig = useFeaturesConfig();
-  const { pathname } = typeof window !== 'undefined' ? { pathname: window.location.pathname } : { pathname: '/' };
+  const { pathname } =
+    typeof window !== 'undefined'
+      ? { pathname: window.location.pathname }
+      : { pathname: '/' };
 
   // Don't render if Portfolio page is disabled
   if (!featuresConfig.portfolioPage) {
@@ -18,7 +21,8 @@ const PortfolioPageLinkNavbarItem: React.FC = () => {
     return null;
   }
 
-  const isActive = pathname === '/portfolio' || pathname.startsWith('/portfolio/');
+  const isActive =
+    pathname === '/portfolio' || pathname.startsWith('/portfolio/');
 
   return (
     <Link

@@ -102,7 +102,12 @@ function ProjectsContent({
   rawData: any[];
   meta?: any;
 }): ReactNode {
-  const { selectedFilter, setSelectedFilter, isLoading: isFilterLoading, error: filterError } = useUrlFilter();
+  const {
+    selectedFilter,
+    setSelectedFilter,
+    isLoading: isFilterLoading,
+    error: filterError
+  } = useUrlFilter();
   const [selectedDateRange, setSelectedDateRange] = useState('most-recent');
   const [showAllTags, setShowAllTags] = useState(false);
   const { searchTerm, setSearchTerm, searchInputRef, handleClearSearch } =

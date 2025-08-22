@@ -82,6 +82,7 @@ coverage
 .fusebox/
 .grunt
 .stylelintcache
+.idea
 
 # =============================================================================
 # FRAMEWORK-SPECIFIC

@@ -34,6 +34,10 @@ export type TechnologyItem = {
   subCategories?: string[];
 };
 
+export type FlattenedTechnologyItem = TechnologyItem & {
+  category: string;
+};
+
 export type Project = {
   title: string;
 

@@ -6,14 +6,18 @@ import { useFeaturesConfig } from '../../config/FeaturesConfig';
 
 const ProjectsPageLinkNavbarItem: React.FC = () => {
   const featuresConfig = useFeaturesConfig();
-  const { pathname } = typeof window !== 'undefined' ? { pathname: window.location.pathname } : { pathname: '/' };
+  const { pathname } =
+    typeof window !== 'undefined'
+      ? { pathname: window.location.pathname }
+      : { pathname: '/' };
 
   // Don't render if Projects page is disabled
   if (!featuresConfig.projectsPage) {
     return null;
   }
 
-  const isActive = pathname === '/projects' || pathname.startsWith('/projects/');
+  const isActive =
+    pathname === '/projects' || pathname.startsWith('/projects/');
 
   return (
     <Link

@@ -78,7 +78,10 @@ const NavBarLinksContent: React.FC<{
   enabled: boolean;
 }> = ({ config: activeConfig, enabled }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { pathname } = typeof window !== 'undefined' ? { pathname: window.location.pathname } : { pathname: '/' };
+  const { pathname } =
+    typeof window !== 'undefined'
+      ? { pathname: window.location.pathname }
+      : { pathname: '/' };
 
   // Apply default position to all links
   const processedConfig = useMemo(
@@ -103,13 +106,13 @@ const NavBarLinksContent: React.FC<{
     (href: string): boolean => {
       // Exact match for the current pathname
       if (pathname === href) return true;
-      
+
       // For nested paths, check if current path starts with the link path
       // but avoid matching root "/" with everything
       if (href !== '/' && pathname.startsWith(href)) {
         return true;
       }
-      
+
       return false;
     },
     [pathname]
