@@ -283,6 +283,13 @@ function applyFiltering(
             .filter((sub) => sub.projects.length > 0)
         }))
         .filter((cat) => cat.subCategories.length > 0);
+    } else if (selectedCategory.startsWith('category-')) {
+      // Handle Portfolio component's category- prefix format
+      const categoryName = selectedCategory.replace('category-', '');
+      
+      filteredCategories = processedCategories.filter(
+        (cat) => cat.category.toLowerCase() === categoryName.toLowerCase()
+      );
     } else if (selectedCategory.includes('-')) {
       // Specific subcategory
       const [categoryName, subCategoryName] = selectedCategory.split('-');

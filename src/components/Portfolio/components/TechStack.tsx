@@ -28,7 +28,7 @@ export default function TechStack({
           const techCard = (
             <ProjectsLink
               configuredLink={tech.link}
-              filter={`tag-${tech.name.toLowerCase()}`}
+              filter={`tag-${tech.name.toLowerCase().replace(/\s+/g, '-')}`}
             >
               {techCardContent}
             </ProjectsLink>
