@@ -36,11 +36,12 @@ This template provides a complete foundation for documentation sites with:
 
 ### 🧩 **Data-Driven Components**
 
-- **Portfolio Showcase**: Professional project display with filtering and categorization
-- **Project Browser**: Advanced project listing with search and URL state management
+- **Portfolio Showcase**: Professional project display with hierarchical categorization and interactive filtering
+- **Project Browser**: Advanced project listing with category/tag filtering and URL state management  
 - **CV Timeline**: Interactive professional timeline with configurable data
 - **GitHub Integration**: Automated badges, links, and repository information
 - **Schema Validation**: All components use validated configuration data
+- **Category Architecture**: Hierarchical organization with categories → subcategories → projects
 
 ### 🔧 **Developer Experience**
 
