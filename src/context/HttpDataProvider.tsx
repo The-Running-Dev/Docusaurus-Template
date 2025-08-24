@@ -59,9 +59,14 @@ export function HttpDataProvider({
 }: HttpDataProviderProps): ReactNode {
   // Construct API URL with query parameters
   const apiUrl = useMemo(() => {
-    const url = new URL(source);
-
-    return url.toString();
+    try {
+      if (!source) throw new Error('Missing data source URL');
+      const url = new URL(source);
+      return url.toString();
+    } catch (e) {
+      console.error('Invalid HTTP data source:', e);
+      return '';
+    }
   }, [source]);
 
   // Check cache before making API call

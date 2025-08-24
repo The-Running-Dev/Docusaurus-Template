@@ -2,8 +2,6 @@ import { useCallback } from 'react';
 import { useDataStore } from '../store/dataStore';
 import {
   PortfolioData,
-  Project,
-  TechnologyItem,
   FlattenedTechnologyItem
 } from '../components/Portfolio/models';
 

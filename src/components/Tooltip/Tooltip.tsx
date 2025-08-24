@@ -107,7 +107,7 @@ export default function Tooltip({
   }, [position]);
 
   if (items.length === 0) {
-    return children;
+    return <div className={`tooltip-wrapper ${className}`}>{children}</div>;
   }
 
   return (

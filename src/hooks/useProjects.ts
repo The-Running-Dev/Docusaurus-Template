@@ -2,9 +2,7 @@ import { useCallback } from 'react';
 import { useDataStore } from '../store/dataStore';
 import {
   ProjectCategory,
-  Project,
-  ProjectStats,
-  ProcessedProjectData
+  ProjectStats
 } from '../components/Projects/models';
 
 export function useProjects() {

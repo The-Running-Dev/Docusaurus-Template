@@ -1,10 +1,10 @@
 import type { ReactNode, RefObject } from 'react';
 import { useState, useEffect } from 'react';
 
-import DataProvider from '../DataProvider';
 import DebugInfo from '../DebugInfo';
 import Loading from '../Loading';
-import { Features } from '../../config/FeaturesConfig';
+import { useFeaturesConfig } from '../../config';
+import { useProjects } from '../../hooks/useProjects';
 import { type ProcessedCategory, type ProcessedProjectData } from './models';
 import { useProcessor, useUrlFilter, useSearch, useScrollRefs } from './hooks';
 import { FilterErrorBoundary } from './hooks/FilterErrorBoundary';
@@ -15,98 +15,92 @@ import {
   ProjectStats
 } from './components';
 import { calculateCategoryResults, calculateTechnologyResults } from './utils';
-import { DEFAULT_PROJECTS_DATA } from './constants';
 
 import './projects.css';
 import './projects-reader.css';
 import './hooks/filter-transitions.css';
 
 /**
- * Enhanced Projects component using DataProvider architecture
+ * Enhanced Projects component using Global Store architecture
  * This component works with static or http data and provides
  * all filtering/search functionality
  */
 export default function Projects(): ReactNode {
+  const features = useFeaturesConfig();
+  const { data, loading, error } = useProjects();
+
+  if (!features.projectsPage) {
+    return null;
+  }
+
+  if (loading) {
+    return (
+      <Loading
+        message="🔄 Loading Projects..."
+        secondaryMessage="Fetching Data and Filtering..."
+        useWrap={true}
+      />
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="portfolio-wrap">
+        <div style={{ padding: '2rem', textAlign: 'center' }}>
+          <p className="portfolio-muted" style={{ color: '#d32f2f' }}>
+            ❌ Data Loading Error
+          </p>
+          <p
+            style={{
+              fontSize: '0.9rem',
+              color: '#666',
+              marginTop: '0.5rem'
+            }}
+          >
+            {error.message}
+          </p>
+          <p
+            style={{
+              fontSize: '0.8rem',
+              color: '#888',
+              marginTop: '1rem'
+            }}
+          >
+            Please Check Your Data Source Configuration.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!Array.isArray(data) || data.length === 0) {
+    return (
+      <div className="portfolio-wrap">
+        <p className="portfolio-muted">No Projects Found.</p>
+      </div>
+    );
+  }
+
   return (
-    <DataProvider
-      feature={Features.ProjectsPage}
-      defaultData={DEFAULT_PROJECTS_DATA}
-    >
-      {(data, loading, error, meta) => {
-        if (loading) {
-          return (
-            <Loading
-              message="🔄 Loading Projects..."
-              secondaryMessage="Fetching Data and Filtering..."
-              useWrap={true}
-            />
-          );
-        }
-
-        if (error) {
-          return (
-            <div className="portfolio-wrap">
-              <div style={{ padding: '2rem', textAlign: 'center' }}>
-                <p className="portfolio-muted" style={{ color: '#d32f2f' }}>
-                  ❌ Data Loading Error
-                </p>
-                <p
-                  style={{
-                    fontSize: '0.9rem',
-                    color: '#666',
-                    marginTop: '0.5rem'
-                  }}
-                >
-                  {error.message}
-                </p>
-                <p
-                  style={{
-                    fontSize: '0.8rem',
-                    color: '#888',
-                    marginTop: '1rem'
-                  }}
-                >
-                  Please Check Your Data Source Configuration.
-                </p>
-              </div>
-            </div>
-          );
-        }
-
-        if (!Array.isArray(data) || data.length === 0) {
-          return (
-            <div className="portfolio-wrap">
-              <p className="portfolio-muted">No Projects Found.</p>
-            </div>
-          );
-        }
-
-        return (
-          <FilterErrorBoundary>
-            <ProjectsContent rawData={data} meta={meta} />
-          </FilterErrorBoundary>
-        );
-      }}
-    </DataProvider>
+    <FilterErrorBoundary>
+      <ProjectsContent rawData={data} />
+    </FilterErrorBoundary>
   );
 }
 
 /**
  * Inner component that handles all the projects logic
- * Separated to keep the DataProviderComponent wrapper clean
+ * Separated to keep the main component wrapper clean
  */
 function ProjectsContent({
-  rawData,
-  meta
+  rawData
 }: {
   rawData: any[];
-  meta?: any;
 }): ReactNode {
   const {
     selectedFilter,
     setSelectedFilter,
-    isLoading: isFilterLoading,
-    error: filterError
+    isLoading: isFilterLoading
   } = useUrlFilter();
   const [selectedDateRange, setSelectedDateRange] = useState('most-recent');
   const [showAllTags, setShowAllTags] = useState(false);
@@ -229,7 +223,7 @@ function ProjectsContent({
         />
       </main>
       <DebugInfo
-        meta={meta}
+        meta={undefined}
         metrics={[
           {
             label: '📁 Projects',
@@ -721,31 +715,17 @@ function ProjectDisplay({
 
               {project.tags && project.tags.length > 0 && (
                 <div className="projectTags">
-                  {project.tags.map((tag, tagIdx) => {
-                    // Determine if this tag is active (selected)
+                  {project.tags.map((tag) => {
                     const normalizedTagKey = `tag-${tag.toLowerCase().replace(/\s+/g, '-')}`;
-                    const isActive = searchTerm
-                      ? hasSearchResults
-                      : selectedFilter === normalizedTagKey;
+                    const isActive = searchTerm ? hasSearchResults : selectedFilter === normalizedTagKey;
 
                     return (
-                      <span key={tagIdx} className="">
+                      <span key={normalizedTagKey} className="">
                         <button
-                          key={tag}
-                          onClick={
-                            searchTerm
-                              ? undefined
-                              : () => handleFilterToggle(normalizedTagKey)
-                          }
+                          onClick={searchTerm ? undefined : () => handleFilterToggle(normalizedTagKey)}
                           disabled={!!searchTerm}
                           className={`filterButton ${
-                            searchTerm
-                              ? hasSearchResults
-                                ? 'active disabled'
-                                : 'disabled'
-                              : isActive
-                                ? 'active'
-                                : ''
+                            searchTerm ? (hasSearchResults ? 'active disabled' : 'disabled') : (isActive ? 'active' : '')
                           }`}
                           aria-label={`Filter by ${tag}`}
                           title={`Filter by ${tag}`}
