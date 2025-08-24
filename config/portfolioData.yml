@@ -211,35 +211,68 @@ technologies:
           - Lean
 
 projects:
-  - title: Backend Projects
-    tag: backend
-    description: C# .NET, Node.js, TypeScript applications including APIs, microservices, and system integrations
-    icon: 🔧
+  - category: Desktop
+    icon: 🖥️
+    description: Windows desktop applications and utilities
+    subCategories:
+      - name: Windows
+        description: Native Windows desktop applications
+        projects: []
 
-  - title: Frontend Applications
-    tag: frontend
-    description: React, Angular, and modern web applications with responsive design and user experience focus
+  - category: Frontend
     icon: 🎨
+    description: React, Angular, and modern web applications with responsive design and user experience focus
+    subCategories:
+      - name: React
+        description: React-based applications and components
+        projects: []
+      - name: Angular
+        description: Angular applications and enterprise solutions
+        projects: []
 
-  - title: Infrastructure & DevOps
-    tag: infrastructure
-    description: Docker containerization, Kubernetes, CI/CD pipelines, cloud deployments (Azure, AWS), and automation solutions
-    icon: ☁️
+  - category: Backend
+    icon: 🔧
+    description: C# .NET, Node.js, TypeScript applications including APIs, microservices, and system integrations
+    subCategories:
+      - name: .NET
+        description: C# .NET Framework and .NET Core applications
+        projects: []
+      - name: Node.JS
+        description: Node.js and TypeScript server-side applications
+        projects: []
 
-  - title: Automation & Tooling
-    tag: automation
-    description: PowerShell, Bash, build pipelines, deployment automation, developer productivity tools
+  - category: Automation
     icon: ⚡
+    description: PowerShell, Bash, build pipelines, deployment automation, developer productivity tools
+    subCategories:
+      - name: PowerShell
+        description: Windows PowerShell automation and tooling
+        projects: []
+      - name: GitHub Actions
+        description: CI/CD workflows and automation
+        projects: []
 
-  - title: Business Intelligence
-    tag: bi
-    description: Data visualization and reporting using PowerBI, Tableau, Amazon QuickSight
-    icon: 📊
-
-  - title: Open Source
-    tag: open source
-    description: Package manager contributions, GitHub projects, community-driven collaboration
+  - category: Open Source
     icon: 🤝
+    description: Package manager contributions, GitHub projects, community-driven collaboration
+    subCategories:
+      - name: Open Source
+        description: Community contributions and open source projects
+        projects: []
+
+  - category: Infrastructure
+    icon: ☁️
+    description: Docker containerization, Kubernetes, CI/CD pipelines, cloud deployments (Azure, AWS), and automation solutions
+    subCategories:
+      - name: Azure & DevOps
+        description: Azure cloud services and DevOps solutions
+        projects: []
+      - name: Docker
+        description: Containerization and Docker-based solutions
+        projects: []
+      - name: Other
+        description: Other infrastructure and cloud technologies
+        projects: []
 
 stats:
   - number: 20+
