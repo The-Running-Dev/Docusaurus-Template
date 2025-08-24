@@ -68,11 +68,11 @@ export const useDataStore = create<GenericDataStore>()(
             // @ts-ignore
             const { [key]: _, ...restData } = state.data;
             // @ts-ignore
-            const { [key]: _, ...restLoading } = state.loading;
+            const { [key]: __, ...restLoading } = state.loading;
             // @ts-ignore
-            const { [key]: _, ...restErrors } = state.errors;
+            const { [key]: ___, ...restErrors } = state.errors;
             // @ts-ignore
-            const { [key]: _, ...restMetadata } = state.metadata;
+            const { [key]: ____, ...restMetadata } = state.metadata;
 
             return {
               data: restData,
