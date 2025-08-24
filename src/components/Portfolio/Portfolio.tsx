@@ -88,18 +88,18 @@ export default function Portfolio(): ReactNode {
               Categories
             </Heading>
             <div className="projectGrid">
-              {data.projects.map((project: Project, idx: number) => (
+              {data.projects.map((category: ProjectCategory, idx: number) => (
                 <ProjectsLink
                   key={idx}
-                  configuredLink={project.link}
-                  filter={project.tag}
+                  configuredLink=""
+                  filter={`category-${category.category.toLowerCase()}`}
                   className="projectCard"
                 >
-                  <div className="projectIcon">{project.icon}</div>
+                  <div className="projectIcon">{category.icon}</div>
                   <Heading as="h3" className="projectTitle">
-                    {project.title}
+                    {category.category}
                   </Heading>
-                  <p className="projectDescription">{project.description}</p>
+                  <p className="projectDescription">{category.description}</p>
                 </ProjectsLink>
               ))}
             </div>
