@@ -19,7 +19,7 @@ export function usePortfolio() {
     (category: string) => {
       if (!data?.projects) return [];
       return data.projects.filter((p) =>
-        p.tag?.toLowerCase().includes(category.toLowerCase())
+        p.category?.toLowerCase().includes(category.toLowerCase())
       );
     },
     [data]

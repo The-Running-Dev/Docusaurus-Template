@@ -248,7 +248,7 @@ function ProjectsLink({
   children: ReactNode;
 }) {
   const features = useFeaturesConfig();
-  const { getProjectsByTag } = useProjects();
+  const { getProjectsByTag, getProjectsByCategory } = useProjects();
 
   if (!features.projectsPage) {
     return <div className={className}>{children}</div>;
@@ -261,6 +261,17 @@ function ProjectsLink({
 
     // Only create link if projects exist for this tag
     if (projectsForTag.length === 0) {
+      return <div className={className}>{children}</div>;
+    }
+  }
+
+  // For category filters, check if projects exist for this category
+  if (!configuredLink && filter.startsWith('category-')) {
+    const categoryName = filter.replace('category-', '');
+    const projectsForCategory = getProjectsByCategory(categoryName);
+
+    // Only create link if projects exist for this category
+    if (projectsForCategory.length === 0) {
       return <div className={className}>{children}</div>;
     }
   }
