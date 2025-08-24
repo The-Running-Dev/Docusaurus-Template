@@ -3,8 +3,8 @@
     - name: Windows
       projects:
         - title: QuickSync
-          link: 
-          lastModified: 
+          link: https://github.com/The-Running-Dev/QuickSync
+          lastModified: 2025-08-24T00:00:00Z
           summary: Windows desktop utility to compare and synchronize two folders. Uses CRC32 checksums to detect file changes, supports recursive comparison, and allows ignoring specific directories or file extensions. Results are shown in a WinForms UI, with options to save/load sync profiles and automate post-sync actions.
           tags:
             - C#
@@ -445,6 +445,22 @@
             - Podcast
             - CMS
             - Open Source
+
+- category: Business Intelligence
+  subCategories:
+    - name: Business Intelligence
+      projects:
+        - title: Business Intelligence Web Interface
+          link: https://github.com/The-Running-Dev/Contec-BusinessIntelligence
+          lastModified: 2019-04-16T23:52:00Z
+          summary: Web interface to expose data charted through PowerBI. Created during 6-month evaluation of BI tools to help analyze vast amounts of collected data.
+          tags:
+            - .NET
+            - C#
+            - Business Intelligence
+            - PowerBI
+            - Data Analysis
+            - Web Interface
 
 - category: Infrastructure
   subCategories:
