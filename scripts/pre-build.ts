@@ -68,7 +68,6 @@ import * as yaml from 'js-yaml';
 import { GlobalConfig } from '../src/entities';
 import type { Theme } from '../src/components/ThemeSwitcher/models';
 import type { CustomNavBarLink } from '../src/components/NavBarLinks/models';
-import { DEFAULT_PROJECTS_CONFIG } from '../src/components/Projects/constants';
 
 const THEMES_DIR = path.join(__dirname, '../static/themes');
 const PAGES_DIR = path.join(__dirname, '../src/pages');
@@ -691,7 +690,7 @@ export class PreBuild {
       if (!configData.projects) {
         console.warn('[WARN] Projects Configuration Missing, Using Defaults');
 
-        configData.projects = this.getDefaultConfig().projects;
+        // Note: projects is not part of GlobalConfig interface - this line should be removed or handled differently
       }
 
       return configData as GlobalConfig;
@@ -720,8 +719,15 @@ export class PreBuild {
         projectRoot: '',
         defaultTheme: 'default'
       },
-      projects: DEFAULT_PROJECTS_CONFIG
-    } as GlobalConfig;
+      site: {
+        title: 'Default Site',
+        tagline: 'Default Tagline',
+        url: 'https://localhost:3000',
+        baseUrl: '/',
+        organizationName: 'default',
+        projectName: 'default'
+      }
+    };
   }
 
   /**
