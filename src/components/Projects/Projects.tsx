@@ -358,7 +358,9 @@ function ProjectCategories({
                 const isActive = searchTerm
                   ? hasSearchResults
                   : selectedFilter === option.key ||
-                    selectedFilter.startsWith(option.key + '-');
+                    selectedFilter.startsWith(option.key + '-') ||
+                    (selectedFilter.startsWith('category-') && 
+                     selectedFilter.replace('category-', '').toLowerCase() === option.key.toLowerCase());
 
                 return (
                   <FilterButton
