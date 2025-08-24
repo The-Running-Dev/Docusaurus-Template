@@ -58,11 +58,20 @@ export function useProjects() {
         cat.subCategories.flatMap((sub) => sub.projects)
       );
 
-      return allProjects.filter((project) => {
-        if (!project.lastModified) return false;
-        const projectDate = new Date(project.lastModified);
-        return projectDate > cutoffDate;
-      });
+      return allProjects
+        .filter((project) => {
+          if (!project.lastModified) return false;
+
+          const projectDate = new Date(project.lastModified);
+          
+          return projectDate > cutoffDate;
+        })
+        .sort((a, b) => {
+          const dateA = new Date(a.lastModified!);
+          const dateB = new Date(b.lastModified!);
+          
+          return dateB.getTime() - dateA.getTime(); // Most recent first
+        });
     },
     [data]
   );

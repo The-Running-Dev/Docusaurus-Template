@@ -241,6 +241,17 @@
   }
 }
 
+/* Project Card Link Styling */
+.projectCardLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.projectCardLink:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* Portfolio Tags Styling - Consistent with Projects page */
 
 .portfolioProjectTags {
@@ -260,9 +271,47 @@
   border: 1px solid var(--ifm-color-emphasis-300);
   transition: all 0.2s ease;
   cursor: default;
+  text-decoration: none;
 }
 
 .portfolioProjectTag:hover {
   background: var(--ifm-color-emphasis-200);
   transform: translateY(-1px);
+  text-decoration: none;
+  color: var(--ifm-color-emphasis-700);
+}
+
+/* Project Card Header for Recent Projects */
+.projectCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.projectLinkIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--ifm-color-primary);
+  color: white;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.projectLinkIcon:hover {
+  background: var(--ifm-color-primary-dark);
+  transform: scale(1.1);
+  text-decoration: none;
+  color: white;
+}
+
+.projectLinkIcon svg {
+  width: 16px;
+  height: 16px;
 }
