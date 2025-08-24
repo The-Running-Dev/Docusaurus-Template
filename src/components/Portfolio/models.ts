@@ -7,7 +7,7 @@ export type PortfolioData = {
 
   technologies: Technology[];
 
-  projects: Project[];
+  projects: ProjectCategory[];
 
   stats: StatItem[];
 
@@ -49,6 +49,27 @@ export type Project = {
 
   icon: string;
 };
+
+export interface ProjectCategory {
+  category: string;
+  icon: string;
+  description: string;
+  subCategories: ProjectSubCategory[];
+}
+
+export interface ProjectSubCategory {
+  name: string;
+  description: string;
+  projects: ProjectItem[];
+}
+
+export interface ProjectItem {
+  title: string;
+  link: string;
+  lastModified: string;
+  summary: string;
+  tags: string[];
+}
 
 export type StatItem = {
   number: string;

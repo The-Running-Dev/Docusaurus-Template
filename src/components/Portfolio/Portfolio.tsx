@@ -11,7 +11,7 @@ import Tooltip from '../Tooltip';
 import { useFeaturesConfig } from '../../config';
 import { usePortfolio } from '../../hooks/usePortfolio';
 import { useProjects } from '../../hooks/useProjects';
-import { Project, StatItem } from './models';
+import { Project, ProjectCategory, StatItem } from './models';
 
 import './portfolio.css';
 import './portfolio-reader.css';
