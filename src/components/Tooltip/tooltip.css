@@ -13,7 +13,7 @@
   visibility: hidden;
   transition: all 0.3s ease;
   pointer-events: none;
-  
+
   /* Large, prominent sizing */
   min-width: 280px;
   max-width: 400px;
@@ -55,7 +55,7 @@
   background: var(--ifm-color-emphasis-900);
   color: #ffffff;
   border-radius: 8px;
-  box-shadow: 
+  box-shadow:
     0 8px 24px rgba(0, 0, 0, 0.15),
     0 4px 12px rgba(0, 0, 0, 0.1);
   border: 1px solid var(--ifm-color-emphasis-700);
@@ -110,7 +110,7 @@
   font-weight: 500;
   border: 1px solid var(--ifm-color-emphasis-300);
   transition: all 0.2s ease;
-  
+
   /* Tag hover effect */
 }
 
@@ -195,15 +195,15 @@
     min-width: 250px;
     max-width: 300px;
   }
-  
+
   .tooltip__header {
     padding: 0.6rem 0.8rem;
   }
-  
+
   .tooltip__body {
     padding: 0.8rem;
   }
-  
+
   .tooltip__tag {
     font-size: 0.75rem;
     padding: 0.3rem 0.6rem;

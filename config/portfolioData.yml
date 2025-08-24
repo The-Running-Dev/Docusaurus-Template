@@ -6,7 +6,6 @@ technologies:
   - name: Backend
     subCategories:
       - name: .NET
-        link: projects?filter=tag-.net
         subCategories:
           - .NET Core
           - .NET Framework

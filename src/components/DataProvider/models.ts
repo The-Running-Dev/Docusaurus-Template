@@ -3,8 +3,9 @@ import { Features } from '../../config/FeaturesConfig';
 
 export interface DataProviderComponentProps<TData, TProcessedData = TData> {
   feature?: Features;
-  defaultData: TData;
+  defaultData?: TData;
   processor?: (data: TData) => TProcessedData;
+  fallback?: React.ReactNode;
   children: (
     data: TProcessedData,
     loading: boolean,

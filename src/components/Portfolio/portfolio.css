@@ -240,3 +240,29 @@
     font-size: 2rem;
   }
 }
+
+/* Portfolio Tags Styling - Consistent with Projects page */
+
+.portfolioProjectTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.portfolioProjectTag {
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-color-emphasis-700);
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.portfolioProjectTag:hover {
+  background: var(--ifm-color-emphasis-200);
+  transform: translateY(-1px);
+}

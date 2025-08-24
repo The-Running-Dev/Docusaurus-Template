@@ -18,12 +18,7 @@ export default function CV() {
     >
       {(userCVData, loading, error, meta) => {
         if (loading) {
-          return (
-            <Loading
-              message="🔄 Loading CV..."
-              useWrap={true}
-            />
-          );
+          return <Loading message="🔄 Loading CV..." useWrap={true} />;
         }
 
         if (error) {

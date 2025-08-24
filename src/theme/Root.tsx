@@ -1,6 +1,7 @@
 import React from 'react';
 import { ThemeInitializer } from '../hooks/useThemeInitialization';
 import { themes, defaultTheme } from '../components/ThemeSwitcher/themes';
+import { useAppInitialization } from '../hooks/useAppInitialization';
 
 //import { ConfigurationProvider } from '../components/ConfigurationManager';
 
@@ -10,7 +11,8 @@ export default function Root({
 }: {
   children: React.ReactNode;
 }): React.JSX.Element {
-  // Get theme data from configuration
+  // Initialize global data store
+  useAppInitialization();
 
   return (
     <>

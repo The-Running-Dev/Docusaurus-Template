@@ -9,54 +9,55 @@ import {
   faChartLine
 } from '@fortawesome/free-solid-svg-icons';
 
+import DataProvider from '../DataProvider';
+import Loading from '../Loading';
 import { Badge, BadgeCategory, BadgesProps } from './models';
-import { getData } from '../../data';
+import { DEFAULT_BADGES_DATA } from './constants';
 
-// @ts-ignore
-import { badges as configData } from '../../../data';
+const Badges: React.FC<BadgesProps> = ({ user, repository, groups }) => {
+  const createProcessor = (props: BadgesProps) => (data: any) => {
+    const iconMap = {
+      faCogs,
+      faBoxOpen,
+      faBook,
+      faShieldAlt,
+      faUsers,
+      faChartLine
+    };
 
-const Badges: React.FC<BadgesProps> = () => {
-  // Load badge configuration directly using getData with processor
-  const { badgeCategories } = getData(configData, {
-    processor: (data) => {
-      const iconMap = {
-        faCogs,
-        faBoxOpen,
-        faBook,
-        faShieldAlt,
-        faUsers,
-        faChartLine
-      };
+    const replacements: Record<string, string> = {
+      ...data.templateVariables,
+      user: props.user || data.templateVariables?.user || '',
+      repository: props.repository || data.templateVariables?.repository || ''
+    };
 
-      const processedCategories =
-        data.badgeCategories?.map((category: any) => ({
+    const processedCategories =
+      data.badgeCategories
+        ?.filter(
+          (category: any) =>
+            !props.groups || props.groups.includes(category.key)
+        )
+        ?.map((category: any) => ({
           ...category,
           icon:
             iconMap[category.iconName as keyof typeof iconMap] ||
             iconMap.faCogs,
           badges: category.badges?.map((badge: any) => {
-            let processedUrl = badge.url;
-            // Process template variables if they exist
-            if (data.templateVariables) {
-              Object.entries(data.templateVariables).forEach(([key, value]) => {
-                processedUrl = processedUrl.replace(
-                  new RegExp(`{{${key}}}`, 'g'),
-                  value as string
-                );
-              });
-            }
-            return { ...badge, url: processedUrl };
+            const processedUrl = badge.url.replace(
+              /\{(\w+)\}/g,
+              (_: string, key: string) => replacements[key] || ''
+            );
+            const processedLink = badge.link.replace(
+              /\{(\w+)\}/g,
+              (_: string, key: string) => replacements[key] || ''
+            );
+            
+            return { ...badge, url: processedUrl, link: processedLink };
           })
         })) || [];
 
-      return { badgeCategories: processedCategories };
-    }
-  });
-
-  // Don't render if no badges
-  if (!badgeCategories || badgeCategories.length === 0) {
-    return null;
-  }
+    return { badgeCategories: processedCategories };
+  };
 
   const Category: React.FC<BadgeCategory> = ({ title, badges, icon }) => (
     <div style={{ marginBottom: '2rem' }}>
@@ -116,16 +117,44 @@ const Badges: React.FC<BadgesProps> = () => {
   );
 
   return (
-    <div style={{ padding: '0.2rem 0' }}>
-      {badgeCategories.map((category) => (
-        <Category
-          key={category.key}
-          title={category.title}
-          badges={category.badges}
-          icon={category.icon}
-        />
-      ))}
-    </div>
+    <DataProvider
+      defaultData={DEFAULT_BADGES_DATA}
+      processor={createProcessor({ user, repository, groups })}
+    >
+      {(processedData, loading, error) => {
+        if (loading) {
+          return <Loading message="🔄 Loading Badges..." useWrap={false} />;
+        }
+
+        if (error) {
+          return (
+            <div style={{ padding: '1rem', color: 'var(--ifm-color-danger)' }}>
+              Error loading badges: {error.message}
+            </div>
+          );
+        }
+
+        const { badgeCategories } = processedData;
+
+        // Don't render if no badges
+        if (!badgeCategories || badgeCategories.length === 0) {
+          return null;
+        }
+
+        return (
+          <div style={{ padding: '0.2rem 0' }}>
+            {badgeCategories.map((category: BadgeCategory) => (
+              <Category
+                key={category.key}
+                title={category.title}
+                badges={category.badges}
+                icon={category.icon}
+              />
+            ))}
+          </div>
+        );
+      }}
+    </DataProvider>
   );
 };
 

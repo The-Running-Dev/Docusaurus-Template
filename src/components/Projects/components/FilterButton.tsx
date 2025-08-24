@@ -24,17 +24,17 @@ export function FilterButton({
 
   const getButtonClass = () => {
     let classes = [];
-    
+
     if (isLoading) {
       classes.push('loading');
     }
-    
+
     if (searchTerm) {
       classes.push(hasSearchResults ? 'active disabled' : 'disabled');
     } else {
       if (isSelected) classes.push('active');
     }
-    
+
     return classes.join(' ');
   };
 

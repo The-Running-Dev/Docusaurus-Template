@@ -8,17 +8,17 @@ import { DEFAULT_PROJECTS_DATA } from '../constants';
  */
 export interface ProjectsQuery {
   hasProjectsWithTag: (tag: string) => boolean;
-  
+
   getProjectsByTag: (tag: string) => any[];
-  
+
   hasProjectsWithTechnology: (tech: string) => boolean;
-  
+
   hasProjectsWithCategory: (category: string) => boolean;
-  
+
   getAllTags: () => string[];
-  
+
   getAllTechnologies: () => string[];
-  
+
   getAllCategories: () => string[];
 }
 

@@ -31,8 +31,3 @@ export interface BadgesProps {
   repository?: string;
   groups?: string[]; // Optional array of group IDs to display
 }
-
-export interface BadgesData {
-  badgeCategories: BadgeCategory[];
-  loading: boolean;
-}

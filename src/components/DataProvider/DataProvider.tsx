@@ -29,11 +29,14 @@ function getProviderType(source: string): 'json' | 'http' {
  * This component wraps the data fetching logic and provides a consistent interface
  * for consuming data in React components. It supports both static JSON data and
  * dynamic HTTP data sources.
+ * 
+ * Can also act as a simple FeatureGuard when no defaultData is provided.
  */
 function DataProvider<TData = any, TProcessedData = TData>({
   feature,
   defaultData,
   processor,
+  fallback = null,
   children
 }: DataProviderComponentProps<
   TData,
@@ -42,7 +45,12 @@ function DataProvider<TData = any, TProcessedData = TData>({
   const isEnabled = feature ? useFeatureFlag(feature) : true;
 
   if (!isEnabled) {
-    return null;
+    return fallback as React.ReactElement | null;
+  }
+
+  // Simple feature gating mode - when no defaultData provided, act like FeatureGuard
+  if (defaultData === undefined || defaultData === null) {
+    return <>{children(null as TProcessedData, false, null, null)}</>;
   }
 
   // Check if there's a configured data source
@@ -50,7 +58,7 @@ function DataProvider<TData = any, TProcessedData = TData>({
     if (!feature) {
       return null;
     }
-    
+
     try {
       const globalConfigData = getData(configData);
       const configKey = FeatureToConfigMap[feature as Features];
