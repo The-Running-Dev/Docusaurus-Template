@@ -4,6 +4,7 @@ import CardGrid from './CardGrid';
 import TechCard from './TechCard';
 import ProjectsLink from './ProjectsLink';
 import Tooltip from '../../Tooltip';
+import { useTechnologyMapping } from '../hooks/useTechnologyMapping';
 
 interface TechItem {
   name: string;
@@ -19,16 +20,19 @@ interface TechStackProps {
 export default function TechStack({
   technologies
 }: TechStackProps): ReactNode {
+  const { getFilterKey } = useTechnologyMapping();
+
   return (
     <Section title="Technologies & Skills" className="techStack">
       <CardGrid className="techGrid">
         {technologies.map((tech, idx: number) => {
           const techCardContent = <TechCard tech={tech} />;
+          const filterKey = getFilterKey(tech.name, tech.category);
 
           const techCard = (
             <ProjectsLink
               configuredLink={tech.link}
-              filter={`tag-${tech.name.toLowerCase().replace(/\s+/g, '-')}`}
+              filter={filterKey}
             >
               {techCardContent}
             </ProjectsLink>
