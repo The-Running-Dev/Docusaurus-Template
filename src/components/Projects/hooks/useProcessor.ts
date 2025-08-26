@@ -88,8 +88,10 @@ export function useProcessor(
       return result;
     } catch (err) {
       const processingError =
-        err instanceof Error ? err : new Error('Unknown processing error');
+        err instanceof Error ? err : new Error('Unknown Processing Error');
+
       setError(processingError);
+
       return getEmptyProcessedData();
     } finally {
       setProcessing(false);
@@ -149,7 +151,7 @@ function processData(rawData: any[]) {
               .filter((project: any) => project && typeof project === 'object') // Filter out invalid projects
               .map((project: any) => ({
                 title: project.title || 'Untitled',
-                summary: project.summary || 'No summary available',
+                summary: project.summary || 'No Summary Available',
                 lastModified: project.lastModified || null,
                 link: project.link || null,
                 ...project // Include any other properties
@@ -283,6 +285,13 @@ function applyFiltering(
             .filter((sub) => sub.projects.length > 0)
         }))
         .filter((cat) => cat.subCategories.length > 0);
+    } else if (selectedCategory.startsWith('category-')) {
+      // Handle Portfolio component's category- prefix format
+      const categoryName = selectedCategory.replace('category-', '');
+
+      filteredCategories = processedCategories.filter(
+        (cat) => cat.category.toLowerCase() === categoryName.toLowerCase()
+      );
     } else if (selectedCategory.includes('-')) {
       // Specific subcategory
       const [categoryName, subCategoryName] = selectedCategory.split('-');
@@ -355,8 +364,5 @@ function applyFiltering(
 
   return filteredCategories;
 }
-
-// I need to continue with the rest of the helper functions...
-// Let me create them in a separate file due to length
 
 export default useProcessor;

@@ -43,16 +43,19 @@ const Badges: React.FC<BadgesProps> = ({ user, repository, groups }) => {
             iconMap[category.iconName as keyof typeof iconMap] ||
             iconMap.faCogs,
           badges: category.badges?.map((badge: any) => {
-            const processedUrl = badge.url.replace(
-              /\{(\w+)\}/g,
-              (_: string, key: string) => replacements[key] || ''
-            );
-            const processedLink = badge.link.replace(
-              /\{(\w+)\}/g,
-              (_: string, key: string) => replacements[key] || ''
-            );
-            
-            return { ...badge, url: processedUrl, link: processedLink };
+            const process = (val: unknown) =>
+              typeof val === 'string'
+                ? val.replace(
+                    /\{(\w+)\}/g,
+                    (_: string, key: string) => replacements[key] || ''
+                  )
+                : val;
+
+            return {
+              ...badge,
+              url: process(badge?.url),
+              link: process(badge?.link)
+            };
           })
         })) || [];
 

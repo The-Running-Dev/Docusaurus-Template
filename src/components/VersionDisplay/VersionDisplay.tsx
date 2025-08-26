@@ -47,7 +47,6 @@ const VersionDisplay: React.FC = () => {
             <span className="version-display">v{getDefaultVersion()}</span>
           );
         }
-
         const version = config.version || getDefaultVersion();
         const prefix = config.prefix || 'v';
         const displayText = `${prefix}${version}`;

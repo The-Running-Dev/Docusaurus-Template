@@ -13,6 +13,8 @@
             - Desktop
             - Windows
             - Utility
+            - File Management
+            - CRC32
 
 - category: Frontend
   subCategories:
@@ -25,6 +27,7 @@
           tags:
             - Angular
             - TypeScript
+            - Frontend
             - Bar
             - Menu
             - Discord
@@ -41,7 +44,9 @@
             - Testing
             - Business
             - ASP.NET
+            - WebForms
             - Production
+            - Enterprise
 
         - title: NetAssure Client
           link: https://github.com/The-Running-Dev/Demo-NetAssure/tree/master/web-client/src
@@ -50,13 +55,18 @@
           tags:
             - Angular
             - TypeScript
+            - Frontend
             - Docker
+            - Docker Compose
             - TeamCity
             - Zabbix
             - Salesforce
             - Network
             - Hardware
             - CentOS
+            - Linux
+            - Infrastructure
+            - DevOps
 
         - title: PatientViewer.NG
           link: https://github.com/The-Running-Dev/Demo-PatientVIewer.NG
@@ -65,6 +75,7 @@
           tags:
             - Angular
             - TypeScript
+            - Frontend
             - Healthcare
             - Demo
             - Skills Showcase
@@ -79,7 +90,9 @@
             - Business
             - Equipment
             - ASP.NET
+            - WebForms
             - Production
+            - Enterprise
 
         - title: Rock Paper Scissors
           link: https://github.com/The-Running-Dev/Demo-RockPaperScissors
@@ -88,6 +101,7 @@
           tags:
             - Angular
             - TypeScript
+            - Frontend
             - Game
             - Demo
             - Interactive
@@ -101,9 +115,12 @@
           tags:
             - React
             - TypeScript
+            - Frontend
             - Docusaurus
             - Portfolio
             - GitHub Pages
+            - SSG
+            - Markdown
 
         - title: Docusaurus Template
           link: https://github.com/The-Running-Dev/Docusaurus-Template
@@ -113,11 +130,16 @@
             - React
             - Docusaurus
             - TypeScript
+            - Frontend
             - Documentation
             - Theming
             - GitHub Integration
             - Docker
             - Template
+            - SSG
+            - Markdown
+            - Automation
+            - Build Tools
 
 - category: Backend
   subCategories:
@@ -130,10 +152,12 @@
         tags:
           - .NET
           - C#
+          - ASP.NET
           - Business Intelligence
-          - PowerBI
+          - Power BI
           - Data Analysis
           - Web Interface
+          - Analytics
 
       - title: Code Generator
         link: https://github.com/The-Running-Dev/Tools-CodeGenerator
@@ -148,6 +172,8 @@
           - ORM
           - Repository Pattern
           - Templates
+          - Automation
+          - Build Tools
 
       - title: Image Event Processor
         link: https://github.com/The-Running-Dev/Demo-ImageEventProcessor
@@ -161,6 +187,8 @@
           - WebAPI
           - Image Processing
           - Serverless
+          - Cloud
+          - AWS
 
       - title: Menu Creator
         link: https://github.com/The-Running-Dev/Demo-MenuCreator
@@ -169,6 +197,8 @@
         tags:
           - .NET Core
           - C#
+          - ASP.NET Core
+          - API
           - Coding Exercise
           - Menu
           - Demo
@@ -187,6 +217,9 @@
           - XML
           - Notifications
           - Integration
+          - DevOps
+          - Build Tools
+          - Automation
 
       - title: PatientViewer.NET
         link: https://github.com/The-Running-Dev/Demo-PatientViewer.NET
@@ -195,8 +228,10 @@
         tags:
           - .NET
           - C#
+          - ASP.NET
           - ASP.NET MVC
           - WebAPI
+          - API
           - Healthcare
           - Demo
           - Skills Showcase
@@ -211,6 +246,7 @@
           - Refactoring
           - Code Review
           - Demo
+          - Code Quality
 
       - title: SnapCrackle
         link: https://github.com/The-Running-Dev/Demo-SnapCrackle
@@ -221,6 +257,7 @@
           - C#
           - Algorithms
           - Coding Exercise
+          - Interview
 
       - title: Starter
         link: https://github.com/The-Running-Dev/Starter.Stage7
@@ -232,17 +269,20 @@
           - Starter Project
           - Learning
           - SQL Server
+          - Database
 
       - title: Thum.io
         link: https://github.com/The-Running-Dev/Thum.io
         lastModified: 2020-12-30T22:24:00Z
         summary: A package and command line client to interact with the Thum.io screenshot API service.
         tags:
-          - NodeJS
+          - Node.JS
+          - TypeScript
           - API
           - CLI
           - Screenshot
           - Web Tools
+          - Package
 
   - name: Node.JS
     projects:
@@ -254,6 +294,8 @@
           - Node.JS
           - TypeScript
           - Discord.js
+          - Discord
+          - Bot
           - Restaurant
           - Order Management
           - Docker
@@ -264,7 +306,9 @@
         summary: A Node.JS API with Express to manage local docker containers. I created this to expose through Cloudflared, so I can pull and update my local running Docker images based on posting a Webhook from a GitHub workflow. Still in progress.
         tags:
           - Node.JS
+          - TypeScript
           - Express
+          - API
           - Docker
           - Cloudflare
           - Webhooks
@@ -276,10 +320,12 @@
         tags:
           - Node.JS
           - Express
+          - API
           - Docker
           - TeamCity
           - Zabbix
           - CentOS
+          - Linux
           - Networking
 
       - title: NetAssure Notification Service
@@ -289,6 +335,8 @@
         tags:
           - Node.JS
           - AWS Lambda
+          - Serverless
+          - AWS
           - Microservices
           - Notifications
 
@@ -300,6 +348,9 @@
           - Node.JS
           - Angular
           - REST API
+          - API
+          - Microservices
+          - External API
           - Weather
           - Demo
 
@@ -315,6 +366,7 @@
             - PowerShell
             - iCloud
             - Automation
+            - File Management
 
         - title: PowerShell-FileButler
           link: https://github.com/The-Running-Dev/PowerShell-FileButler
@@ -324,6 +376,7 @@
             - PowerShell
             - File Management
             - Automation
+            - File Organization
 
         - title: PowerShell-Helpers
           link: https://github.com/The-Running-Dev/PowerShell-Helpers
@@ -333,6 +386,7 @@
             - PowerShell
             - Utilities
             - Automation
+            - Helpers
 
         - title: BoxStarter
           link: https://github.com/The-Running-Dev/BoxStarter
@@ -343,6 +397,7 @@
             - Chocolatey
             - Windows
             - Automation
+            - Package Management
 
     - name: GitHub Actions
       projects:
@@ -354,6 +409,8 @@
             - GitHub Actions
             - CI/CD
             - Automation
+            - YAML
+            - DevOps
 
         - title: XYplorer
           link: https://github.com/The-Running-Dev/Winget-Updates/actions/workflows/xyplorer.yml
@@ -363,6 +420,8 @@
             - GitHub Actions
             - CI/CD
             - Automation
+            - YAML
+            - DevOps
 
         - title: XYplorer Portable
           link: https://github.com/The-Running-Dev/Winget-Updates/actions/workflows/xyplorer.portable.yml
@@ -372,6 +431,8 @@
             - GitHub Actions
             - CI/CD
             - Automation
+            - YAML
+            - DevOps
 
 - category: Open Source
   subCategories:
@@ -384,6 +445,7 @@
           tags:
             - Chocolatey
             - Windows
+            - Package Management
             - Packages
             - Open Source
 
@@ -394,6 +456,7 @@
           tags:
             - WinGet
             - Windows
+            - Package Management
             - Packages
             - Open Source
 
@@ -404,6 +467,7 @@
           tags:
             - WinGet
             - Windows
+            - Package Management
             - Packages
             - Open Source
 
@@ -414,6 +478,7 @@
           tags:
             - WinGet
             - Windows
+            - Package Management
             - Packages
             - Open Source
 
@@ -424,6 +489,7 @@
           tags:
             - WinGet
             - Windows
+            - Package Management
             - Packages
             - Open Source
 
@@ -436,12 +502,14 @@
             - Database
             - Versioning
             - Open Source
+            - Migration
 
         - title: Castopod
           link: https://github.com
           lastModified: 
           summary: Open source project I contributed to.
           tags:
+            - PHP
             - Podcast
             - CMS
             - Open Source
@@ -457,10 +525,12 @@
           tags:
             - .NET
             - C#
+            - ASP.NET
             - Business Intelligence
-            - PowerBI
+            - Power BI
             - Data Analysis
             - Web Interface
+            - Analytics
 
 - category: Infrastructure
   subCategories:
@@ -474,9 +544,12 @@
             - Azure
             - Azure DevOps
             - Infrastructure as Code
+            - IaC
             - CI/CD
             - ARM Templates
             - YAML
+            - DevOps
+            - Cloud
 
     - name: Docker
       projects:
@@ -490,6 +563,8 @@
             - dnscrypt-proxy
             - Networking
             - Home Lab
+            - Security
+            - Privacy
 
         - title: Docker-BuildAgent
           link: https://github.com/The-Running-Dev/Docker-BuildAgent
@@ -498,10 +573,12 @@
           tags:
             - Docker
             - CI/CD
-            - NodeJS
+            - Node.JS
             - Angular
             - TypeScript
             - PowerShell
+            - Build Tools
+            - DevOps
 
         - title: Docker-Watchdog
           link: https://github.com/The-Running-Dev/Docker-Watchdog
@@ -513,6 +590,8 @@
             - Monitoring
             - REST API
             - Self-Hosting
+            - DevOps
+            - Container Management
 
     - name: Other
       projects:
@@ -525,6 +604,9 @@
             - AWS Lambda
             - CI/CD
             - Cloud
+            - AWS
+            - Serverless
+            - DevOps
 
         - title: Linux/Bash Setup Scripts
           link: https://github.com/The-Running-Dev/Setup-Ubuntu
@@ -532,6 +614,8 @@
           summary: A set of Bash scripts that install and configure a new Ubuntu installation.
           tags:
             - Linux
+            - Ubuntu
             - Bash
             - Shell Scripts
             - Automation
+            - Setup Scripts

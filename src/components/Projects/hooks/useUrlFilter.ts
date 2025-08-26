@@ -49,7 +49,9 @@ export function useUrlFilter(options: FilterOptions = {}): UseUrlFilterReturn {
     if (typeof window === 'undefined' || isInitializedRef.current) return;
 
     try {
-      const filterParam = new URLSearchParams(window.location.search).get('filter');
+      const filterParam = new URLSearchParams(window.location.search).get(
+        'filter'
+      );
 
       if (filterParam) {
         setSelectedFilter(filterParam);

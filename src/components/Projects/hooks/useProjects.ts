@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { useProcessor } from './useProcessor';
-import { Features } from '../../../config/FeaturesConfig';
 import { DEFAULT_PROJECTS_DATA } from '../constants';
 
 /**
