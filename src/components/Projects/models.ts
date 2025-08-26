@@ -64,6 +64,16 @@ export interface ProjectStats {
   averageAge: string;
 }
 
+export interface TagTiers {
+  popular: FilterOption[]; // 3+ count
+
+  common: FilterOption[]; // 2 count
+
+  rare: FilterOption[]; // 1 count
+
+  allTagsOption: FilterOption; // "All Tags" option
+}
+
 export interface ProcessedProjectData {
   categories: ProcessedCategory[];
 
@@ -74,6 +84,8 @@ export interface ProcessedProjectData {
   dateOptions: FilterOption[];
 
   tagOptions: FilterOption[];
+
+  tagTiers?: TagTiers;
 
   stats: ProjectStats;
 

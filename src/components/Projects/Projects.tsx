@@ -100,7 +100,14 @@ function ProjectsContent({ rawData }: { rawData: any[] }): ReactNode {
     error: filterError
   } = useUrlFilter();
   const [selectedDateRange, setSelectedDateRange] = useState('most-recent');
-  const [showAllTags, setShowAllTags] = useState(false);
+  const [tagDisplayState, setTagDisplayState] = useState({
+    showMoreCommon: false,
+    showRareTags: false,
+    userInteracted: {
+      common: false,
+      rare: false
+    }
+  });
   const { searchTerm, setSearchTerm, searchInputRef, handleClearSearch } =
     useSearch();
   const { filtersRef, projectsRef, scrollToProjects, scrollToFilters } =
@@ -144,6 +151,50 @@ function ProjectsContent({ rawData }: { rawData: any[] }): ReactNode {
       setSelectedDateRange('most-recent');
     }
   }, [selectedFilter, searchTerm]);
+
+  // Auto-expand sections when active tag is in hidden tiers (only if user hasn't manually interacted)
+  useEffect(() => {
+    if (selectedFilter?.startsWith('tag-') && processedData?.tagTiers) {
+      const { tagTiers } = processedData;
+
+      // Check if active tag is in common tags (and section is collapsed and user hasn't manually interacted)
+      const isActiveTagInCommon = tagTiers.common.some(
+        (tag) => tag.key === selectedFilter
+      );
+      if (
+        isActiveTagInCommon &&
+        !tagDisplayState.showMoreCommon &&
+        !tagDisplayState.userInteracted.common
+      ) {
+        setTagDisplayState((prev) => ({ ...prev, showMoreCommon: true }));
+      }
+
+      // Check if active tag is in rare tags (and section is collapsed and user hasn't manually interacted)
+      const isActiveTagInRare = tagTiers.rare.some(
+        (tag) => tag.key === selectedFilter
+      );
+      if (
+        isActiveTagInRare &&
+        !tagDisplayState.showRareTags &&
+        !tagDisplayState.userInteracted.rare
+      ) {
+        setTagDisplayState((prev) => ({ ...prev, showRareTags: true }));
+      }
+    } else {
+      // Reset user interaction flags when switching away from tag filters
+      // This allows auto-expand to work again when switching back to tag filters
+      if (
+        !selectedFilter?.startsWith('tag-') &&
+        (tagDisplayState.userInteracted.common ||
+          tagDisplayState.userInteracted.rare)
+      ) {
+        setTagDisplayState((prev) => ({
+          ...prev,
+          userInteracted: { common: false, rare: false }
+        }));
+      }
+    }
+  }, [selectedFilter, processedData?.tagTiers]);
 
   // Function to toggle filter selection
   const handleFilterToggle = (filterKey: string) => {
@@ -210,8 +261,8 @@ function ProjectsContent({ rawData }: { rawData: any[] }): ReactNode {
           searchInputRef={searchInputRef}
           handleClearSearch={handleClearSearch}
           handleFilterToggle={handleFilterToggle}
-          showAllTags={showAllTags}
-          setShowAllTags={setShowAllTags}
+          tagDisplayState={tagDisplayState}
+          setTagDisplayState={setTagDisplayState}
           filtersRef={filtersRef}
           projectsRef={projectsRef}
           scrollToProjects={scrollToProjects}
@@ -254,8 +305,8 @@ function ProjectCategories({
   searchInputRef,
   handleClearSearch,
   handleFilterToggle,
-  showAllTags,
-  setShowAllTags,
+  tagDisplayState,
+  setTagDisplayState,
   filtersRef,
   projectsRef,
   scrollToProjects,
@@ -271,8 +322,16 @@ function ProjectCategories({
   searchInputRef: RefObject<HTMLInputElement>;
   handleClearSearch: () => void;
   handleFilterToggle: (filterKey: string) => void;
-  showAllTags: boolean;
-  setShowAllTags: (show: boolean) => void;
+  tagDisplayState: {
+    showMoreCommon: boolean;
+    showRareTags: boolean;
+    userInteracted: { common: boolean; rare: boolean };
+  };
+  setTagDisplayState: (state: {
+    showMoreCommon: boolean;
+    showRareTags: boolean;
+    userInteracted: { common: boolean; rare: boolean };
+  }) => void;
   filtersRef: RefObject<HTMLDivElement>;
   projectsRef: RefObject<HTMLDivElement>;
   scrollToProjects: () => void;
@@ -428,77 +487,74 @@ function ProjectCategories({
             <div className="filterButtons">
               <span className="filterGroupTitle">Tags:</span>
               {(() => {
-                // Separate "All Tags" from individual tag options
-                const allTagsOption = processedData.tagOptions.find(
-                  (option) => option.key === 'all-tags'
-                );
-                const individualTags = processedData.tagOptions.filter(
-                  (option) => option.key !== 'all-tags'
-                );
+                const tagTiers = processedData.tagTiers;
+                if (!tagTiers) return null;
 
-                // Determine how many tags to show
-                const tagsToShow = showAllTags
-                  ? individualTags
-                  : individualTags.slice(0, 10);
-                const hasMoreTags = individualTags.length > 10;
+                const renderTagButton = (
+                  option,
+                  hasSearchResults = false,
+                  searchResultCount = 0
+                ) => {
+                  const isActive = searchTerm
+                    ? hasSearchResults
+                    : selectedFilter === option.key;
+
+                  const displayLabel =
+                    searchTerm && hasSearchResults
+                      ? (() => {
+                          const tagName = option.label.split(' (')[0];
+                          const labelMatch = option.label.match(/\((\d+)\)$/);
+                          const totalTagProjects = labelMatch
+                            ? parseInt(labelMatch[1])
+                            : searchResultCount;
+                          return `${tagName} (${searchResultCount} of ${totalTagProjects})`;
+                        })()
+                      : option.label;
+
+                  // Special styling for active tags that were auto-expanded
+                  const isAutoExpanded =
+                    !searchTerm &&
+                    selectedFilter === option.key &&
+                    (tagTiers.common.some((tag) => tag.key === option.key) ||
+                      tagTiers.rare.some((tag) => tag.key === option.key));
+
+                  return (
+                    <button
+                      key={option.key}
+                      onClick={
+                        searchTerm
+                          ? undefined
+                          : () => handleFilterToggle(option.key)
+                      }
+                      disabled={!!searchTerm}
+                      className={`filterButton ${
+                        searchTerm
+                          ? hasSearchResults
+                            ? 'active disabled'
+                            : 'disabled'
+                          : isActive
+                            ? `active${isAutoExpanded ? ' auto-expanded' : ''}`
+                            : ''
+                      }`}
+                      data-category="tag"
+                      title={
+                        isAutoExpanded
+                          ? 'Active filter (auto-expanded)'
+                          : undefined
+                      }
+                    >
+                      {displayLabel}
+                    </button>
+                  );
+                };
 
                 return (
                   <>
-                    {/* Show "All Tags" option first if it exists */}
-                    {allTagsOption && (
-                      <button
-                        key={allTagsOption.key}
-                        onClick={
-                          searchTerm
-                            ? undefined
-                            : () => handleFilterToggle(allTagsOption.key)
-                        }
-                        disabled={!!searchTerm}
-                        className={`filterButton ${
-                          searchTerm
-                            ? 'disabled'
-                            : selectedFilter === allTagsOption.key
-                              ? 'active'
-                              : ''
-                        }`}
-                        data-category="tag"
-                      >
-                        {(() => {
-                          if (searchTerm) {
-                            // Calculate total tagged projects in search results
-                            const taggedProjectsCount =
-                              processedData.categories.reduce(
-                                (total, cat) =>
-                                  total +
-                                  cat.subCategories.reduce(
-                                    (subTotal, sub) =>
-                                      subTotal +
-                                      sub.projects.filter(
-                                        (project) =>
-                                          project.tags &&
-                                          project.tags.length > 0
-                                      ).length,
-                                    0
-                                  ),
-                                0
-                              );
-                            if (taggedProjectsCount > 0) {
-                              // Extract total from original label
-                              const labelMatch =
-                                allTagsOption.label.match(/\((\d+)\)$/);
-                              const totalTaggedProjects = labelMatch
-                                ? parseInt(labelMatch[1])
-                                : taggedProjectsCount;
-                              return `${allTagsOption.label.replace(/\s*\(\d+\)$/, '')} (${taggedProjectsCount} of ${totalTaggedProjects})`;
-                            }
-                          }
-                          return allTagsOption.label;
-                        })()}
-                      </button>
-                    )}
+                    {/* All Tags Option */}
+                    {renderTagButton(tagTiers.allTagsOption)}
 
-                    {/* Show individual tag options */}
-                    {tagsToShow.map((option) => {
+                    {/* Popular Tags (3+ projects) - Always visible */}
+                    {tagTiers.popular.map((option) => {
                       const hasSearchResults =
                         searchTerm &&
                         processedData.categories.some((cat) =>
@@ -509,91 +565,152 @@ function ProjectCategories({
                                 project.tags.some(
                                   (tag) =>
                                     option.key ===
-                                      `tag-${tag.toLowerCase().replace(/\s+/g, '-')}` ||
-                                    option.key === 'all-tags'
+                                    `tag-${tag.toLowerCase().replace(/\s+/g, '-')}`
                                 )
                             )
                           )
                         );
 
-                      // Calculate project count for this specific tag during search
-                      let searchResultCount = 0;
-                      if (searchTerm && hasSearchResults) {
-                        const tagKey = option.key.substring(4); // Remove 'tag-' prefix
-
-                        processedData.categories.forEach((cat) => {
-                          cat.subCategories.forEach((sub) => {
-                            sub.projects.forEach((project) => {
-                              if (project.tags) {
-                                project.tags.forEach((tag) => {
-                                  const normalizedTag = tag
-                                    .toLowerCase()
-                                    .replace(/\s+/g, '-');
-                                  if (normalizedTag === tagKey) {
-                                    searchResultCount++;
-                                  }
-                                });
-                              }
-                            });
-                          });
-                        });
-                      }
-
-                      const isActive = searchTerm
-                        ? hasSearchResults
-                        : selectedFilter === option.key;
-
-                      // Update label to show search results count in "X of Y" format
-                      const displayLabel =
-                        searchTerm && hasSearchResults
-                          ? (() => {
-                              // Extract the tag name and original count from the label
-                              const tagName = option.label.split(' (')[0];
-                              const labelMatch =
-                                option.label.match(/\((\d+)\)$/);
-                              const totalTagProjects = labelMatch
-                                ? parseInt(labelMatch[1])
-                                : searchResultCount;
-                              return `${tagName} (${searchResultCount} of ${totalTagProjects})`;
-                            })()
-                          : option.label;
-
-                      return (
-                        <button
-                          key={option.key}
-                          onClick={
-                            searchTerm
-                              ? undefined
-                              : () => handleFilterToggle(option.key)
-                          }
-                          disabled={!!searchTerm}
-                          className={`filterButton ${
-                            searchTerm
-                              ? hasSearchResults
-                                ? 'active disabled'
-                                : 'disabled'
-                              : isActive
-                                ? 'active'
-                                : ''
-                          }`}
-                          data-category="tag"
-                        >
-                          {displayLabel}
-                        </button>
-                      );
+                      return renderTagButton(option, hasSearchResults);
                     })}
 
-                    {/* Show "more" button if there are more tags */}
-                    {hasMoreTags && !searchTerm && (
-                      <button
-                        onClick={() => setShowAllTags(!showAllTags)}
-                        className="filterButton showMore"
-                        data-category="tag"
-                      >
-                        {showAllTags
-                          ? `Show Less`
-                          : `Show More (${individualTags.length - 10} more)`}
-                      </button>
+                    {/* Common Tags (2 projects) - Show first 5, then "Show More Common" */}
+                    {tagTiers.common.length > 0 && (
+                      <>
+                        {tagTiers.common
+                          .filter((option, index) => {
+                            // Always show if it's the active filter
+                            if (selectedFilter === option.key) return true;
+                            // Otherwise apply normal slice logic
+                            return (
+                              index <
+                              (tagDisplayState.showMoreCommon
+                                ? tagTiers.common.length
+                                : 5)
+                            );
+                          })
+                          .map((option) => {
+                            const hasSearchResults =
+                              searchTerm &&
+                              processedData.categories.some((cat) =>
+                                cat.subCategories.some((sub) =>
+                                  sub.projects.some(
+                                    (project) =>
+                                      project.tags &&
+                                      project.tags.some(
+                                        (tag) =>
+                                          option.key ===
+                                          `tag-${tag.toLowerCase().replace(/\s+/g, '-')}`
+                                      )
+                                  )
+                                )
+                              );
+
+                            return renderTagButton(option, hasSearchResults);
+                          })}
+
+                        {/* Show More Common Button */}
+                        {tagTiers.common.length > 5 && !searchTerm && (
+                          <button
+                            onClick={() =>
+                              setTagDisplayState({
+                                ...tagDisplayState,
+                                showMoreCommon: !tagDisplayState.showMoreCommon,
+                                userInteracted: {
+                                  ...tagDisplayState.userInteracted,
+                                  common: true
+                                }
+                              })
+                            }
+                            className="filterButton showMore"
+                            data-category="tag"
+                          >
+                            {tagDisplayState.showMoreCommon
+                              ? 'Show Less Common'
+                              : (() => {
+                                  // Calculate how many are actually hidden (excluding active tag if auto-shown)
+                                  const activeTagInCommon =
+                                    tagTiers.common.some(
+                                      (tag) => tag.key === selectedFilter
+                                    );
+                                  const hiddenCount =
+                                    tagTiers.common.length - 5;
+                                  const adjustedCount = activeTagInCommon
+                                    ? Math.max(0, hiddenCount - 1)
+                                    : hiddenCount;
+                                  return adjustedCount > 0
+                                    ? `Show More Common (${adjustedCount} more)`
+                                    : 'Show Less Common';
+                                })()}
+                          </button>
+                        )}
+                      </>
+                    )}
+
+                    {/* Rare Tags (1 project) - Hidden by default */}
+                    {tagTiers.rare.length > 0 && (
+                      <>
+                        {/* Always show active rare tags, otherwise show if expanded */}
+                        {tagTiers.rare
+                          .filter((option) => {
+                            // Always show if it's the active filter
+                            if (selectedFilter === option.key) return true;
+                            // Otherwise only show if section is expanded
+                            return tagDisplayState.showRareTags;
+                          })
+                          .map((option) => {
+                            const hasSearchResults =
+                              searchTerm &&
+                              processedData.categories.some((cat) =>
+                                cat.subCategories.some((sub) =>
+                                  sub.projects.some(
+                                    (project) =>
+                                      project.tags &&
+                                      project.tags.some(
+                                        (tag) =>
+                                          option.key ===
+                                          `tag-${tag.toLowerCase().replace(/\s+/g, '-')}`
+                                      )
+                                  )
+                                )
+                              );
+
+                            return renderTagButton(option, hasSearchResults);
+                          })}
+
+                        {/* Show All Tags Button */}
+                        {!searchTerm && (
+                          <button
+                            onClick={() =>
+                              setTagDisplayState({
+                                ...tagDisplayState,
+                                showRareTags: !tagDisplayState.showRareTags,
+                                userInteracted: {
+                                  ...tagDisplayState.userInteracted,
+                                  rare: true
+                                }
+                              })
+                            }
+                            className="filterButton showMore"
+                            data-category="tag"
+                          >
+                            {tagDisplayState.showRareTags
+                              ? 'Show Less Tags'
+                              : (() => {
+                                  // Calculate how many are actually hidden (excluding active tag if auto-shown)
+                                  const activeTagInRare = tagTiers.rare.some(
+                                    (tag) => tag.key === selectedFilter
+                                  );
+                                  const adjustedCount = activeTagInRare
+                                    ? Math.max(0, tagTiers.rare.length - 1)
+                                    : tagTiers.rare.length;
+                                  return adjustedCount > 0
+                                    ? `Show All Tags (${adjustedCount} more)`
+                                    : 'Show Less Tags';
+                                })()}
+                          </button>
+                        )}
+                      </>
                     )}
                   </>
                 );

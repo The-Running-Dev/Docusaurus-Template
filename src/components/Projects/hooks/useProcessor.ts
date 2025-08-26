@@ -8,6 +8,7 @@ import {
   generateCategoryOptions,
   generateDateOptions,
   generateTagOptions,
+  generateTagTiers,
   applyDateFiltering
 } from '../utils';
 
@@ -74,6 +75,7 @@ export function useProcessor(
       const categoryOptions = generateCategoryOptions(processedCategories);
       const dateOptions = generateDateOptions(processedCategories);
       const tagOptions = generateTagOptions(processedCategories);
+      const tagTiers = generateTagTiers(processedCategories);
 
       const result: ProcessedProjectData = {
         categories: filteredData,
@@ -81,6 +83,7 @@ export function useProcessor(
         categoryOptions,
         dateOptions,
         tagOptions,
+        tagTiers,
         stats,
         categoryText
       };
@@ -116,6 +119,17 @@ function getEmptyProcessedData(): ProcessedProjectData {
     tagOptions: [
       { key: 'all-tags', label: 'All (0)', category: 'tag', count: 0 }
     ],
+    tagTiers: {
+      popular: [],
+      common: [],
+      rare: [],
+      allTagsOption: {
+        key: 'all-tags',
+        label: 'All (0)',
+        category: 'tag',
+        count: 0
+      }
+    },
     stats: {
       totalProjects: 0,
       recentProjects: 0,

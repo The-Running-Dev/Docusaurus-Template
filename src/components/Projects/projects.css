@@ -183,6 +183,39 @@
   color: var(--ifm-color-emphasis-800);
 }
 
+/* Auto-expanded active tag styling */
+.filterButton.active.auto-expanded {
+  position: relative;
+  box-shadow: 0 0 0 2px var(--ifm-color-primary-light);
+  animation: subtle-pulse 2s ease-in-out;
+}
+
+.filterButton.active.auto-expanded::after {
+  content: '👁️';
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 12px;
+  background: var(--ifm-color-primary);
+  color: white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: normal;
+}
+
+@keyframes subtle-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 0 2px var(--ifm-color-primary-light); 
+  }
+  50% { 
+    box-shadow: 0 0 0 4px var(--ifm-color-primary-lightest); 
+  }
+}
+
 /* ===== SEARCH HIGHLIGHTING ===== */
 
 .searchHighlight {

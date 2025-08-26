@@ -8,6 +8,7 @@ export function calculateStats(categories: ProcessedCategory[]): ProjectStats {
   let recentProjects = 0;
   let totalAge = 0;
   let projectsWithDates = 0;
+
   const totalTechnologies = categories.reduce(
     (count, cat) => count + cat.subCategories.length,
     0
@@ -325,6 +326,7 @@ export function applyDateFiltering(
           projects: sortProjectsByDate(
             subCategory.projects.filter((project) => {
               if (!project.lastModified) return dateRange === 'older';
+
               const projectDate = new Date(project.lastModified);
 
               if (dateRange === 'older') {
@@ -333,6 +335,7 @@ export function applyDateFiltering(
                   now.getMonth(),
                   now.getDate()
                 );
+
                 return projectDate < oneYearAgo;
               }
 
@@ -346,11 +349,19 @@ export function applyDateFiltering(
 }
 
 /**
- * Generate tag filter options
+ * Tag tiers interface for organized tag display
  */
-export function generateTagOptions(
-  categories: ProcessedCategory[]
-): FilterOption[] {
+export interface TagTiers {
+  popular: FilterOption[]; // 3+ count
+  common: FilterOption[]; // 2 count
+  rare: FilterOption[]; // 1 count
+  allTagsOption: FilterOption; // "All Tags" option
+}
+
+/**
+ * Generate tiered tag filter options for improved UX
+ */
+export function generateTagTiers(categories: ProcessedCategory[]): TagTiers {
   // Collect all unique tags from all projects
   const tagCounts = new Map<string, number>();
 
@@ -372,9 +383,14 @@ export function generateTagOptions(
       key: `tag-${tag.toLowerCase().replace(/\s+/g, '-')}`,
       label: `${tag} (${count})`,
       category: 'tag',
-      count: count // Add count for sorting
+      count: count
     }))
-    .sort((a, b) => b.count - a.count); // Sort by count descending
+    .sort((a, b) => b.count - a.count);
+
+  // Separate tags into tiers based on project count
+  const popular = tagOptions.filter((tag) => tag.count >= 3);
+  const common = tagOptions.filter((tag) => tag.count === 2);
+  const rare = tagOptions.filter((tag) => tag.count === 1);
 
   // Calculate total projects for "All Tags" option
   const totalProjectsWithTags = categories.reduce(
@@ -391,13 +407,33 @@ export function generateTagOptions(
     0
   );
 
+  const allTagsOption = {
+    key: 'all-tags',
+    label: `All (${totalProjectsWithTags})`,
+    category: 'tag',
+    count: totalProjectsWithTags
+  };
+
+  return {
+    popular,
+    common,
+    rare,
+    allTagsOption
+  };
+}
+
+/**
+ * Generate tag filter options (legacy function for compatibility)
+ * @deprecated Use generateTagTiers for better UX
+ */
+export function generateTagOptions(
+  categories: ProcessedCategory[]
+): FilterOption[] {
+  const tiers = generateTagTiers(categories);
   return [
-    {
-      key: 'all-tags',
-      label: `All (${totalProjectsWithTags})`,
-      category: 'tag',
-      count: totalProjectsWithTags
-    },
-    ...tagOptions
+    tiers.allTagsOption,
+    ...tiers.popular,
+    ...tiers.common,
+    ...tiers.rare
   ];
 }
