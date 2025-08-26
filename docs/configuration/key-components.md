@@ -40,7 +40,7 @@ links:
 
 ### Portfolio Component
 
-Professional portfolio showcase with project categorization and filtering.
+Professional portfolio showcase with hierarchical project categorization, interactive category cards, and advanced filtering capabilities.
 
 **Configuration:** `config/portfolioData.yml`
 **Live Component:** `/portfolio`
@@ -53,10 +53,28 @@ header:
   subtitle: Technical Projects & Experience
 
 projects:
-  - title: Backend Projects
-    description: C# .NET, Node.js, TypeScript applications
-    link: /projects?filter=backend
-    icon: '🔧'
+  - category: Frontend
+    subCategories:
+      - name: React
+        projects:
+          - title: Docusaurus Template
+            link: https://github.com/example/docusaurus-template
+            summary: Professional documentation template
+            tags:
+              - React
+              - TypeScript
+              - Docusaurus
+  - category: Backend
+    subCategories:
+      - name: .NET
+        projects:
+          - title: Business Intelligence
+            link: https://github.com/example/bi-project
+            summary: PowerBI integration web interface
+            tags:
+              - .NET
+              - PowerBI
+              - Analytics
 
 technologies:
   - name: .NET Core
@@ -65,9 +83,28 @@ technologies:
     category: Frontend
 ```
 
-### Projects Component (Enhanced in v1.0)
+**New Features (v1.0.1):**
 
-Advanced project listing with search, filtering, and URL-based state management.
+- **Category-Based Architecture**: Hierarchical organization with categories and subcategories
+- **Interactive Category Cards**: Clickable cards that filter projects dynamically
+- **Project Filtering Hook**: `useProjectFiltering` for managing filter logic and navigation
+- **Enhanced Data Model**: Support for nested project structures with comprehensive metadata
+- **Smart Navigation**: Category cards link to filtered project views with URL state management
+- **Business Intelligence Support**: Dedicated category for BI and analytics projects
+
+**Component Architecture:**
+
+```typescript
+// New portfolio components
+import Categories from './components/Categories';        // Category display grid
+import CategoryCard from './components/CategoryCard';   // Individual category cards  
+import ProjectsLink from './components/ProjectsLink';   // Smart filtering links
+import { useProjectFiltering } from './hooks/useProjectFiltering'; // Filter logic
+```
+
+### Projects Component (Enhanced in v1.0.1)
+
+Advanced project listing with search, category filtering, and URL-based state management. Now supports hierarchical project organization and advanced filtering capabilities.
 
 **Configuration:** `config/projects.yml`
 **Live Component:** `/projects`
@@ -75,18 +112,58 @@ Advanced project listing with search, filtering, and URL-based state management.
 
 ```yaml
 # config/projects.yml
-- category: 'Frontend'
+- category: Frontend
   subCategories:
-    - name: 'Angular'
+    - name: Angular
       projects:
-        - title: 'BarStrad'
-          link: 'https://github.com/The-Running-Dev/BarStrad-UI'
-          summary: 'Angular based menu application with theming'
+        - title: BarStrad
+          link: https://github.com/The-Running-Dev/BarStrad-UI
+          lastModified: 2025-02-09T23:05:00Z
+          summary: Angular based menu application with theming, language support, orders, and Discord notifications
           tags:
             - Angular
             - TypeScript
-            - Restaurant
+            - Frontend
+            - Bar
+            - Menu
+            - Discord
+            - Theming
+            - i18n
+    - name: React
+      projects:
+        - title: Docusaurus Template  
+          link: https://github.com/example/docusaurus-template
+          lastModified: 2025-08-16T00:00:00Z
+          summary: Reusable Docusaurus template with advanced features
+          tags:
+            - React
+            - Docusaurus
+            - TypeScript
+
+- category: Business Intelligence
+  subCategories:
+    - name: Business Intelligence
+      projects:
+        - title: Business Intelligence Web Interface
+          link: https://github.com/example/bi-interface
+          lastModified: 2019-04-16T23:52:00Z
+          summary: Web interface to expose data charted through PowerBI
+          tags:
+            - .NET
+            - C#
+            - Business Intelligence
+            - Power BI
+            - Data Analysis
 ```
+
+**Enhanced Features (v1.0.1):**
+
+- **Category Filtering**: Filter projects by top-level categories (Frontend, Backend, etc.)
+- **Tag-Based Filtering**: Advanced tag filtering with URL parameter support
+- **Hierarchical Data**: Support for categories → subcategories → projects structure
+- **Enhanced Metadata**: Added `lastModified` dates and comprehensive tagging
+- **Business Intelligence Category**: New dedicated category for BI and analytics projects
+- **Improved Search**: Better search functionality across all project metadata
 
 **Enhanced Data Processing (v1.0):**
 

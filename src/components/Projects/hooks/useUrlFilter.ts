@@ -3,8 +3,7 @@ import {
   useEffect,
   useLayoutEffect,
   useCallback,
-  useRef,
-  useMemo
+  useRef
 } from 'react';
 
 // Constants
@@ -45,22 +44,12 @@ export function useUrlFilter(options: FilterOptions = {}): UseUrlFilterReturn {
   const isInitializedRef = useRef(false);
   const retryCountRef = useRef(0);
 
-  // Memoized URL params parsing for performance
-  const currentUrlParams = useMemo(() => {
-    if (typeof window === 'undefined') return null;
-    try {
-      return new URLSearchParams(window.location.search);
-    } catch {
-      return null;
-    }
-  }, []);
-
   // Initialize filter from URL params on mount (synchronous)
   useLayoutEffect(() => {
     if (typeof window === 'undefined' || isInitializedRef.current) return;
 
     try {
-      const filterParam = currentUrlParams?.get('filter');
+      const filterParam = new URLSearchParams(window.location.search).get('filter');
 
       if (filterParam) {
         setSelectedFilter(filterParam);
@@ -74,7 +63,7 @@ export function useUrlFilter(options: FilterOptions = {}): UseUrlFilterReturn {
       setError(errorMsg);
       isInitializedRef.current = true;
     }
-  }, [currentUrlParams]);
+  }, []);
 
   // Retry mechanism for URL operations
   const retryUrlOperation = useCallback(
@@ -167,12 +156,17 @@ export function useUrlFilter(options: FilterOptions = {}): UseUrlFilterReturn {
   }, []);
 
   // Handle browser back/forward navigation
+  const selectedFilterRef = useRef(selectedFilter);
+  useEffect(() => {
+    selectedFilterRef.current = selectedFilter;
+  }, [selectedFilter]);
+
   const handlePopState = useCallback(() => {
     try {
       const urlParams = new URLSearchParams(window.location.search);
       const filterParam = urlParams.get('filter') || 'most-recent';
 
-      if (filterParam !== selectedFilter) {
+      if (filterParam !== selectedFilterRef.current) {
         setSelectedFilter(filterParam);
         setError(null);
       }
@@ -181,7 +175,7 @@ export function useUrlFilter(options: FilterOptions = {}): UseUrlFilterReturn {
       console.warn(errorMsg);
       setError(errorMsg);
     }
-  }, [selectedFilter]);
+  }, []);
 
   useEffect(() => {
     window.addEventListener('popstate', handlePopState);

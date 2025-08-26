@@ -14,11 +14,13 @@ sidebar_position: 2
 - 📱 **Responsive Design** - Mobile-friendly documentation and components
 - 🌙 **Dark Mode Support** - Built-in theme switching with persistence
 - � **Feature Flags** - Component-level feature toggles for flexible deployment
+- 🎯 **Advanced Project Filtering** - Category and tag-based filtering with URL state management
+- 🏗️ **Hierarchical Data Organization** - Nested categories and subcategories for better project organization
 
 ## Component System
 
-- 📈 **Portfolio Component** - Professional project showcase at `/portfolio`
-- 📂 **Projects Component** - Advanced project listing with search at `/projects`
+- 📈 **Portfolio Component** - Professional project showcase with category-based organization at `/portfolio`
+- 📂 **Projects Component** - Advanced project listing with search and category filtering at `/projects`
 - 📄 **CV Component** - Professional timeline display at `/cv`
 - 🎪 **Demo System** - Interactive component demonstrations at `/demos/`
 - 🏷️ **GitHub Badge System** - Configurable project badges with template variables
@@ -26,6 +28,8 @@ sidebar_position: 2
 - 🔗 **NavBar Links** - Configurable navigation with automatic position defaulting to 'left'
 - 🎯 **404 Error Page** - Custom interactive error page with animations and engaging content
 - 📚 **Related Resources** - Reusable component for contextual navigation and resource linking
+- 🏗️ **Category-Based Architecture** - Hierarchical project organization with filtering capabilities
+- 🎯 **Interactive Category Cards** - Clickable category cards that filter projects dynamically
 
 ## Developer Experience
 

@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - 2025-08-24
+
+### 🆕 New Features
+
+- **Category-Based Project Filtering**: Implemented advanced filtering system allowing users to filter projects by categories and tags
+- **Portfolio Categories Display**: Portfolio overview now showcases project categories with interactive category cards
+- **Hierarchical Project Category Data Model**: Introduced new data structure supporting nested categories and subcategories
+- **Business Intelligence Category**: Added new project category for BI-related projects with dedicated data section
+- **Enhanced Portfolio Components**: Added multiple new reusable components:
+  - `Categories` component for displaying project categories
+  - `CategoryCard` for individual category presentation
+  - `ProjectFiltering` hook for managing filter logic
+  - `ProjectsLink` for category-based navigation
+
+### 🎨 Enhancements
+
+- **Project Data Structure**: Enhanced project configuration to support hierarchical categories and improved metadata
+- **Portfolio Navigation**: Category cards now link to filtered project views with proper URL state management
+- **Data Validation**: Extended schema validation to support new category-based data structure
+- **Component Architecture**: Improved separation of concerns with dedicated filtering logic and reusable UI components
+
+### 📚 Data Updates
+
+- **Project Classification**: Reorganized existing projects into logical categories (Desktop, Frontend, Backend, Automation, Open Source, Business Intelligence, Infrastructure)
+- **Enhanced Project Metadata**: Added comprehensive tagging and categorization to all projects for better discoverability
+- **Business Intelligence Projects**: Added dedicated BI project data including PowerBI integration examples
+
 ## [1.0.0] - 2025-08-16
 
 ### 🆕 New Features
