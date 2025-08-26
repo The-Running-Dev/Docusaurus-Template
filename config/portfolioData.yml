@@ -214,65 +214,26 @@ projects:
   - category: Desktop
     icon: 🖥️
     description: Windows desktop applications and utilities
-    subCategories:
-      - name: Windows
-        description: Native Windows desktop applications
-        projects: []
 
   - category: Frontend
     icon: 🎨
     description: React, Angular, and modern web applications with responsive design and user experience focus
-    subCategories:
-      - name: React
-        description: React-based applications and components
-        projects: []
-      - name: Angular
-        description: Angular applications and enterprise solutions
-        projects: []
 
   - category: Backend
     icon: 🔧
     description: C# .NET, Node.js, TypeScript applications including APIs, microservices, and system integrations
-    subCategories:
-      - name: .NET
-        description: C# .NET Framework and .NET Core applications
-        projects: []
-      - name: Node.JS
-        description: Node.js and TypeScript server-side applications
-        projects: []
 
   - category: Automation
     icon: ⚡
     description: PowerShell, Bash, build pipelines, deployment automation, developer productivity tools
-    subCategories:
-      - name: PowerShell
-        description: Windows PowerShell automation and tooling
-        projects: []
-      - name: GitHub Actions
-        description: CI/CD workflows and automation
-        projects: []
 
   - category: Open Source
     icon: 🤝
     description: Package manager contributions, GitHub projects, community-driven collaboration
-    subCategories:
-      - name: Open Source
-        description: Community contributions and open source projects
-        projects: []
 
   - category: Infrastructure
     icon: ☁️
     description: Docker containerization, Kubernetes, CI/CD pipelines, cloud deployments (Azure, AWS), and automation solutions
-    subCategories:
-      - name: Azure & DevOps
-        description: Azure cloud services and DevOps solutions
-        projects: []
-      - name: Docker
-        description: Containerization and Docker-based solutions
-        projects: []
-      - name: Other
-        description: Other infrastructure and cloud technologies
-        projects: []
 
 stats:
   - number: 20+

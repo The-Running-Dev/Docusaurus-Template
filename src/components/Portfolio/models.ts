@@ -54,9 +54,9 @@ export interface ProjectCategory {
   category: string;
   icon: string;
   description: string;
-  subCategories: ProjectSubCategory[];
 }
 
+// Legacy interfaces - kept for Projects component compatibility
 export interface ProjectSubCategory {
   name: string;
   description: string;
