@@ -15,8 +15,8 @@ export function ProjectHeader({ categoryText }: ProjectHeaderProps) {
           Projects
         </Heading>
         <p className="heroSubtitle">
-          Explore my {categoryText.toLowerCase()} development projects across
-          multiple technologies
+          Explore my comprehensive {categoryText.toLowerCase()} development portfolio showcasing 
+          projects built with diverse technologies and frameworks
         </p>
       </div>
     </header>

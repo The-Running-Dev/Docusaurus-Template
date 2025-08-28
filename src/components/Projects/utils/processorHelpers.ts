@@ -138,9 +138,13 @@ export function generateDateOptions(
 ): FilterOption[] {
   // Collect all project dates to determine what options to show
   const allDates: Date[] = [];
+  
+  // Count total projects (including those without dates)
+  let totalProjects = 0;
 
   categories.forEach((category) => {
     category.subCategories.forEach((subCategory) => {
+      totalProjects += subCategory.projects.length;
       subCategory.projects.forEach((project) => {
         if (project.lastModified) {
           allDates.push(new Date(project.lastModified));
@@ -191,7 +195,7 @@ export function generateDateOptions(
   ).length;
   const lastYearCount = allDates.filter((date) => date >= oneYearAgo).length;
   const olderCount = allDates.filter((date) => date < oneYearAgo).length;
-  const allTimeCount = allDates.length;
+  const allTimeCount = totalProjects; // Use total projects count, not just dated ones
 
   const options: FilterOption[] = [
     { key: 'most-recent', label: `Most Recent (${mostRecentCount})` }
@@ -259,7 +263,7 @@ export function applyDateFiltering(
   };
 
   if (!dateRange || dateRange === 'all-dates') {
-    // Show all projects sorted by most recent
+    // Show all projects (including those without dates) sorted by most recent
     return categories.map((category) => ({
       ...category,
       subCategories: category.subCategories.map((subCategory) => ({

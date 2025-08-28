@@ -1,10 +1,15 @@
-import { ProjectStatsProps } from '../models';
+import { type ReactNode } from 'react';
+import { ProjectStats as ProjectStatsType } from '../models';
+
+interface ProjectStatsProps {
+  stats: ProjectStatsType;
+}
 
 /**
  * ProjectStats component
  * Displays key statistics about the projects in a grid layout
  */
-export function ProjectStats({ stats }: ProjectStatsProps) {
+export default function ProjectStats({ stats }: ProjectStatsProps): ReactNode {
   const statsArray = [
     {
       number: stats.totalProjects,
