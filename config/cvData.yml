@@ -1,60 +1,92 @@
 header:
-  title: Senior Bug Producer & Coffee-to-Code Converter
-  email: definitely.not.a.robot@example.com
-  phone: +1 555 HELP-ME
+  title: Founder & Principal Architect | Entrepreneurial Software Builder
+  email: contact.mbowp@aleeas.com
+  phone: "+359 (BG) – Available Remote / International"
   links:
-    - label: LinkedIn (where I pretend to be professional)
-      href: https://linkedin.com/in/exampleuser
-    - label: GitHub (my digital cry for help)
-      href: https://github.com/exampleuser
+    - label: GitHub (where I build & break in public)
+      href: https://github.com/The-Running-Dev
+    - label: Portfolio
+      href: https://github.com/The-Running-Dev/Portfolio
 
 about:
-  title: '🧠 About (Warning: Contains Traces of Sanity)'
+  title: '🧠 About Me'
   body: >
-    I am a caffeine-dependent life form who accidentally learned to code.
-    With years of experience turning perfectly good requirements into 
-    beautifully broken applications, I specialize in creating bugs that
-    are so creative, they should win awards. My superpower is writing
-    code that works on my machine but mysteriously fails everywhere else.
-    I have an unhealthy relationship with Stack Overflow and consider
-    "Did you try turning it off and on again?" as a valid debugging strategy.
+    Entrepreneurial software architect and founder with 20 years of experience
+    launching and scaling digital products, building high-performing teams, and
+    delivering transformative solutions for SMEs and startups. Founder of SUBZERODEV,
+    a consultancy and product studio blending technical innovation with business
+    impact. Proven at bridging the gap between vision and execution—reducing costs,
+    accelerating delivery, and creating sustainable platforms for growth. Active
+    open-source contributor and mentor who thrives on turning complex problems
+    into practical, elegant solutions.
 
 badges:
-  - alt: JavaScript
-    src: https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black
+  - alt: C#
+    src: https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white
   - alt: React
     src: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+  - alt: Node.js
+    src: https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node-dot-js&logoColor=white
+  - alt: Docker
+    src: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
+  - alt: AWS
+    src: https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white
+  - alt: Azure
+    src: https://img.shields.io/badge/Azure-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white
 
 chips:
-  - Bug Whisperer
-  - Coffee Dependent
-  - Stack Overflow Expert
+  - Founder
+  - Architect
+  - DevOps Automator
+  - Mentor
+  - Open-Source Builder
 
-timelineTitle: '💼 Professional Experience (aka My Journey Through Code Hell)'
+timelineTitle: '💼 Professional Experience'
 
 roles:
-  - company: 
-    title: Lead Developer (and Chief Bug Whisperer)
+  - company: SUBZERODEV
+    title: Founder & Principal Architect
+    period: 2023 – Present
+    summary: >
+      Founded a boutique consultancy delivering cloud-native platforms, DevOps automation,
+      and workflow modernization for SMEs. Published open-source projects such as Docker-Webhooks,
+      contributed to Microsoft’s WinGet ecosystem, and launched Thumb.io API.
+  
+  - company: BLUELIONHEART
+    title: Co-Founder & Lead Engineer
+    period: —
+    summary: >
+      Developed an IoT-powered predictive analytics platform for municipal sewer systems,
+      enabling proactive maintenance and reducing incident response times dramatically.
+  
+  - company: Vistaprint
+    title: Technical Lead
     period: 2022 – 2023
-    summary: "Successfully convinced management that 'it's not a bug, it's a feature' for 15 months straight"
+    summary: >
+      Led the payments engineering team, architecting new methods and mentoring developers
+      to improve quality, velocity, and delivery.
+  
+  - company: Derivco Sports
+    title: Team Lead
+    period: 2019 – 2022
+    summary: >
+      Introduced Azure pipelines, agile practices, and TDD across the trading division,
+      reducing defects backlog by 30%.
+  
+  - company: Inventive Group
+    title: Principal Engineer
+    period: 2017 – 2018
+    summary: >
+      Delivered MVPs that secured new clients, built cloud infrastructure, and mentored
+      a team from 1 to 5 developers.
 
-  - company: 
-    title: Senior Engineer (Junior Stress Collector)
-    period: 2020 – 2022
-    summary: "Mastered the art of looking productive while secretly googling 'how to center a div' for the 500th time"
-
-  - company: 
-    title: Full Stack Developer (Full Stack of Problems)
-    period: 2018 – 2020
-    summary: Learned that 'move fast and break things' was not just a motto, but a prophecy
-
-educationTitle: '🎓 Education & Learning (Academic & Self-Inflicted)'
+educationTitle: '🎓 Education & Learning'
 education:
-  - school: State University (School of Hard Knocks)
-    degree: B.S. Computer Science (emphasis on the BS)
-    details: 3.14159... (pi, because I'm irrational) - Graduated without crying in public more than 3 times
-  - school: YouTube University
-    degree: PhD in Copy-Paste Engineering
-    details: Watched every 'Learn JavaScript in 10 minutes' video ever made
+  - school: Alfred University (NY, USA)
+    degree: B.S. Computer Science (Cum Laude), Minor in MIS
+    details: Formal foundation in software engineering and information systems
+  - school: Continuous Learning
+    degree: Self-directed education in Clean Code, DevOps, and Modern Software Practices
+    details: Pluralsight, .NET Code Camps, Open-source contributions
 
-quote: Great software is built on Stack Overflow answers, prayer, and the tears of junior developers. Also, rubber ducks are excellent listeners.
+quote: I build systems that scale, teams that grow, and solutions that last. Software should be practical, elegant, and impactful.
