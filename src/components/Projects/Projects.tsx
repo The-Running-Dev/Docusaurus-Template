@@ -5,11 +5,10 @@ import DebugInfo from '../DebugInfo';
 import Loading from '../Loading';
 import { useFeaturesConfig } from '../../config';
 import { useProjects } from '../../hooks/useProjects';
-import { type ProcessedCategory, type ProcessedProjectData } from './models';
+import { type ProcessedProjectData } from './models';
 import { useProcessor, useUrlFilter, useSearch, useScrollRefs } from './hooks';
 import { FilterErrorBoundary } from './components/FilterErrorBoundary';
 import {
-  FilterButton,
   SearchBox,
   DateFilters,
   CategoryFilters,
@@ -18,7 +17,6 @@ import {
   ProjectHeader,
   ProjectStats
 } from './components';
-import { calculateCategoryResults, calculateTechnologyResults } from './utils';
 
 import './projects.css';
 import './projects-reader.css';
@@ -100,8 +98,7 @@ function ProjectsContent({ rawData }: { rawData: any[] }): ReactNode {
   const {
     selectedFilter,
     setSelectedFilter,
-    isLoading: isFilterLoading,
-    error: filterError
+    isLoading: isFilterLoading
   } = useUrlFilter();
   const { searchTerm, setSearchTerm, searchInputRef, handleClearSearch } =
     useSearch();
@@ -305,7 +302,10 @@ function ProjectFiltersAndResults({
           <CategoryFilters
             categoryOptions={processedData.categoryOptions}
             activeFilter={selectedFilter}
-            onFilterChange={handleFilterToggle}
+            onFilterChange={(key) => {
+              handleFilterToggle(key);
+              scrollToProjects();
+            }}
             searchTerm={searchTerm}
             processedData={processedData}
             isLoading={isFilterLoading}
@@ -314,7 +314,10 @@ function ProjectFiltersAndResults({
           <CategoryFilters
             categoryOptions={processedData.technologyOptions}
             activeFilter={selectedFilter}
-            onFilterChange={handleFilterToggle}
+            onFilterChange={(key) => {
+              handleFilterToggle(key);
+              scrollToProjects();
+            }}
             searchTerm={searchTerm}
             processedData={processedData}
             isLoading={isFilterLoading}
@@ -324,7 +327,10 @@ function ProjectFiltersAndResults({
           <TagFilters
             tagTiers={processedData.tagTiers}
             activeTag={selectedFilter}
-            onTagChange={handleFilterToggle}
+            onTagChange={(key) => {
+              handleFilterToggle(key);
+              scrollToProjects();
+            }}
           />
           
           <div ref={projectsRef}></div>

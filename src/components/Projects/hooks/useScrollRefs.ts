@@ -10,9 +10,17 @@ export function useScrollRefs() {
 
   const scrollToProjects = () => {
     if (projectsRef.current) {
-      projectsRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+      // First scroll to get the position
+      const element = projectsRef.current;
+      const rect = element.getBoundingClientRect();
+      const absoluteTop = rect.top + window.pageYOffset;
+
+      // Add offset to account for sticky header/navbar (adjust as needed)
+      const offset = 20; // pixels
+
+      window.scrollTo({
+        top: absoluteTop - offset,
+        behavior: 'smooth'
       });
     }
   };

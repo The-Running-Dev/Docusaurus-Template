@@ -54,10 +54,7 @@ export default function Timeline({
                   : `${start}–${end}`;
 
             return (
-              <li
-                className="timeline-item"
-                key={`${r.company}-${r.title}-${i}`}
-              >
+              <li className="timeline-item" key={`${r.title}-${i}`}>
                 {/* Year badge */}
                 <div className="timeline-year">{displayYear}</div>
 
@@ -68,9 +65,7 @@ export default function Timeline({
 
                 {/* Card */}
                 <article className="timeline-content">
-                  <h3>
-                    {r.company} — {r.title}
-                  </h3>
+                  <h3>{r.title}</h3>
 
                   <div className="timeline-meta">
                     {r.period}
