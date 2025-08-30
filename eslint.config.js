@@ -36,6 +36,19 @@ export default [
       '@typescript-eslint/no-redeclare': 'off'
     }
   },
+  // Vitest-specific globals for test files
+  {
+    files: [
+      'src/**/*.{test,spec}.ts',
+      'src/**/*.{test,spec}.tsx',
+      'scripts/**/*.{test,spec}.ts'
+    ],
+    languageOptions: {
+      globals: {
+        ...globals.vitest
+      }
+    }
+  },
   {
     ignores: [
       'build/',

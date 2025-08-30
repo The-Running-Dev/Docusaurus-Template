@@ -92,41 +92,53 @@ const TextSizeSwitcher: React.FC = () => {
 
           // Run immediately if DOM is ready, otherwise wait for it
           if (
-            document.readyState === 'complete' ||
-            document.readyState === 'interactive'
+            typeof document !== 'undefined' &&
+            (document.readyState === 'complete' ||
+              document.readyState === 'interactive')
           ) {
             initializeTextSize();
           } else {
             const handleDOMContentLoaded = () => {
               initializeTextSize();
-              document.removeEventListener(
+              if (typeof document !== 'undefined') {
+                document.removeEventListener(
+                  'DOMContentLoaded',
+                  handleDOMContentLoaded
+                );
+              }
+            };
+            if (typeof document !== 'undefined') {
+              document.addEventListener(
                 'DOMContentLoaded',
                 handleDOMContentLoaded
               );
-            };
-            document.addEventListener(
-              'DOMContentLoaded',
-              handleDOMContentLoaded
-            );
+            }
 
             return () => {
-              document.removeEventListener(
-                'DOMContentLoaded',
-                handleDOMContentLoaded
-              );
+              if (typeof document !== 'undefined') {
+                document.removeEventListener(
+                  'DOMContentLoaded',
+                  handleDOMContentLoaded
+                );
+              }
             };
           }
         }, []);
 
         // Additional effect to re-apply text size after any route changes
         useEffect(() => {
+          // Track timers so we can cancel on unmount
+          const timers = new Set<number>();
           const reapplyTextSize = () => {
+            if (typeof document === 'undefined') return;
             if (currentSize) {
               const textSize = textSizes.find((s) => s.name === currentSize);
               if (textSize) {
                 // Always remove all classes first, then add the correct one
                 textSizes.forEach((size) => {
-                  document.documentElement.classList.remove(size.className);
+                  if (typeof document !== 'undefined') {
+                    document.documentElement.classList.remove(size.className);
+                  }
                 });
                 document.documentElement.classList.add(textSize.className);
               }
@@ -135,7 +147,8 @@ const TextSizeSwitcher: React.FC = () => {
 
           // Listen for popstate events (back/forward navigation)
           const handleNavigation = () => {
-            setTimeout(reapplyTextSize, 10);
+            const id = setTimeout(reapplyTextSize, 10) as unknown as number;
+            timers.add(id);
           };
 
           // Listen for pushstate/replacestate (programmatic navigation)
@@ -144,20 +157,26 @@ const TextSizeSwitcher: React.FC = () => {
 
           history.pushState = function (...args) {
             originalPushState.apply(history, args);
-            setTimeout(reapplyTextSize, 10);
+            const id = setTimeout(reapplyTextSize, 10) as unknown as number;
+            timers.add(id);
           };
 
           history.replaceState = function (...args) {
             originalReplaceState.apply(history, args);
-            setTimeout(reapplyTextSize, 10);
+            const id = setTimeout(reapplyTextSize, 10) as unknown as number;
+            timers.add(id);
           };
 
           // Listen for hashchange (anchor navigation)
-          window.addEventListener('popstate', handleNavigation);
-          window.addEventListener('hashchange', reapplyTextSize);
+          if (typeof window !== 'undefined') {
+            window.addEventListener('popstate', handleNavigation);
+            window.addEventListener('hashchange', reapplyTextSize);
+          }
 
           // Also listen for focus events (when returning to tab)
-          window.addEventListener('focus', reapplyTextSize);
+          if (typeof window !== 'undefined') {
+            window.addEventListener('focus', reapplyTextSize);
+          }
 
           // Re-apply immediately and periodically check
           reapplyTextSize();
@@ -169,18 +188,25 @@ const TextSizeSwitcher: React.FC = () => {
             history.replaceState = originalReplaceState;
 
             // Remove event listeners
-            window.removeEventListener('popstate', handleNavigation);
-            window.removeEventListener('hashchange', reapplyTextSize);
-            window.removeEventListener('focus', reapplyTextSize);
+            if (typeof window !== 'undefined') {
+              window.removeEventListener('popstate', handleNavigation);
+              window.removeEventListener('hashchange', reapplyTextSize);
+              window.removeEventListener('focus', reapplyTextSize);
+            }
+            // Clear any pending timers
+            timers.forEach((id) => clearTimeout(id as unknown as number));
             clearInterval(intervalId);
           };
         }, [currentSize]);
 
         const applyTextSize = (sizeName: string) => {
           try {
+            if (typeof document === 'undefined') return;
             // Remove existing text size classes
             textSizes.forEach((size) => {
-              document.documentElement.classList.remove(size.className);
+              if (typeof document !== 'undefined') {
+                document.documentElement.classList.remove(size.className);
+              }
             });
 
             // Find the text size
@@ -192,30 +218,42 @@ const TextSizeSwitcher: React.FC = () => {
             }
 
             // Apply the class immediately
-            document.documentElement.classList.add(textSize.className);
+            if (typeof document !== 'undefined') {
+              document.documentElement.classList.add(textSize.className);
+            }
 
             // Also set CSS custom properties as backup
-            document.documentElement.style.setProperty(
-              '--text-size-scale',
-              textSize.scale.toString()
-            );
+            if (typeof document !== 'undefined') {
+              document.documentElement.style.setProperty(
+                '--text-size-scale',
+                textSize.scale.toString()
+              );
+            }
 
             // Use requestAnimationFrame to ensure it sticks
             requestAnimationFrame(() => {
-              document.documentElement.classList.add(textSize.className);
+              if (typeof document !== 'undefined') {
+                document.documentElement.classList.add(textSize.className);
+              }
             });
 
             // Double-check after a short delay
             setTimeout(() => {
-              if (
-                !document.documentElement.classList.contains(textSize.className)
-              ) {
-                document.documentElement.classList.add(textSize.className);
+              if (typeof document !== 'undefined') {
+                if (
+                  !document.documentElement.classList.contains(
+                    textSize.className
+                  )
+                ) {
+                  document.documentElement.classList.add(textSize.className);
+                }
               }
             }, 50);
 
             // Save to localStorage (consistent with ThemeSwitcher)
-            localStorage.setItem('docusaurus-text-size', sizeName);
+            if (typeof localStorage !== 'undefined') {
+              localStorage.setItem('docusaurus-text-size', sizeName);
+            }
 
             setCurrentSize(sizeName);
           } catch (error) {

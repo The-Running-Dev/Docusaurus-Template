@@ -1,6 +1,5 @@
 import { type ReactNode } from 'react';
 import clsx from 'clsx';
-import useDocusaurusContext from '@docusaurus/core/lib/client/exports/useDocusaurusContext';
 import Heading from '@theme/Heading';
 
 import DebugInfo from '../DebugInfo';
@@ -14,7 +13,6 @@ import './portfolio-reader.css';
 
 export default function Portfolio(): ReactNode {
   const features = useFeaturesConfig();
-  const { siteConfig } = useDocusaurusContext();
   const { data, loading, error, getStats, getFlattenedTechnologies } =
     usePortfolio();
   const { getAllProjects, getRecentProjects } = useProjects();
@@ -55,9 +53,7 @@ export default function Portfolio(): ReactNode {
       {/* Header */}
       <header className={clsx('hero hero--primary', 'heroBanner')}>
         <div className="container">
-          <Heading as="h1" className="hero__title">
-            {header.title || siteConfig.title}
-          </Heading>
+          <Heading as="h1" className="hero__title">{header.title}</Heading>
           <p className="heroSubtitle">{header.subtitle}</p>
         </div>
       </header>

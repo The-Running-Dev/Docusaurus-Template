@@ -32,7 +32,7 @@ const VersionDisplay: React.FC = () => {
       feature={Features.VersionDisplay}
       defaultData={DEFAULT_VERSION_DATA}
     >
-      {(config, loading, error, meta) => {
+      {(config, loading, error) => {
         if (loading) {
           return <span className="version-display">Loading...</span>;
         }

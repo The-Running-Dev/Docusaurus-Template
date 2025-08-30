@@ -1,5 +1,7 @@
 # Docusaurus Template
 
+[![codecov](https://codecov.io/gh/The-Running-Dev/Docusaurus-Template/branch/main/graph/badge.svg)](https://codecov.io/gh/The-Running-Dev/Docusaurus-Template)
+
 A comprehensive, reusable Docusaurus template for creating professional documentation sites with modern features, YAML-based configuration, and data-driven components.
 
 ## ✨ Key Features
@@ -65,6 +67,12 @@ pnpm run check-all      # Run all quality checks
 pnpm run clear          # Clear Docusaurus cache
 pnpm run serve          # Serve production build
 ```
+
+## 📊 Coverage Reports
+
+- Local: `pnpm test:components:cov` generates HTML + LCOV in `coverage/` (open `coverage/index.html`).
+- CI: GitHub Actions publishes a `coverage-report` artifact. If Codecov is configured (CODECOV_TOKEN), view coverage via the badge above.
+
 
 ## 📖 Documentation
 

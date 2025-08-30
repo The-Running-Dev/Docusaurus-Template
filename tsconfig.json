@@ -27,8 +27,10 @@
         "node_modules/@docusaurus/core/lib/client/exports/useBaseUrl"
       ]
     },
-    "types": ["node"],
-    "typeRoots": ["./node_modules/@types", "./src/types"]
+    "types": [
+      "node",
+      "vitest/globals"
+    ]
   },
   "include": [
     "src",

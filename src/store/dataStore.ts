@@ -65,10 +65,14 @@ export const useDataStore = create<GenericDataStore>()(
       clearData: (key) =>
         set(
           (state) => {
-            const { [key]: removedData, ...restData } = state.data;
-            const { [key]: removedLoading, ...restLoading } = state.loading;
-            const { [key]: removedError, ...restErrors } = state.errors;
-            const { [key]: removedMetadata, ...restMetadata } = state.metadata;
+            const restData = { ...state.data };
+            delete restData[key];
+            const restLoading = { ...state.loading };
+            delete restLoading[key];
+            const restErrors = { ...state.errors };
+            delete restErrors[key];
+            const restMetadata = { ...state.metadata };
+            delete restMetadata[key];
 
             return {
               data: restData,

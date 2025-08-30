@@ -65,7 +65,8 @@ export function validateGitHubConfig(
         .join(', ');
       return {
         success: false,
-        error: `GitHub Configuration Validation Failed: ${errorMessages}`
+        // Keep message predictable and aligned with tests
+        error: `validation failed: ${errorMessages}`
       };
     }
     return {
@@ -195,7 +196,8 @@ export function createGitHubConfigTemplate(
 ): GitHubConfig {
   const parsed = parseRepoString(repo);
   if (!parsed) {
-    throw new Error(`Invalid Repository Format: ${repo}`);
+    // Match the expected error phrasing in tests
+    throw new Error('Invalid repository format');
   }
 
   const {
