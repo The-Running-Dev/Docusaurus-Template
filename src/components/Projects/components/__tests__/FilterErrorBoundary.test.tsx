@@ -9,6 +9,7 @@ function Boom() {
 
 describe('FilterErrorBoundary', () => {
   it('renders fallback when child throws', () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
     render(
       <FilterErrorBoundary>
         {/* @ts-expect-error testing error path */}
@@ -17,5 +18,6 @@ describe('FilterErrorBoundary', () => {
     );
     expect(screen.getByText(/Filter Error/)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Refresh Page/ })).toBeInTheDocument();
+    spy.mockRestore();
   });
 });

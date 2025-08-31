@@ -4,13 +4,15 @@ import type { Theme } from './models';
 import { themes as configData } from '../../../data';
 
 export const themes: Theme[] = configData.themes;
-export const defaultTheme: Theme =
-  themes.find((t) => t.name === configData.defaultTheme) ||
-  themes.find((t) => t.name === 'default') ||
-  (themes.length > 0
-    ? themes[0]
-    : {
-        name: 'default',
-        displayName: 'Default',
-        cssFile: 'themes/default.css'
-      });
+
+export function selectDefaultTheme(list: Theme[], desired?: string): Theme {
+  return (
+    list.find((t) => t.name === desired) ||
+    list.find((t) => t.name === 'default') ||
+    (list.length > 0
+      ? list[0]
+      : { name: 'default', displayName: 'Default', cssFile: 'themes/default.css' })
+  );
+}
+
+export const defaultTheme: Theme = selectDefaultTheme(themes, configData.defaultTheme);

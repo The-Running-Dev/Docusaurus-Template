@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { useUrlFilter } from '../../hooks/useUrlFilter';
 
 function TestComp() {
@@ -26,7 +26,9 @@ describe('useUrlFilter', () => {
 
     render(<TestComp />);
     // advance debounce to apply update to URL
-    vi.advanceTimersByTime(15);
+    await act(async () => {
+      vi.advanceTimersByTime(15);
+    });
     expect(window.location.search).toContain('filter=category-web');
     // component state should reflect last set value
     expect(screen.getByTestId('filter').textContent).toBe('Category-Web');

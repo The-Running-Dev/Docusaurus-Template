@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { useUrlFilter } from '../useUrlFilter';
 
 function Comp() {
@@ -14,9 +14,11 @@ describe('useUrlFilter popstate + init', () => {
     render(<Comp />);
     expect(screen.getByTestId('filter').textContent?.toLowerCase()).toBe('category-web');
     // change URL and dispatch popstate
-    window.history.replaceState({}, '', '/projects?filter=tag-react');
-    window.dispatchEvent(new PopStateEvent('popstate'));
-    await new Promise((r) => setTimeout(r, 0));
+    await act(async () => {
+      window.history.replaceState({}, '', '/projects?filter=tag-react');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+      await new Promise((r) => setTimeout(r, 0));
+    });
     expect(screen.getByTestId('filter').textContent?.toLowerCase()).toBe('tag-react');
   });
 });

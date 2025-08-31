@@ -6,14 +6,14 @@ header:
     - label: GitHub (where I build & break in public)
       href: https://github.com/The-Running-Dev
     - label: Portfolio
-      href: https://github.com/The-Running-Dev/Portfolio
+      href: https://portfolio.subzerodev.com
 
 about:
   title: '🧠 About Me'
   body: >
     Entrepreneurial software architect and founder with 20 years of experience
     launching and scaling digital products, building high-performing teams, and
-    delivering transformative solutions for SMEs and startups. Founder of SUBZERODEV,
+    delivering transformative solutions for SMEs and startups. Founder of SubZeroDev,
     a consultancy and product studio blending technical innovation with business
     impact. Proven at bridging the gap between vision and execution—reducing costs,
     accelerating delivery, and creating sustainable platforms for growth. Active
@@ -33,52 +33,112 @@ badges:
     src: https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white
   - alt: Azure
     src: https://img.shields.io/badge/Azure-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white
+  - alt: TypeScript
+    src: https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
+  - alt: Angular
+    src: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
+  - alt: PowerShell
+    src: https://img.shields.io/badge/PowerShell-5391FE?style=for-the-badge&logo=powershell&logoColor=white
+  - alt: Python
+    src: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
+  - alt: GitHub Actions
+    src: https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white
 
 chips:
   - Founder
-  - Architect
+  - Principal Architect
   - DevOps Automator
-  - Mentor
-  - Open-Source Builder
+  - Open-Source Contributor
+  - Package Maintainer
+  - Technical Mentor
+  - Full-Stack Developer
 
 timelineTitle: '💼 Professional Experience'
 
 roles:
-  - company: SUBZERODEV
+  - company: SubZeroDev
     title: Founder & Principal Architect
     period: 2023 – Present
+    location: Remote / International
+    icon: faRocket
+    website: https://subzerodev.com
     summary: >
       Founded a boutique consultancy delivering cloud-native platforms, DevOps automation,
-      and workflow modernization for SMEs. Published open-source projects such as Docker-Webhooks,
-      contributed to Microsoft’s WinGet ecosystem, and launched Thumb.io API.
-  
-  - company: BLUELIONHEART
+      and workflow modernization. Actively building open-source projects including Docker-Webhooks,
+      Docker-Watchdog, Docker-BuildAgent, and contributing to Microsoft's WinGet ecosystem.
+    achievements:
+      - Built Docker-Webhooks for automated container management via GitHub workflows
+      - Created Docker-Watchdog for robust Docker Compose environment monitoring
+      - Developed Docker-BuildAgent for CI/CD pipelines with pre-configured tools
+      - Contributed multiple packages to Microsoft WinGet ecosystem
+      - Built comprehensive Azure DevOps pipeline templates and IaC modules
+      - Created Docusaurus Template for professional documentation sites
+    tech: C#, .NET Core, Docker, Azure, AWS, React, Node.js, DevOps, TypeScript
+
+  - company: BlueLionHeart
     title: Co-Founder & Lead Engineer
-    period: —
+    period: 2023-2024
+    location: Remote
+    icon: faLightbulb
     summary: >
-      Developed an IoT-powered predictive analytics platform for municipal sewer systems,
-      enabling proactive maintenance and reducing incident response times dramatically.
+      Co-founded and developed an IoT-powered predictive analytics platform for municipal 
+      infrastructure monitoring, focusing on proactive maintenance and automated alerting systems.
+    achievements:
+      - Architected scalable IoT platform for real-time sensor data processing
+      - Implemented machine learning models for predictive maintenance analytics
+      - Built automated notification systems for municipal infrastructure monitoring
+      - Developed time-series data processing pipelines for municipal clients
+    tech: Python, TensorFlow, IoT, Azure IoT Hub, Time Series Analytics
   
-  - company: Vistaprint
+  - company: VistaPrint
     title: Technical Lead
     period: 2022 – 2023
+    location: Remote
+    icon: faCreditCard
+    website: https://vistaprint.com
     summary: >
-      Led the payments engineering team, architecting new methods and mentoring developers
-      to improve quality, velocity, and delivery.
+      Led the payments engineering team, architecting new payment methods and mentoring developers
+      to improve code quality, delivery velocity, and system reliability.
+    achievements:
+      - Led cross-functional payments infrastructure team
+      - Architected and implemented new payment method integrations
+      - Improved payment processing reliability and error handling
+      - Mentored junior developers in clean code and microservices architecture
+      - Established testing strategies and CI/CD practices for payment systems
+    tech: C#, .NET, Payment APIs, Microservices, Kafka, Redis
   
   - company: Derivco Sports
     title: Team Lead
     period: 2019 – 2022
+    location: Cape Town, SA (Remote)
+    icon: faChartLine
+    website: https://derivco.com
     summary: >
-      Introduced Azure pipelines, agile practices, and TDD across the trading division,
-      reducing defects backlog by 30%.
+      Introduced modern development practices including Azure DevOps pipelines, agile methodologies,
+      and test-driven development across the trading systems division.
+    achievements:
+      - Implemented CI/CD pipelines reducing manual deployment processes
+      - Established TDD practices and automated testing strategies
+      - Led agile transformation across multiple development teams
+      - Architected real-time trading platform with SignalR and high-frequency data processing
+      - Mentored teams on clean code practices and SOLID principles
+    tech: C#, .NET Framework, Azure DevOps, SQL Server, SignalR
   
   - company: Inventive Group
     title: Principal Engineer
     period: 2017 – 2018
+    location: Sofia, Bulgaria
+    icon: faHammer
     summary: >
-      Delivered MVPs that secured new clients, built cloud infrastructure, and mentored
-      a team from 1 to 5 developers.
+      Delivered multiple MVP projects for new client acquisitions, built scalable cloud infrastructure,
+      and grew the engineering team while establishing development processes.
+    achievements:
+      - Delivered multiple MVPs that successfully secured new client partnerships
+      - Architected and built scalable cloud infrastructure on Azure
+      - Grew engineering team and established mentoring processes
+      - Implemented development standards, code review practices, and CI processes
+      - Led full-stack development using .NET and Angular technologies
+    tech: C#, ASP.NET MVC, Azure, SQL Server, JavaScript, Angular
 
 educationTitle: '🎓 Education & Learning'
 education:
@@ -88,5 +148,126 @@ education:
   - school: Continuous Learning
     degree: Self-directed education in Clean Code, DevOps, and Modern Software Practices
     details: Pluralsight, .NET Code Camps, Open-source contributions
+
+projectsTitle: '🚀 Recent Projects & Open Source'
+projects:
+  - title: Docker-Watchdog
+    link: https://github.com/The-Running-Dev/Docker-Watchdog
+    description: Robust containerized management tool for Docker Compose environments with automated updates and health monitoring
+    tech: Docker, Node.js, TypeScript, REST API
+    year: 2025
+  
+  - title: AzureDevOps-Templates
+    link: https://github.com/The-Running-Dev/Demo-AzureDevOps-Templates
+    description: Comprehensive collection of reusable Azure DevOps pipeline templates and infrastructure-as-code modules
+    tech: Azure DevOps, ARM Templates, YAML, IaC
+    year: 2025
+  
+  - title: Docker-Webhooks
+    link: https://github.com/The-Running-Dev/Docker-Webhooks
+    description: Node.js API for managing local Docker containers via GitHub workflow webhooks through Cloudflared
+    tech: Node.js, Express, Docker, TypeScript, Webhooks
+    year: 2025
+  
+  - title: Docker-BuildAgent
+    link: https://github.com/The-Running-Dev/Docker-BuildAgent
+    description: Pre-configured Docker image for CI/CD pipelines with Node.js, Angular CLI, TypeScript, and PowerShell
+    tech: Docker, Node.js, Angular, PowerShell, CI/CD
+    year: 2025
+  
+  - title: Docker-DNSAtHome
+    link: https://github.com/The-Running-Dev/Docker-DNSAtHome
+    description: Containerized dnscrypt-proxy solution with encrypted DNS, blocklists, and automated monitoring
+    tech: Docker, DNS, dnscrypt-proxy, Security, Privacy
+    year: 2025
+  
+  - title: Docusaurus Template
+    link: https://github.com/The-Running-Dev/Docusaurus-Template
+    description: Professional Docusaurus template with TypeScript, theming, and automated build scripts
+    tech: React, Docusaurus, TypeScript, Markdown, SSG
+    year: 2025
+
+  - title: iCloudSync
+    link: https://github.com/The-Running-Dev/iCloudSync
+    description: PowerShell automation scripts for downloading and organizing iCloud media files
+    tech: PowerShell, File Management, Automation
+    year: 2023
+
+  - title: QuickSync
+    link: https://github.com/The-Running-Dev/QuickSync
+    description: Windows desktop utility for comparing and synchronizing folders using CRC32 checksums
+    tech: .NET, C#, WinForms, File Management
+    year: 2025
+
+  - title: Image Event Processor
+    link: https://github.com/The-Running-Dev/Demo-ImageEventProcessor
+    description: .NET WebAPI hosted on AWS Lambda with Angular UI for processing images
+    tech: .NET, AWS Lambda, Angular, Serverless
+    year: 2025
+
+  - title: BarStrad Restaurant System
+    link: https://github.com/The-Running-Dev/BarStrad-UI
+    description: Angular-based restaurant menu application with Discord integration and multilingual support
+    tech: Angular, TypeScript, Discord, i18n
+    year: 2025
+
+openSourceTitle: '🌟 Open Source Contributions'
+openSource:
+  - title: Microsoft WinGet Packages
+    link: https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+author%3AThe-Running-Dev
+    description: Multiple contributions to Windows Package Manager community repository
+    impact: Package management for Windows ecosystem
+    tech: Package Management, YAML, Windows
+
+  - title: Chocolatey Community Packages
+    link: https://github.com/chocolatey-community/chocolatey-packages/pulls?q=is%3Apr+author%3AThe-Running-Dev
+    description: Contributed packages for popular software including Spotify, JetBrains tools
+    impact: Simplified software installation for Windows users
+    tech: Package Management, PowerShell, Chocolatey
+
+  - title: GitHub Actions Automation
+    description: Automated WinGet package updates for SideQuest Easy Installer and XYplorer
+    impact: Continuous integration for package maintenance
+    tech: GitHub Actions, CI/CD, YAML, Automation
+
+  - title: AliaSQL Database Migration
+    link: https://github.com/The-Running-Dev/Database-AliaSQL
+    description: Contributed to open source database versioning and migration tool
+    impact: Database deployment automation
+    tech: SQL Server, Database Migration, .NET
+
+timelineProjectsTitle: '📈 Career Timeline & Key Projects'
+timelineProjects:
+  - period: "2023-Present (SubZeroDev Era)"
+    focus: "Containerization & DevOps Automation"
+    projects:
+      - "Docker-Watchdog (Container Management)"
+      - "Docker-Webhooks (CI/CD Integration)"
+      - "Docker-BuildAgent (Pipeline Tools)"
+      - "AzureDevOps Templates (IaC)"
+      - "Docusaurus Template (Documentation)"
+
+  - period: "2019-2022 (Derivco Sports Era)"  
+    focus: "Enterprise Development & Trading Systems"
+    projects:
+      - "Business Intelligence Web Interface"
+      - "Manual Testing Applications (Angular)"
+      - "Equipment Repairs System"
+      - "Code Generation Tools (Razor Templates)"
+
+  - period: "2017-2018 (Inventive Group Era)"
+    focus: "Full-Stack Development & MVPs"
+    projects:
+      - "Patient Viewer (.NET & Angular demos)"
+      - "Menu Creator (ASP.NET Core)"
+      - "NetAssure Platform (Angular/Node.js/Docker)"
+      - "Shopping Service Microservice"
+
+  - period: "2014-2016 (Early Career)"
+    focus: "Automation & Build Tools"
+    projects:
+      - "OctopusDeploy Integration Tools"
+      - "PowerShell Automation Scripts"
+      - "BoxStarter Package Management"
 
 quote: I build systems that scale, teams that grow, and solutions that last. Software should be practical, elegant, and impactful.

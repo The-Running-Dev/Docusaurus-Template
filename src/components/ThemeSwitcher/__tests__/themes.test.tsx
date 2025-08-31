@@ -1,18 +1,13 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
+import { selectDefaultTheme } from '../themes';
 
 describe('Theme config fallback', () => {
-  it.skip('falls back to first theme when defaultTheme missing', async () => {
-    vi.resetModules();
-    vi.doMock('../../../data', () => ({
-      themes: {
-        themes: [
-          { name: 'first', displayName: 'First', cssFile: 'themes/first.css' },
-          { name: 'second', displayName: 'Second', cssFile: 'themes/second.css' }
-        ],
-        defaultTheme: 'missing'
-      }
-    }));
-    const mod = await import('../themes');
-    expect(mod.defaultTheme.name === 'first' || mod.defaultTheme.name === 'default').toBe(true);
+  it('falls back to first theme when defaultTheme missing', () => {
+    const list = [
+      { name: 'first', displayName: 'First', cssFile: 'themes/first.css' },
+      { name: 'second', displayName: 'Second', cssFile: 'themes/second.css' }
+    ] as any;
+    const selected = selectDefaultTheme(list, 'missing');
+    expect(selected.name === 'first' || selected.name === 'default').toBe(true);
   });
 });

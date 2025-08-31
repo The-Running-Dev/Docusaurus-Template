@@ -20,6 +20,7 @@ import TechStack from '../TechStack';
 
 describe('TechStack', () => {
   it('wraps items with Tooltip when subCategories exist and links to projects filter', () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
     render(
       <TechStack
         technologies={[
@@ -43,5 +44,6 @@ describe('TechStack', () => {
     const hrefs = Array.from(links).map((a) => (a as HTMLAnchorElement).href);
     expect(hrefs.some((h) => decodeURIComponent(h).includes('Web-React'))).toBe(true);
     expect(hrefs.some((h) => decodeURIComponent(h).includes('Backend-Node'))).toBe(true);
+    spy.mockRestore();
   });
 });

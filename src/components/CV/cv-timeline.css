@@ -2,10 +2,11 @@
 .vertical-timeline {
   position: relative;
   margin: 1.5rem 0;
-  padding-left: 2.5rem;
+  padding-left: 5rem;
   font-family:
     -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
     'Cantarell', sans-serif;
+  font-size: 1rem;
 }
 
 /* Each timeline item */
@@ -16,7 +17,6 @@
 }
 
 .timeline-tech strong {
-  font-size: 0.85rem;
   margin-top: 1rem;
   padding: 0.25rem 0.5rem;
   background: var(--ifm-color-primary-lightest);
@@ -32,10 +32,10 @@
 /* Year badge positioned on the left */
 .timeline-year {
   position: absolute;
-  left: -4.5rem;
+  left: -4.75rem;
   top: 0.25rem;
-  background: var(--ifm-color-primary);
-  color: white;
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-800);
   padding: 0.25rem 0.5rem;
   border-radius: 6px;
   font-size: 0.75rem;
@@ -43,14 +43,21 @@
   letter-spacing: 0.25px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   z-index: 10;
-  min-width: 3.5rem;
+  min-width: 4rem;
   text-align: center;
+  border: 1px solid var(--ifm-color-emphasis-300);
+}
+
+[data-theme='dark'] .timeline-year {
+  background: var(--ifm-color-emphasis-300);
+  color: var(--ifm-color-emphasis-900);
+  border-color: var(--ifm-color-emphasis-400);
 }
 
 /* Dot with icon - simplified styling */
 .timeline-icon {
   position: absolute;
-  left: -1.4rem;
+  left: 0.4rem;
   top: 0.1rem;
   background: var(--ifm-color-primary);
   color: white;
@@ -60,7 +67,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
   box-shadow:
     0 0 0 3px var(--ifm-background-color),
@@ -71,6 +78,7 @@
 /* Card styling - clean and professional */
 .timeline-content {
   background: var(--ifm-card-background-color);
+  margin-left: 40px;
 }
 
 [data-theme='dark'] .timeline-content {
@@ -94,138 +102,202 @@
     0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
-/* Header (company and title) - clean professional typography */
-.timeline-content h3 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--ifm-color-primary-darker);
+/* Header section with company and title */
+.timeline-header {
+  margin-bottom: 0.75rem;
+}
+
+.timeline-header h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ifm-color-primary);
   line-height: 1.3;
 }
 
-/* Meta information styling - compact and clean */
+.timeline-header h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-800);
+  line-height: 1.2;
+}
+
+/* Meta information styling - improved layout */
 .timeline-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.timeline-period {
   font-size: 0.85rem;
-  color: var(--ifm-color-emphasis-700);
-  margin-bottom: 0.75rem;
-  padding: 0.35rem 0.75rem;
+  color: var(--ifm-color-emphasis-800);
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
   background: var(--ifm-color-emphasis-100);
-  border-radius: 6px;
-  border-left: 2px solid var(--ifm-color-primary);
+  border-radius: 12px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+}
+
+[data-theme='dark'] .timeline-period {
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-700);
+  border-color: var(--ifm-color-emphasis-400);
+}
+
+.timeline-location {
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
   font-weight: 500;
 }
 
-.timeline-meta a {
+.timeline-website {
+  font-size: 0.8rem;
   color: var(--ifm-color-primary);
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 500;
+  padding: 0.2rem 0.5rem;
+  border-radius: 8px;
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  transition: all 0.2s ease;
 }
 
-.timeline-meta a:hover {
-  text-decoration: underline;
+.timeline-website:hover {
+  text-decoration: none;
+  background: var(--ifm-color-emphasis-200);
   color: var(--ifm-color-primary-dark);
+  border-color: var(--ifm-color-primary);
 }
 
-/* Summary text - improved readability with compact spacing */
-.timeline-content p {
-  margin: 0.75rem 0;
-  line-height: 1.5;
-  color: var(--ifm-color-emphasis-800);
-  font-size: 0.9rem;
+[data-theme='dark'] .timeline-website {
+  background: var(--ifm-color-emphasis-200);
+  border-color: var(--ifm-color-emphasis-400);
 }
 
-/* Achievements list - compact styling */
-.timeline-content ul {
+[data-theme='dark'] .timeline-website:hover {
+  background: var(--ifm-color-emphasis-300);
+  color: var(--ifm-color-primary-light);
+}
+
+/* Summary text - improved readability */
+.timeline-summary {
   margin: 1rem 0;
+  line-height: 1.6;
+  color: var(--ifm-color-emphasis-800);
+}
+
+/* Achievements section styling */
+.timeline-achievements {
+  margin: 1.25rem 0;
+}
+
+.timeline-achievements h5 {
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+  color: var(--ifm-color-primary-darker);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.timeline-achievements ul {
+  margin: 0;
   padding: 0.75rem 1.25rem;
   background: var(--ifm-color-emphasis-50);
   border-radius: 6px;
-  border-left: 2px solid var(--ifm-color-primary-lightest);
+  border-left: 3px solid var(--ifm-color-primary);
 }
 
-[data-theme='dark'] .timeline-content ul {
+[data-theme='dark'] .timeline-achievements ul {
   background: rgba(30, 41, 59, 0.2);
   border-left-color: var(--ifm-color-primary-light);
 }
 
-.timeline-content li {
-  margin-bottom: 0.35rem;
-  line-height: 1.4;
-  position: relative;
-  font-size: 0.85rem;
+.timeline-achievements li {
+  margin-bottom: 0.4rem;
+  line-height: 1.5;
+  color: var(--ifm-color-emphasis-800);
 }
 
-.timeline-content li::marker {
+.timeline-achievements li::marker {
   color: var(--ifm-color-primary);
   font-weight: 600;
 }
 
-/* Tech stack - clean and compact */
+.timeline-achievements li:last-child {
+  margin-bottom: 0;
+}
+
+/* Tech stack - improved visibility */
 .timeline-tech {
-  font-size: 0.85rem;
-  margin-top: 1rem;
-  padding: 0.5rem 0.75rem;
-  background: var(--ifm-color-primary-lightest);
-  border-radius: 6px;
+  margin-top: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 3px;
   border-left: 2px solid var(--ifm-color-primary);
-  position: relative;
+  line-height: 1.1;
+  border: 1px solid var(--ifm-color-emphasis-900);
 }
 
 [data-theme='dark'] .timeline-tech {
-  background: rgba(51, 65, 85, 0.2);
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-700);
+  border-color: var(--ifm-color-emphasis-400);
 }
 
 .timeline-tech strong {
-  color: var(--ifm-color-primary-darker);
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.25px;
+  letter-spacing: 0.5px;
+  margin-right: 0.5rem;
+  display: inline-block;
 }
 
-/* Responsive improvements - compact design maintained */
+[data-theme='dark'] .timeline-tech strong {
+  color: var(--ifm-color-emphasis-200);
+}
+
+/* Responsive improvements */
 @media (max-width: 768px) {
   .vertical-timeline {
     padding-left: 2rem;
-    margin-left: 0.75rem;
+    margin-left: 0.5rem;
   }
 
   .timeline-icon {
     left: -1.2rem;
-    width: 1.8rem;
-    height: 1.8rem;
-    font-size: 0.9rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.7rem;
   }
 
   .timeline-year {
     position: static;
     display: inline-block;
-    margin-bottom: 0.5rem;
-    margin-top: -0.25rem;
+    margin-bottom: 0.75rem;
     font-size: 0.7rem;
-    padding: 0.2rem 0.4rem;
+    padding: 0.2rem 0.5rem;
+    min-width: auto;
+    background: var(--ifm-color-emphasis-200);
+    color: var(--ifm-color-emphasis-800);
+    border: 1px solid var(--ifm-color-emphasis-300);
   }
 
   .timeline-content {
-    padding: 1rem;
-    margin-left: 0;
-  }
-
-  .timeline-content h3 {
-    font-size: 1rem;
+    margin-left: 20px;
   }
 
   .timeline-meta {
-    font-size: 0.8rem;
-    padding: 0.25rem 0.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
 
-  .timeline-content p {
-    font-size: 0.85rem;
-  }
-
-  .timeline-content li {
-    font-size: 0.8rem;
+  .timeline-period {
+    padding: 0.2rem 0.6rem;
   }
 }

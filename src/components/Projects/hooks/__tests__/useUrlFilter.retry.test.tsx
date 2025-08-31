@@ -13,6 +13,8 @@ function RetryComp() {
 
 describe('useUrlFilter retry path', () => {
   it('falls back to most-recent when history.replaceState keeps failing', async () => {
+    vi.useFakeTimers();
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const original = window.history.replaceState;
     // Throw on first 3 calls to exceed maxRetries
     // @ts-ignore
@@ -20,9 +22,13 @@ describe('useUrlFilter retry path', () => {
     await act(async () => {
       render(<RetryComp />);
     });
-    // Allow retry timers to run
-    await act(async () => { await new Promise((r) => setTimeout(r, 400)); });
+    // Allow retry timers to run deterministically
+    await act(async () => {
+      vi.advanceTimersByTime(400);
+    });
     expect(screen.getByTestId('filter').textContent).toBe('most-recent');
     window.history.replaceState = original;
+    warnSpy.mockRestore();
+    vi.useRealTimers();
   });
 });

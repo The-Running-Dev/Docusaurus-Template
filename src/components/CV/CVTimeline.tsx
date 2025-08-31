@@ -1,5 +1,15 @@
 import { useMemo } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faRocket,
+  faLightbulb,
+  faCreditCard,
+  faChartLine,
+  faHammer,
+  faBriefcase
+} from '@fortawesome/free-solid-svg-icons';
 import type { Role } from './models';
+import TechTags from './TechTags';
 
 import './cv-timeline.css';
 
@@ -29,6 +39,15 @@ function sortByRecent(roles: Role[]): Role[] {
   });
 }
 
+const iconMap = {
+  faRocket,
+  faLightbulb,
+  faCreditCard,
+  faChartLine,
+  faHammer,
+  faBriefcase
+};
+
 export default function Timeline({
   title,
   roles
@@ -39,7 +58,7 @@ export default function Timeline({
   const items = useMemo(() => sortByRecent(roles), [roles]);
 
   return (
-    <section className="cv-section">
+    <section className="cv-section" id="experience">
       <h2>{title}</h2>
 
       <div className="vertical-timeline">
@@ -55,55 +74,74 @@ export default function Timeline({
 
             return (
               <li className="timeline-item" key={`${r.title}-${i}`}>
-                {/* Year badge */}
                 <div className="timeline-year">{displayYear}</div>
 
-                {/* Marker with icon */}
                 <div className="timeline-icon" aria-hidden="true">
-                  {r.icon ?? '•'}
+                  <FontAwesomeIcon 
+                    icon={r.icon && iconMap[r.icon as keyof typeof iconMap] 
+                      ? iconMap[r.icon as keyof typeof iconMap] 
+                      : faBriefcase
+                    } 
+                  />
                 </div>
 
-                {/* Card */}
                 <article className="timeline-content">
-                  <h3>{r.title}</h3>
+                  <header className="timeline-header">
+                    <h3>{r.company}</h3>
+                    <h4>{r.title}</h4>
+                  </header>
 
                   <div className="timeline-meta">
-                    {r.period}
-                    {r.location ? <> · {r.location}</> : null}
-                    {r.website ? (
-                      <>
-                        {' '}
-                        ·{' '}
-                        <a href={r.website} target="_blank" rel="noreferrer">
-                          Company Site
-                        </a>
-                      </>
-                    ) : null}
+                    <span className="timeline-period">{r.period}</span>
+                    {r.location && (
+                      <span className="timeline-location">📍 {r.location}</span>
+                    )}
+                    {r.website && (
+                      <a 
+                        href={r.website} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="timeline-website"
+                      >
+                        🔗 Visit Site
+                      </a>
+                    )}
                   </div>
 
-                  {r.summary ? (
-                    <p dangerouslySetInnerHTML={{ __html: r.summary }} />
-                  ) : null}
+                  {r.summary && (
+                    <div 
+                      className="timeline-summary"
+                      dangerouslySetInnerHTML={{ __html: r.summary }} 
+                    />
+                  )}
 
-                  {r.achievements?.length ? (
-                    <ul>
-                      {r.achievements.map((a, j) => (
-                        <li key={j} dangerouslySetInnerHTML={{ __html: a }} />
-                      ))}
-                    </ul>
-                  ) : null}
+                  {r.achievements?.length && (
+                    <div className="timeline-achievements">
+                      <h5>Key Achievements</h5>
+                      <ul>
+                        {r.achievements.map((achievement, j) => (
+                          <li 
+                            key={j} 
+                            dangerouslySetInnerHTML={{ __html: achievement }} 
+                          />
+                        ))}
+                      </ul>
+                    </div>
+                  )}
 
-                  {r.tech ? (
-                    <p className="timeline-tech">
-                      <strong>Tech</strong> {r.tech}
-                    </p>
-                  ) : null}
+                  {r.tech && (
+                    <div className="timeline-tech">
+                      <TechTags techString={r.tech} className="timeline-tech-tags" />
+                    </div>
+                  )}
                 </article>
               </li>
             );
           })}
         </ol>
       </div>
+
+      <a href="#" className="cv-back-to-top">↑ Back to Top</a>
     </section>
   );
 }
