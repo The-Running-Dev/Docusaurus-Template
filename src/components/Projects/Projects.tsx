@@ -171,7 +171,7 @@ function ProjectsContent({ rawData }: { rawData: any[] }): ReactNode {
         setSelectedFilter(matchingOption.key);
       }
     }
-  }, [processedData, selectedFilter]);
+  }, [processedData, selectedFilter, setSelectedFilter]);
 
   // Handle processing error
   if (processingError) {

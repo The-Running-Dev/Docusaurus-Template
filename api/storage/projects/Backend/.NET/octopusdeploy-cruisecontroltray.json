@@ -1,0 +1,19 @@
+{
+  "title": "OctopusDeploy-CruiseControlTray",
+  "link": "https://github.com/The-Running-Dev/OctopusDeploy-CruiseControlTray",
+  "lastModified": "2016-08-01T00:19:00.000Z",
+  "summary": "A tool to translate OctopusDeploy build status into the XML format CruiseControlTray understands, enabling audio and video notifications of deployment status.",
+  "tags": [
+    ".NET",
+    "Automation",
+    "Build Status",
+    "Build Tools",
+    "C#",
+    "CI/CD",
+    "DevOps",
+    "Integration",
+    "Notifications",
+    "OctopusDeploy",
+    "XML"
+  ]
+}

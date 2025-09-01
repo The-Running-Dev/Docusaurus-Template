@@ -36,10 +36,10 @@ features:
   portfolioPageAsIndex: false
   projectsPage: true
   dataCaching: true
-# projectsPage:
-#   # source: ./data/projects.json
-#   source: https://the-running-dev.github.io/Data/portfolio/projects.json
 
-# portfolioPage:
-#   # source: ./data/portfolioData.json
-#   source: https://the-running-dev.github.io/Data/portfolio/portfolioData.json
+# Configure HTTP sources (served by local API)
+projectsPage:
+  source: http://localhost:4000/api/v1/projects
+
+portfolioPage:
+  source: http://localhost:4000/api/v1/portfolioData

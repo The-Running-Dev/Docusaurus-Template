@@ -1,0 +1,13 @@
+{
+  "title": "BoxStarter",
+  "link": "https://github.com/The-Running-Dev/BoxStarter",
+  "lastModified": "2018-12-13T15:55:00.000Z",
+  "summary": "Personal Chocolatey package repository for Windows reinstalls.",
+  "tags": [
+    "Automation",
+    "Chocolatey",
+    "Package Management",
+    "PowerShell",
+    "Windows"
+  ]
+}

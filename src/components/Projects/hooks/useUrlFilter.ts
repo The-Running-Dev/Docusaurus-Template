@@ -20,6 +20,7 @@ export interface FilterState {
 export interface FilterOptions {
   debounceMs?: number;
   maxRetries?: number;
+  persistKey?: string;
 }
 
 export interface UseUrlFilterReturn {
@@ -34,8 +35,7 @@ export interface UseUrlFilterReturn {
  * Debounces URL updates for improved performance and better SPA behavior
  */
 export function useUrlFilter(options: FilterOptions = {}): UseUrlFilterReturn {
-  const { debounceMs = DEBOUNCE_DELAY, maxRetries = MAX_RETRY_ATTEMPTS } =
-    options;
+  const { debounceMs = DEBOUNCE_DELAY, maxRetries = MAX_RETRY_ATTEMPTS, persistKey } = options;
 
   const [selectedFilter, setSelectedFilter] = useState('most-recent');
   const [isLoading, setIsLoading] = useState(false);
@@ -52,9 +52,13 @@ export function useUrlFilter(options: FilterOptions = {}): UseUrlFilterReturn {
       const filterParam = new URLSearchParams(window.location.search).get(
         'filter'
       );
-
       if (filterParam) {
         setSelectedFilter(filterParam);
+      } else if (persistKey) {
+        try {
+          const saved = localStorage.getItem(persistKey);
+          if (saved) setSelectedFilter(saved);
+        } catch { /* ignore */ void 0; }
       }
 
       isInitializedRef.current = true;
@@ -65,7 +69,7 @@ export function useUrlFilter(options: FilterOptions = {}): UseUrlFilterReturn {
       setError(errorMsg);
       isInitializedRef.current = true;
     }
-  }, []);
+  }, [persistKey]);
 
   // Retry mechanism for URL operations
   const retryUrlOperation = useCallback(
@@ -146,7 +150,17 @@ export function useUrlFilter(options: FilterOptions = {}): UseUrlFilterReturn {
   // Update URL when filter changes (debounced)
   useEffect(() => {
     updateUrl(selectedFilter);
-  }, [selectedFilter, updateUrl]);
+    // Persist selection
+    if (persistKey && typeof window !== 'undefined') {
+      try {
+        if (selectedFilter && selectedFilter !== 'most-recent') {
+          localStorage.setItem(persistKey, selectedFilter);
+        } else {
+          localStorage.removeItem(persistKey);
+        }
+      } catch { /* ignore */ void 0; }
+    }
+  }, [selectedFilter, updateUrl, persistKey]);
 
   // Clean up timeout on unmount
   useEffect(() => {

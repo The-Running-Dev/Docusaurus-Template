@@ -1,9 +1,5 @@
 import React, { useMemo } from 'react';
-import {
-  useFeatureFlag,
-  FeatureToConfigMap,
-  Features
-} from '../../config/FeaturesConfig';
+import { useFeaturesConfig, FeatureToConfigMap, Features } from '../../config/FeaturesConfig';
 
 import JsonDataProvider from '../../context/JsonDataProvider';
 import HttpDataProvider from '../../context/HttpDataProvider';
@@ -42,18 +38,10 @@ function DataProvider<TData = any, TProcessedData = TData>({
   TData,
   TProcessedData
 >): React.ReactElement | null {
-  const isEnabled = feature ? useFeatureFlag(feature) : true;
+  const featuresConfig = useFeaturesConfig();
+  const isEnabled = feature ? featuresConfig[FeatureToConfigMap[feature as Features]] : true;
 
-  if (!isEnabled) {
-    return fallback as React.ReactElement | null;
-  }
-
-  // Simple feature gating mode - when no defaultData provided, act like FeatureGuard
-  if (defaultData === undefined || defaultData === null) {
-    return <>{children(null as TProcessedData, false, null, null)}</>;
-  }
-
-  // Check if there's a configured data source
+  // Check if there's a configured data source (compute unconditionally for hook order)
   const dataConfig = useMemo(() => {
     if (!feature) {
       return null;
@@ -76,6 +64,17 @@ function DataProvider<TData = any, TProcessedData = TData>({
 
     return null;
   }, [feature]);
+
+  // If feature is disabled, render fallback
+  if (!isEnabled) {
+    return fallback as React.ReactElement | null;
+  }
+
+  // Simple feature gating mode - when no defaultData provided, act like FeatureGuard
+  const hasDefaultData = !(defaultData === undefined || defaultData === null);
+  if (!hasDefaultData) {
+    return <>{children(null as TProcessedData, false, null, null)}</>;
+  }
 
   // If we have a configured data source, use appropriate provider
   if (dataConfig) {

@@ -1,0 +1,16 @@
+{
+  "title": "Business Intelligence Web Interface",
+  "link": "https://github.com/The-Running-Dev/Contec-BusinessIntelligence",
+  "lastModified": "2019-04-16T23:52:00.000Z",
+  "summary": "Web interface to expose data charted through PowerBI. Created during 6-month evaluation of BI tools to help analyze vast amounts of collected data.",
+  "tags": [
+    ".NET",
+    "Analytics",
+    "ASP.NET",
+    "Business Intelligence",
+    "C#",
+    "Data Analysis",
+    "Power BI",
+    "Web Interface"
+  ]
+}

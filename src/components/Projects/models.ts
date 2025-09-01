@@ -32,6 +32,24 @@ export interface Project {
   tags?: string[];
 }
 
+// Admin editing support types
+export interface FlatProject {
+  category: string;
+  subCategory: string;
+  slug: string;
+  project: Project;
+}
+
+export interface ProjectTarget {
+  category: string;
+  subCategory: string;
+  slug: string;
+}
+
+export interface SaveProjectInput extends ProjectTarget {
+  project: Project;
+}
+
 export interface ProcessedSubCategory {
   name: string;
 
@@ -98,6 +116,12 @@ export interface ProjectsProps {
   selectedDateRange?: string;
 
   searchTerm?: string;
+}
+
+export interface AdminActions {
+  onSaveProject?: (input: SaveProjectInput, token?: string) => Promise<void>;
+  onBulkDelete?: (targets: ProjectTarget[], token?: string) => Promise<void>;
+  onRefresh?: () => Promise<void>;
 }
 
 export interface ProjectsData {

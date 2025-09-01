@@ -1,0 +1,16 @@
+{
+  "title": "Menu Creator",
+  "link": "https://github.com/The-Running-Dev/Demo-MenuCreator",
+  "lastModified": "2019-07-03T18:23:00.000Z",
+  "summary": "A simple menu creator on top of .NET Core 2.2. This application is a coding exercise I was given and expected to complete in 60 minutes. The README in the repository documents the structure and implementation.",
+  "tags": [
+    ".NET Core",
+    "API",
+    "ASP.NET Core",
+    "C#",
+    "Coding Exercise",
+    "Demo",
+    "Menu",
+    "Timed Challenge"
+  ]
+}

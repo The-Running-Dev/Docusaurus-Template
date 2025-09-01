@@ -49,7 +49,7 @@ switch ($Mode) {
     'watch' {
         Write-Host "Starting Development Server with Config Watching..." -ForegroundColor Green
         
-        & pnpm run dev
+        & pnpm run dev:with-api
     }
     'docker' {
         Write-Host "Starting Development Server for Docker..." -ForegroundColor Green

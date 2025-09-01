@@ -1,0 +1,17 @@
+{
+  "title": "AzureDevOps-Templates",
+  "link": "https://github.com/The-Running-Dev/Demo-AzureDevOps-Templates",
+  "lastModified": "2025-07-06T15:31:00.000Z",
+  "summary": "A comprehensive collection of reusable Azure DevOps pipeline templates and infrastructure-as-code modules. It enables teams to rapidly build, deploy, and manage cloud-native solutions on Azure using modular, production-ready YAML and ARM templates. The repository covers a wide range of Azure resources and CI/CD scenarios, providing focused templates and documentation for specific services or deployment patterns. Ideal for DevOps engineers and cloud architects seeking to standardize and accelerate Azure delivery.",
+  "tags": [
+    "ARM Templates",
+    "Azure",
+    "Azure DevOps",
+    "CI/CD",
+    "Cloud",
+    "DevOps",
+    "IaC",
+    "Infrastructure as Code",
+    "YAML"
+  ]
+}

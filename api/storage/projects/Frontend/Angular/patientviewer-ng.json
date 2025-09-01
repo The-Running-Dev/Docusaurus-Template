@@ -1,0 +1,14 @@
+{
+  "title": "PatientViewer.NG",
+  "link": "https://github.com/The-Running-Dev/Demo-PatientVIewer.NG",
+  "lastModified": "2019-07-03T22:35:00.000Z",
+  "summary": "A project to showcase my Angular skills. It's a simple application that displays a list of patients. The README in the repository documents the structure and implementation.",
+  "tags": [
+    "Angular",
+    "Demo",
+    "Frontend",
+    "Healthcare",
+    "Skills Showcase",
+    "TypeScript"
+  ]
+}

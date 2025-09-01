@@ -1,0 +1,13 @@
+{
+  "title": "Sidequest EasyInstaller",
+  "link": "https://github.com/The-Running-Dev/Winget-Updates/actions/workflows/sidequest.easyinstaller.yml",
+  "lastModified": "",
+  "summary": "GitHub Actions workflow for automating updates of SideQuest Easy Installer.",
+  "tags": [
+    "Automation",
+    "CI/CD",
+    "DevOps",
+    "GitHub Actions",
+    "YAML"
+  ]
+}

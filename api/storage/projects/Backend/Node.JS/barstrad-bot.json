@@ -1,0 +1,15 @@
+{
+  "title": "BarStrad-Bot",
+  "link": "https://github.com/The-Running-Dev/BarStrad-Bot",
+  "summary": "A TypeScript-based Discord bot for restaurants and bars, featuring multilingual support, order management, and containerized deployment.",
+  "tags": [
+    "Bot",
+    "Discord",
+    "Discord.js",
+    "Docker",
+    "Node.js",
+    "Order Management",
+    "Restaurant",
+    "TypeScript"
+  ]
+}

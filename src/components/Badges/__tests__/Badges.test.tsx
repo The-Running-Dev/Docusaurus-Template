@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 
 // Mock FontAwesome to avoid loading real icons
 vi.mock('@fortawesome/react-fontawesome', () => ({
-  FontAwesomeIcon: (props: any) => <span data-testid="fa" />
+  FontAwesomeIcon: () => <span data-testid="fa" />
 }));
 
 // Use a controllable DataProvider

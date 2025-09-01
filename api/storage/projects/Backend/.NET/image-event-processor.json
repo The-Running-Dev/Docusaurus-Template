@@ -1,0 +1,17 @@
+{
+  "title": "Image Event Processor",
+  "link": "https://github.com/The-Running-Dev/Demo-ImageEventProcessor",
+  "lastModified": "2025-01-23T14:23:00.000Z",
+  "summary": "A .NET WebAPI hosted in AWS Lambda, with an Angular UI, as a demo for processing images.",
+  "tags": [
+    ".NET",
+    "Angular",
+    "API",
+    "AWS",
+    "AWS Lambda",
+    "C#",
+    "Cloud",
+    "Image Processing",
+    "Serverless"
+  ]
+}

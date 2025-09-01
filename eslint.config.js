@@ -1,6 +1,7 @@
 import js from '@eslint/js';
 import tseslint from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
+import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 
 export default [
@@ -22,10 +23,14 @@ export default [
       }
     },
     plugins: {
-      '@typescript-eslint': tseslint
+      '@typescript-eslint': tseslint,
+      'react-hooks': reactHooks
     },
     rules: {
       ...tseslint.configs.recommended.rules,
+      // React Hooks best practices
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
       // Disable some strict rules for better compatibility
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/no-explicit-any': 'off',

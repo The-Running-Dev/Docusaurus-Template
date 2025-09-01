@@ -1,0 +1,16 @@
+{
+  "title": "Docker-BuildAgent",
+  "link": "https://github.com/The-Running-Dev/Docker-BuildAgent",
+  "lastModified": "2025-06-04T08:11:00.000Z",
+  "summary": "Pre-configured Docker image designed to serve as a build agent for CI/CD pipelines. It comes with Node.js, Angular CLI, TypeScript, Docker, and PowerShell pre-installed, making it ideal for building, testing, and deploying JavaScript/TypeScript and Angular applications in automated environments.",
+  "tags": [
+    "Angular",
+    "Build Tools",
+    "CI/CD",
+    "DevOps",
+    "Docker",
+    "Node.js",
+    "PowerShell",
+    "TypeScript"
+  ]
+}

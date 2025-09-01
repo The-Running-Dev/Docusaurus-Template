@@ -1,0 +1,15 @@
+{
+  "title": "Docker-DNSAtHome",
+  "link": "https://github.com/The-Running-Dev/Docker-DNSAtHome",
+  "lastModified": "2025-05-29T09:37:00.000Z",
+  "summary": "Containerized solution for running dnscrypt-proxy at home, providing encrypted DNS, blocklists, and automated health monitoring. It is designed for easy deployment via Docker, with built-in Discord notifications and automated blocklist updates.",
+  "tags": [
+    "DNS",
+    "dnscrypt-proxy",
+    "Docker",
+    "Home Lab",
+    "Networking",
+    "Privacy",
+    "Security"
+  ]
+}

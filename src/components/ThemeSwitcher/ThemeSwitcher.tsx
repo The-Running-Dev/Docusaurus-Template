@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import useBaseUrl from '@docusaurus/core/lib/client/exports/useBaseUrl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPalette } from '@fortawesome/free-solid-svg-icons';
@@ -30,30 +30,24 @@ const ThemeSwitcherContent: React.FC<{
   themes: Theme[];
   defaultTheme: Theme;
 }> = ({ themes, defaultTheme }) => {
-  // Don't render if no themes
-  if (!themes || themes.length === 0) {
-    return null;
-  }
-
   const [currentTheme, setCurrentTheme] = useState<string>(defaultTheme.name);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  // Pre-compute resolved URLs for all themes
-  const themesWithResolvedUrls = themes.map((theme) => ({
-    ...theme,
-    resolvedCssUrl: useBaseUrl(theme.cssFile)
-  }));
+  // Compute base URL once and build resolved CSS URLs without calling hooks in loops
+  const baseUrl = useBaseUrl('/');
+  const themesWithResolvedUrls = useMemo(
+    () =>
+      themes.map((theme) => ({
+        ...theme,
+        resolvedCssUrl: `${baseUrl.replace(/\/$/, '')}/${
+          theme.cssFile.startsWith('/') ? theme.cssFile.slice(1) : theme.cssFile
+        }`
+      })),
+    [themes, baseUrl]
+  );
 
-  useEffect(() => {
-    // Load saved theme from localStorage, fallback to defaultTheme
-    const savedTheme =
-      localStorage.getItem('docusaurus-theme-color') || defaultTheme.name;
-
-    setCurrentTheme(savedTheme);
-    applyTheme(savedTheme);
-  }, [themesWithResolvedUrls]);
-
-  const applyTheme = (themeName: string) => {
+  const applyTheme = useCallback(
+    (themeName: string) => {
     // Remove existing theme links
     const existingLinks = document.querySelectorAll(
       'link[data-theme-switcher]'
@@ -77,12 +71,27 @@ const ThemeSwitcherContent: React.FC<{
     localStorage.setItem('docusaurus-theme-color', themeName);
 
     setCurrentTheme(themeName);
-  };
+  }, [themesWithResolvedUrls]);
+
+  useEffect(() => {
+    // Load saved theme from localStorage, fallback to defaultTheme
+    const savedTheme =
+      localStorage.getItem('docusaurus-theme-color') || defaultTheme.name;
+
+    setCurrentTheme(savedTheme);
+    applyTheme(savedTheme);
+    // include defaultTheme.name so change of default triggers re-evaluation
+  }, [applyTheme, defaultTheme.name]);
 
   const handleThemeChange = (themeName: string) => {
     applyTheme(themeName);
     setIsOpen(false);
   };
+
+  // Don't render if no themes
+  if (!themes || themes.length === 0) {
+    return null;
+  }
 
   const currentThemeDisplayName =
     themesWithResolvedUrls.find((t) => t.name === currentTheme)?.displayName ||

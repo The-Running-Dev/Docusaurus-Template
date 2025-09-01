@@ -1,0 +1,14 @@
+{
+  "title": "Linux/Bash Setup Scripts",
+  "link": "https://github.com/The-Running-Dev/Setup-Ubuntu",
+  "lastModified": "2025-05-07T08:18:00.000Z",
+  "summary": "A set of Bash scripts that install and configure a new Ubuntu installation.",
+  "tags": [
+    "Automation",
+    "Bash",
+    "Linux",
+    "Setup Scripts",
+    "Shell Scripts",
+    "Ubuntu"
+  ]
+}

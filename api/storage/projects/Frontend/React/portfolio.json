@@ -1,0 +1,16 @@
+{
+  "title": "Portfolio",
+  "link": "https://github.com/The-Running-Dev/Portfolio",
+  "lastModified": "2023-10-01T12:00:00.000Z",
+  "summary": "My personal portfolio showcasing a curated selection of professional, open source, and demo projects. Built with React and Docusaurus, it highlights my experience in frontend, backend, automation, and infrastructure, and demonstrates my skills in TypeScript, documentation, and modern web development. The site is designed for clarity, maintainability, and easy navigation, serving as both a resume and a living showcase of my work.",
+  "tags": [
+    "Docusaurus",
+    "Frontend",
+    "GitHub Pages",
+    "Markdown",
+    "Portfolio",
+    "React",
+    "SSG",
+    "TypeScript"
+  ]
+}

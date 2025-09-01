@@ -92,14 +92,10 @@ const NavBarLinksContent: React.FC<{
     [activeConfig]
   );
 
-  // Early return if not enabled or no links to display
-  if (
-    !enabled ||
-    !processedConfig.links ||
-    processedConfig.links.length === 0
-  ) {
-    return null;
-  }
+  const shouldRender =
+    !!enabled &&
+    !!processedConfig.links &&
+    processedConfig.links.length > 0;
 
   // Check if a link is currently active based on pathname
   const isLinkActive = useCallback(
@@ -229,6 +225,10 @@ const NavBarLinksContent: React.FC<{
       </Link>
     );
   };
+
+  if (!shouldRender) {
+    return null;
+  }
 
   if (processedConfig.dropdown) {
     return (

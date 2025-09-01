@@ -1,0 +1,11 @@
+{
+  "title": "XYplorer",
+  "link": "https://github.com/microsoft/winget-pkgs/pull/126351",
+  "summary": "WinGet package for the XYPlorer file manager.",
+  "tags": [
+    "Open Source",
+    "Package Management",
+    "Windows",
+    "WinGet"
+  ]
+}

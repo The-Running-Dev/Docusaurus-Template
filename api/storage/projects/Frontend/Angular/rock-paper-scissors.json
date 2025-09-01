@@ -1,0 +1,14 @@
+{
+  "title": "Rock Paper Scissors",
+  "link": "https://github.com/The-Running-Dev/Demo-RockPaperScissors",
+  "lastModified": "2019-07-04T22:25:00.000Z",
+  "summary": "An Angular implementation of the classic rock paper scissors game, with a twist.",
+  "tags": [
+    "Angular",
+    "Demo",
+    "Frontend",
+    "Game",
+    "Interactive",
+    "TypeScript"
+  ]
+}

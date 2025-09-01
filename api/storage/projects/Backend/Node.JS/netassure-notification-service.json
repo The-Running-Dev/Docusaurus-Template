@@ -1,0 +1,14 @@
+{
+  "title": "NetAssure Notification Service",
+  "link": "https://github.com/The-Running-Dev/Demo-NetAssure/tree/master/NotificationService",
+  "lastModified": "2019-04-16T21:23:00.000Z",
+  "summary": "A project that triggers sending notifications to an user when certain conditions are met. Made to be hosted as a micro-service on AWS Lambda.",
+  "tags": [
+    "AWS",
+    "AWS Lambda",
+    "Microservices",
+    "Node.js",
+    "Notifications",
+    "Serverless"
+  ]
+}

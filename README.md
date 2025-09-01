@@ -68,6 +68,83 @@ pnpm run clear          # Clear Docusaurus cache
 pnpm run serve          # Serve production build
 ```
 
+## 🧩 API + Admin Editor
+
+This template includes a local API for serving data (Fastify + TypeScript) and a full admin editor UI to manage projects as per‑file JSON.
+
+- Start API only: `pnpm --dir api dev` (http://localhost:4000/api)
+- Start Docs + API: `pnpm dev:with-api`
+- Swagger: http://localhost:4000/api/docs
+- Protect writes: set `ADMIN_TOKEN` for the API, then use the same token in the Editor’s gear Settings.
+
+### Endpoints (Highlights)
+
+- `GET /api/health` – health check
+- `GET /api/v1` – resource list
+- `GET /api/v1/{key}` – badges, cvData, giscus, gitHub, gitHubLinks, globalConfig, navBarLinks, portfolioData, projects, version
+- `GET /api/v1/themes` – derived from `static/themes/*.css`
+- `GET /api/v1/nav` – derived from `src/pages/demos/*.tsx`
+
+Projects (editable storage)
+
+- Storage: `api/storage/projects/<category>/<sub>/<slug>.json` (one JSON file per project)
+- Read combined: `GET /api/v1/projects`
+- Read flat list: `GET /api/v1/projects/raw`
+- Read one: `GET /api/v1/projects/:category/:sub/:slug`
+- Save: `PUT /api/v1/projects/:category/:sub/:slug` (x-admin-token required if `ADMIN_TOKEN` set)
+- Delete: `DELETE /api/v1/projects/:category/:sub/:slug` (x-admin-token required if `ADMIN_TOKEN` set)
+
+Migration from YAML
+
+- `pnpm --dir api migrate:projects` (use `-- --overwrite` to overwrite existing files)
+
+### Admin Editor (/admin/projects)
+
+- Tabs: Projects (full‑width card grid) and Edit Project (full‑page editor)
+- Filters (sticky): Search (centered), Date, Category, Tags — same behavior as the Projects page
+- Chips: Show active Search/Filter/Date; “Clear All” resets
+- Actions (sticky under filters): Select All (Filtered), Clear, Delete Selected
+- Keyboard: `/` focus search, `A` select all, `C` clear, `Delete` delete, `E` open Edit
+- Cards: category/sub badges, “Updated” marker (recent), hover lift, per‑card Edit/Delete, copy slug via ⋮ quick action
+- Skeletons: animated placeholders while loading
+- Import/Export: export filtered projects to JSON; import JSON back to the API
+- Settings (gear): configure API Base + Admin Token; token saved to localStorage
+
+Editor details
+
+- Category/Sub‑Category: select existing or “+ Add new…” to create a new value
+- Slug: editable with live preview + Generate from Title
+- Title: auto‑focus on entering Edit
+- Link: inline validation + “Test” button
+- Last Modified: datetime‑local picker with ISO preview (stored as ISO)
+- Tags: chip editor (Enter/comma/Add, × remove)
+- Save: writes to `PUT /api/v1/projects/:category/:sub/:slug`
+
+For deep API docs, see `api/README.md`.
+
+### Unified Projects Manager
+
+Run the same UI for public display and admin editing through one component.
+
+- Components
+  - `ProjectsManager`: Core component; toggles admin features with `isAdmin`/`adminToken`.
+  - `ProjectsDisplay`: Thin wrapper for public display.
+  - `ProjectsAdmin`: Thin wrapper that wires API Base + Admin Token settings and callbacks.
+
+- Admin features
+  - Selection actions: Select All (filtered), Clear, Bulk Delete.
+  - Per-card Delete and click-to-edit form with Save.
+  - Quick actions: Copy Slug / Link / API URL.
+  - Import/Export JSON for filtered projects.
+  - Toasts for quick feedback on Save/Delete/Import.
+  - State persistence for Search and Filter in localStorage.
+
+- Usage
+  - Public: `import Projects from 'src/components/Projects'` or `import { ProjectsDisplay } from 'src/components/Projects'`.
+  - Admin: `src/pages/admin/projects.tsx` renders `<ProjectsAdmin />` within the page layout.
+
+See docs at `docs/guides/projects-manager.md` for details.
+
 ## 📊 Coverage Reports
 
 - Local: `pnpm test:components:cov` generates HTML + LCOV in `coverage/` (open `coverage/index.html`).

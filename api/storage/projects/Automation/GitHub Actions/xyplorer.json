@@ -1,0 +1,12 @@
+{
+  "title": "XYplorer",
+  "link": "https://github.com/The-Running-Dev/Winget-Updates/actions/workflows/xyplorer.yml",
+  "summary": "GitHub Actions workflow for automating updates of XYplorer.",
+  "tags": [
+    "Automation",
+    "CI/CD",
+    "DevOps",
+    "GitHub Actions",
+    "YAML"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "title": "Code Generator",
+  "link": "https://github.com/The-Running-Dev/Tools-CodeGenerator",
+  "lastModified": "2016-05-06T01:40:00.000Z",
+  "summary": "This project uses Razor as the template engine, and given source templates, and access to the source database, generates the needed classes to implement the desired pattern. Context: I introduced a team I worked with to Dapper (a micro ORM), and over time I saw a need to generate a lot of classes based on the repository pattern I implemented in Dapper.",
+  "tags": [
+    ".NET",
+    "Automation",
+    "Build Tools",
+    "C#",
+    "Code Generation",
+    "Dapper",
+    "ORM",
+    "Razor",
+    "Repository Pattern",
+    "Templates"
+  ]
+}

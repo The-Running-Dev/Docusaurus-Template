@@ -1,0 +1,21 @@
+{
+  "title": "Docusaurus Template",
+  "link": "https://github.com/The-Running-Dev/Docusaurus-Template",
+  "lastModified": "2025-08-16T00:00:00.000Z",
+  "summary": "A reusable Docusaurus 3.8.1 template with TypeScript, designed for professional documentation sites. Features advanced theming, commenting, and project badging systems, with automated pre-build scripts for markdown and navbar generation. Includes dynamic theme switching, GitHub integration, and support for Docker-based workflows. Ideal for maintainable, scalable, and visually appealing documentation projects.",
+  "tags": [
+    "Automation",
+    "Build Tools",
+    "Docker",
+    "Documentation",
+    "Docusaurus",
+    "Frontend",
+    "GitHub Integration",
+    "Markdown",
+    "React",
+    "SSG",
+    "Template",
+    "Theming",
+    "TypeScript"
+  ]
+}

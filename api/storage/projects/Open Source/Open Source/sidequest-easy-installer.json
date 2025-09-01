@@ -1,0 +1,11 @@
+{
+  "title": "SideQuest Easy Installer",
+  "link": "https://github.com/microsoft/winget-pkgs/pull/126347",
+  "summary": "WinGet package for the SideQuest Easy Installer.",
+  "tags": [
+    "Open Source",
+    "Package Management",
+    "Windows",
+    "WinGet"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "title": "WinGet-Packages",
+  "link": "https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+author%3AThe-Running-Dev",
+  "summary": "Contributions to the Windows package manager community repository. This repository contains the manifest files for the Windows Package Manager default source.",
+  "tags": [
+    "Open Source",
+    "Package Management",
+    "Windows",
+    "WinGet"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Manual Tests",
+  "link": "https://github.com/The-Running-Dev/Contec-ManualTests",
+  "lastModified": "2019-04-16T23:57:00.000Z",
+  "summary": "A line of business application for recording manually tested equipment. One of the 2 Angular projects I put in production during my time at Contec. It was part of a bigger ASP.NET WebForms application and is not meant to run by itself.",
+  "tags": [
+    "Angular",
+    "ASP.NET",
+    "Business",
+    "Enterprise",
+    "Production",
+    "Testing",
+    "TypeScript",
+    "WebForms"
+  ]
+}

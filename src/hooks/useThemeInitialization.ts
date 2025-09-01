@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import useBaseUrl from '@docusaurus/core/lib/client/exports/useBaseUrl';
 import { Theme } from '../components/ThemeSwitcher/models';
 import { useFeaturesConfig } from '../config/FeaturesConfig';
@@ -21,18 +21,30 @@ export const useThemeInitialization = (
 ): void => {
   const featuresConfig = useFeaturesConfig();
 
-  // Pre-compute resolved URLs for all themes
-  const themesWithResolvedUrls: ThemeWithResolvedUrl[] = themes.map(
-    (theme) => ({
-      ...theme,
-      resolvedCssUrl: useBaseUrl(theme.cssFile)
-    })
+  // Compute base once and resolve URLs without calling hooks in loops
+  const baseUrl = useBaseUrl('/');
+  const themesWithResolvedUrls: ThemeWithResolvedUrl[] = useMemo(
+    () =>
+      themes.map((theme) => ({
+        ...theme,
+        resolvedCssUrl: `${baseUrl.replace(/\/$/, '')}/${
+          theme.cssFile.startsWith('/') ? theme.cssFile.slice(1) : theme.cssFile
+        }`
+      })),
+    [themes, baseUrl]
   );
 
-  const defaultThemeWithUrl: ThemeWithResolvedUrl = {
-    ...defaultTheme,
-    resolvedCssUrl: useBaseUrl(defaultTheme.cssFile)
-  };
+  const defaultThemeWithUrl: ThemeWithResolvedUrl = useMemo(
+    () => ({
+      ...defaultTheme,
+      resolvedCssUrl: `${baseUrl.replace(/\/$/, '')}/${
+        defaultTheme.cssFile.startsWith('/')
+          ? defaultTheme.cssFile.slice(1)
+          : defaultTheme.cssFile
+      }`
+    }),
+    [defaultTheme, baseUrl]
+  );
 
   useEffect(() => {
     // Only run on initial load - don't override user's saved theme
@@ -77,7 +89,8 @@ export const useThemeInitialization = (
   }, [
     themesWithResolvedUrls,
     defaultThemeWithUrl,
-    featuresConfig.themeSwitcher
+    featuresConfig.themeSwitcher,
+    defaultTheme.name
   ]);
 };
 

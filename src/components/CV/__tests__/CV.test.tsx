@@ -15,7 +15,6 @@ vi.mock('../../config/FeaturesConfig', () => ({ Features: { CVPage: 0 } }));
 vi.mock('../../DebugInfo', () => ({ __esModule: true, default: () => <div data-testid="DebugInfo" /> }));
 vi.mock('../../Loading', () => ({ __esModule: true, default: ({ message }: any) => <div>{message}</div> }));
 
-import CV from '../CV';
 
 function renderWithData(data: any, loading = false, error: Error | null = null) {
   // Re-mock DataProvider for each call

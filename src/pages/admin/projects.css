@@ -93,6 +93,19 @@
 /* Chips */
 .admin-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 0.25rem 0 0.5rem; justify-content: center; }
 .admin-chip { border: 1px solid var(--ifm-color-emphasis-200); background: var(--ifm-background-surface-color); color: var(--ifm-font-color-base); border-radius: 999px; padding: 0.2rem 0.6rem; cursor: pointer; }
+.admin-chip--key {
+  --key-shadow: 0 1px 0 rgba(0,0,0,0.12), 0 2px 0 rgba(0,0,0,0.06);
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+  border-radius: 6px;
+  padding: 0.1rem 0.4rem;
+  background: color-mix(in srgb, var(--ifm-color-emphasis-200) 60%, transparent);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  box-shadow: var(--key-shadow);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.8rem;
+}
 .admin-chip--clear { background: var(--ifm-color-emphasis-200); }
 
 /* Toasts */

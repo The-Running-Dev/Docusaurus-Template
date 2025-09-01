@@ -1,0 +1,16 @@
+{
+  "title": "Docker-Watchdog",
+  "link": "https://github.com/The-Running-Dev/Docker-Watchdog",
+  "lastModified": "2025-06-05T03:57:00.000Z",
+  "summary": "A robust, containerized management and automation tool for Docker Compose environments. It automatically keeps your containers up-to-date, monitors their health, and provides a RESTful API for integration with monitoring tools like Uptime Kuma. It is designed for self-hosters and DevOps engineers who want hands-off, reliable, and observable Docker operations.",
+  "tags": [
+    "API",
+    "Automation",
+    "Container Management",
+    "DevOps",
+    "Docker",
+    "Monitoring",
+    "REST",
+    "Self-Hosting"
+  ]
+}

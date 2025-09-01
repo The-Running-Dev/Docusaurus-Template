@@ -1,0 +1,12 @@
+{
+  "title": "XYplorer Portable",
+  "link": "https://github.com/The-Running-Dev/Winget-Updates/actions/workflows/xyplorer.portable.yml",
+  "summary": "GitHub Actions workflow for automating updates of XYplorer Portable.",
+  "tags": [
+    "Automation",
+    "CI/CD",
+    "DevOps",
+    "GitHub Actions",
+    "YAML"
+  ]
+}

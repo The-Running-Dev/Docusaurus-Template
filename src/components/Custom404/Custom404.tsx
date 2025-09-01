@@ -1,6 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import Link from '@docusaurus/Link';
 
+// Ridiculous excuses for the missing page (module-scoped to keep stable references)
+const EXCUSES = [
+  '🐕 A dog ate the page (it was very tasty HTML)',
+  '🧙‍♂️ A wizard turned it into a toad',
+  '🛸 Aliens abducted it for their intergalactic library',
+  '🍕 It went out to get pizza and never came back',
+  '🕳️ It fell into a parallel dimension',
+  '🏴‍☠️ Pirates stole it for their treasure map collection',
+  '🤖 A robot uprising deleted it out of spite',
+  '🦄 A unicorn needed it to practice magic tricks',
+  '🧻 Someone used it as toilet paper during the Great TP Shortage of 2020',
+  '🎭 It joined the circus as a trapeze artist',
+  '🧟‍♂️ Zombies ate it (they prefer semantic HTML)',
+  '🐉 A dragon is hoarding it with other precious documents',
+  "🥸 It's in witness protection after seeing too much JavaScript",
+  '🕰️ It time-traveled to 1999 and got stuck',
+  '🎪 It ran away to join the circus with the other missing socks'
+];
+
+const CAT_FACTS = [
+  'Cats spend 70% of their lives sleeping, which explains why your page is taking a nap.',
+  "A group of cats is called a 'clowder,' which is also what we call our development team.",
+  "Cats can't taste sweetness, unlike this bitter 404 experience.",
+  'Cats have five toes on their front paws but only four on their back paws, unlike this page which has zero paws.',
+  'Cats purr at 26 vibrations per second, which is coincidentally how fast our server is running right now.'
+];
+
 /**
  * Reusable 404 Error Component
  * Because getting lost should be fun! 🎪
@@ -13,50 +40,23 @@ export default function Custom404Component(): React.JSX.Element {
   const [isSpinning, setIsSpinning] = useState(false);
   const [catFact, setCatFact] = useState('');
 
-  // Ridiculous excuses for the missing page
-  const excuses = [
-    '🐕 A dog ate the page (it was very tasty HTML)',
-    '🧙‍♂️ A wizard turned it into a toad',
-    '🛸 Aliens abducted it for their intergalactic library',
-    '🍕 It went out to get pizza and never came back',
-    '🕳️ It fell into a parallel dimension',
-    '🏴‍☠️ Pirates stole it for their treasure map collection',
-    '🤖 A robot uprising deleted it out of spite',
-    '🦄 A unicorn needed it to practice magic tricks',
-    '🧻 Someone used it as toilet paper during the Great TP Shortage of 2020',
-    '🎭 It joined the circus as a trapeze artist',
-    '🧟‍♂️ Zombies ate it (they prefer semantic HTML)',
-    '🐉 A dragon is hoarding it with other precious documents',
-    "🥸 It's in witness protection after seeing too much JavaScript",
-    '🕰️ It time-traveled to 1999 and got stuck',
-    '🎪 It ran away to join the circus with the other missing socks'
-  ];
-
-  const catFacts = [
-    'Cats spend 70% of their lives sleeping, which explains why your page is taking a nap.',
-    "A group of cats is called a 'clowder,' which is also what we call our development team.",
-    "Cats can't taste sweetness, unlike this bitter 404 experience.",
-    'Cats have five toes on their front paws but only four on their back paws, unlike this page which has zero paws.',
-    'Cats purr at 26 vibrations per second, which is coincidentally how fast our server is running right now.'
-  ];
-
   // Rotate excuses every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      setExcuse((prev) => (prev + 1) % excuses.length);
+      setExcuse((prev) => (prev + 1) % EXCUSES.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, [excuses.length]);
+  }, []);
 
   // Load a random cat fact
   useEffect(() => {
-    setCatFact(catFacts[Math.floor(Math.random() * catFacts.length)]);
+    setCatFact(CAT_FACTS[Math.floor(Math.random() * CAT_FACTS.length)]);
   }, []);
 
   const handleSpinClick = () => {
     setIsSpinning(true);
     setTimeout(() => setIsSpinning(false), 1000);
-    setCatFact(catFacts[Math.floor(Math.random() * catFacts.length)]);
+    setCatFact(CAT_FACTS[Math.floor(Math.random() * CAT_FACTS.length)]);
   };
 
   return (
@@ -125,7 +125,7 @@ export default function Custom404Component(): React.JSX.Element {
                   padding: '1rem'
                 }}
               >
-                {excuses[excuse]}
+                {EXCUSES[excuse]}
               </div>
             </div>
           </div>

@@ -1,0 +1,22 @@
+{
+  "title": "NetAssure Client",
+  "link": "https://github.com/The-Running-Dev/Demo-NetAssure/tree/master/web-client/src",
+  "lastModified": "2019-07-03T21:23:00.000Z",
+  "summary": "A project for a network hardware company that aims to manage and expose device data hosted in Zabbix, with the users being managed in Salesforce. This project used Docker and Docker Compose for managing the app code and infrastructure, and TeamCity as the build server, on top of CentOS.",
+  "tags": [
+    "Angular",
+    "CentOS",
+    "DevOps",
+    "Docker",
+    "Docker Compose",
+    "Frontend",
+    "Hardware",
+    "Infrastructure",
+    "Linux",
+    "Network",
+    "Salesforce",
+    "TeamCity",
+    "TypeScript",
+    "Zabbix"
+  ]
+}

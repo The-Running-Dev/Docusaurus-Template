@@ -222,7 +222,7 @@ export function HttpDataProvider({
         dataSize: rawData ? JSON.stringify(rawData).length : 0
       }
     }),
-    [rawData, loadingState, handleRefetch, handleResetError, apiUrl]
+    [rawData, loadingState, handleRefetch, handleResetError, apiUrl, getCachedData]
   );
 
   return <DataProvider value={contextValue}>{children}</DataProvider>;

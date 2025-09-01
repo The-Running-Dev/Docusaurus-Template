@@ -1,0 +1,16 @@
+{
+  "title": "Shopping Service",
+  "link": "https://github.com/The-Running-Dev/Demo-ShoppingService",
+  "lastModified": "2017-07-19T00:07:00.000Z",
+  "summary": "A demo application as a micro service I created as a take home project for a company I interviewed with. It takes the user’s ZIP code, calls an external API to get the weather for that service, and then suggest the appropriate clothing to buy. It comes with a simple Angular UI to be able to test the application locally without constructing the initial API call yourself. The UI demo no longer functions as the underlying weather API has changed.",
+  "tags": [
+    "Angular",
+    "API",
+    "Demo",
+    "External API",
+    "Microservices",
+    "Node.js",
+    "REST",
+    "Weather"
+  ]
+}

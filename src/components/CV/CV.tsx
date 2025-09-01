@@ -5,7 +5,7 @@ import Timeline from './CVTimeline';
 import TechTags from './TechTags';
 
 import { Features } from '../../config/FeaturesConfig';
-import { CVData, Project, OpenSourceContribution, TimelineProject } from './models';
+import { CVData } from './models';
 import { DEFAULT_CV_DATA } from './constants';
 
 import './cv.css';

@@ -1,0 +1,16 @@
+{
+  "title": "Business Intelligence",
+  "link": "https://github.com/The-Running-Dev/Contec-BusinessIntelligence",
+  "lastModified": "2019-04-16T23:52:00.000Z",
+  "summary": "I spent 6 months evaluating BI tools to help the company analyse the vast amount of data they collected. This project is the web interface I created to expose the data charted through PowerBI.",
+  "tags": [
+    ".NET",
+    "Analytics",
+    "ASP.NET",
+    "Business Intelligence",
+    "C#",
+    "Data Analysis",
+    "Power BI",
+    "Web Interface"
+  ]
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 // Mock FontAwesome (not used directly here but keeps DOM predictable)
 vi.mock('@fortawesome/react-fontawesome', () => ({
@@ -65,4 +65,3 @@ describe('Badges item hover effects', () => {
     expect(a.getAttribute('rel')).toContain('noreferrer');
   });
 });
-

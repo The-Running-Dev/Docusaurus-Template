@@ -1,0 +1,16 @@
+{
+  "title": "BarStrad",
+  "link": "https://github.com/The-Running-Dev/BarStrad-UI",
+  "lastModified": "2025-02-09T23:05:00.000Z",
+  "summary": "Angular based menu application, with theming, language support, orders, and Discord notifications. Proof of concept.",
+  "tags": [
+    "Angular",
+    "Bar",
+    "Discord",
+    "Frontend",
+    "i18n",
+    "Menu",
+    "Theming",
+    "TypeScript"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "title": "NetAssure API",
+  "link": "https://github.com/The-Running-Dev/Demo-NetAssure/tree/master/web-client/server",
+  "lastModified": "2019-04-16T21:23:00.000Z",
+  "summary": "A project for a network hardware company that aims to manage and expose device data hosted in Zabbix. This is the web API, written on top of Node.JS with Express and hosted on CentOS. This project used Docker and Docker Compose for managing the app code and infrastructure, and TeamCity as the build server, on top of CentOS.",
+  "tags": [
+    "API",
+    "CentOS",
+    "Docker",
+    "Express",
+    "Linux",
+    "Networking",
+    "Node.js",
+    "TeamCity",
+    "Zabbix"
+  ]
+}

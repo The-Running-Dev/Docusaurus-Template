@@ -1,0 +1,14 @@
+{
+  "title": "Refactoring Exercise",
+  "link": "https://github.com/The-Running-Dev/Demo-RefactoringExercise",
+  "lastModified": "2019-07-03T18:30:00.000Z",
+  "summary": "A demo application I was asked to refactor simulating what I would do if I had to review a junior developer’s code. The README in the repository has more details.",
+  "tags": [
+    ".NET",
+    "C#",
+    "Code Quality",
+    "Code Review",
+    "Demo",
+    "Refactoring"
+  ]
+}

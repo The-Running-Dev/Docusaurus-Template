@@ -1,5 +1,8 @@
 // Main component - now uses the new architecture
 export { default } from './Projects';
+export { default as ProjectsManager } from './ProjectsManager';
+export { default as ProjectsAdmin } from './ProjectsAdmin';
+export { default as ProjectsDisplay } from './ProjectsDisplay';
 
 // Models and configuration
 export * from './models';

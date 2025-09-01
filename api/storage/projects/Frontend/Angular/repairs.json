@@ -1,0 +1,16 @@
+{
+  "title": "Repairs",
+  "link": "https://github.com/The-Running-Dev/Contec-Repairs",
+  "lastModified": "2019-04-16T23:58:00.000Z",
+  "summary": "Another line of business application for recording repairs to broken equipment. As with the Manual Tests project, part of a bigger ASP.NET WebForm solution.",
+  "tags": [
+    "Angular",
+    "ASP.NET",
+    "Business",
+    "Enterprise",
+    "Equipment",
+    "Production",
+    "TypeScript",
+    "WebForms"
+  ]
+}

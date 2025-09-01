@@ -1,0 +1,13 @@
+{
+  "title": "AliaSQL",
+  "link": "https://github.com/The-Running-Dev/Database-AliaSQL",
+  "lastModified": "2014-10-30T01:17:00.000Z",
+  "summary": "Open source project I contributed to. AliaSQL was aimed at providing versioning for database deployments.",
+  "tags": [
+    "Database",
+    "Migration",
+    "Open Source",
+    "SQL Server",
+    "Versioning"
+  ]
+}

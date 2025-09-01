@@ -1,0 +1,16 @@
+{
+  "title": "PatientViewer.NET",
+  "link": "https://github.com/The-Running-Dev/Demo-PatientViewer.NET",
+  "lastModified": "2019-11-30T17:44:00.000Z",
+  "summary": "A project to showcase my .NET skills. It's a simple ASP.NET MVC/WebAPI application that displays a list of patients. The README in the repository documents the structure and implementation.",
+  "tags": [
+    ".NET",
+    "API",
+    "ASP.NET",
+    "ASP.NET MVC",
+    "C#",
+    "Demo",
+    "Healthcare",
+    "Skills Showcase"
+  ]
+}
