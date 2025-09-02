@@ -1,4 +1,4 @@
-import { IConfigService } from '../repositories/interfaces.js';
+import { IConfigService } from '../repositories/interfaces';
 
 /**
  * Configuration service that manages environment variables and app settings
@@ -14,6 +14,7 @@ export class ConfigService implements IConfigService {
     // Database configuration
     this.set('DATABASE_URL', process.env.DATABASE_URL || 'sqlite::memory:');
     this.set('DATABASE_TYPE', process.env.DATABASE_TYPE || 'sqlite');
+    this.set('PROJECT_REPOSITORY', process.env.PROJECT_REPOSITORY || 'json');
     
     // API configuration
     this.set('PORT', Number(process.env.PORT || 4000));
@@ -61,6 +62,11 @@ export class ConfigService implements IConfigService {
     return 'sqlite';
   }
 
+  getProjectRepositoryType(): 'json' | 'database' {
+    const type = this.get<string>('PROJECT_REPOSITORY', 'json').toLowerCase();
+    return type === 'database' ? 'database' : 'json';
+  }
+
   isSyncEnabled(): boolean {
     return this.get<boolean>('SYNC_ENABLED', false);
   }
@@ -91,6 +97,10 @@ export class ConfigService implements IConfigService {
 
   isCacheEnabled(): boolean {
     return this.get<boolean>('CACHE_ENABLED', true);
+  }
+
+  getSyncInterval(): 'daily' | 'weekly' {
+    return this.get<'daily' | 'weekly'>('SYNC_INTERVAL', 'daily');
   }
 
   getCacheTTL(): number {

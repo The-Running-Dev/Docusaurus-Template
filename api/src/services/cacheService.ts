@@ -1,7 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { ICacheService, Category } from '../repositories/interfaces.js';
-import { STORAGE_DIR } from '../lib/paths.js';
+import { ICacheService, Category, IProjectRepository } from '../repositories/interfaces';
+import { STORAGE_DIR } from '../lib/paths';
+import { getService } from '../lib/di/index';
+import { SERVICE_TOKENS } from '../lib/di/tokens';
 
 const CACHE_DIR = path.join(STORAGE_DIR, 'cache');
 
@@ -78,9 +80,18 @@ export class FileCacheService implements ICacheService {
   }
 
   async regenerateCache(): Promise<void> {
-    // This method will be implemented when we integrate with the repository
-    // For now, it just invalidates all cache
-    await this.invalidateCache();
+    try {
+      // Get repository from DI container and regenerate cache
+      const repo = getService<IProjectRepository>(
+        SERVICE_TOKENS.PROJECT_REPOSITORY
+      );
+      const projects = await repo.getAll();
+
+      await this.invalidateCache('projects');
+      await this.setCachedProjects(projects);
+    } catch (error) {
+      console.warn('Failed to regenerate cache:', error);
+    }
   }
 
   // Specific methods for projects cache

@@ -1,8 +1,8 @@
 import { FastifyInstance } from 'fastify';
-import { getService } from '../lib/di/index.js';
-import { SERVICE_TOKENS } from '../lib/di/tokens.js';
-import { IProjectRepository, ICacheService, IConfigService } from '../repositories/interfaces.js';
-import { slugify } from '../lib/projectsStore.js';
+import { getService } from '../lib/di/index';
+import { SERVICE_TOKENS } from '../lib/di/tokens';
+import { IProjectRepository, ICacheService, IConfigService } from '../repositories/interfaces';
+import { slugify } from '../lib/projectsStore';
 
 function requireAdmin(req: any, configService: IConfigService) {
   const token = configService.getAdminToken();
@@ -30,7 +30,20 @@ export async function registerProjectsRoutes(app: FastifyInstance) {
 
   // Combined nested structure (preferred for client)
   app.get('/v1/projects', async () => {
-    return await projectRepo.getAll();
+    if (configService.isCacheEnabled()) {
+      const cached = await cacheService.getCachedProjects();
+      if (cached.length) {
+        return cached;
+      }
+    }
+
+    const projects = await projectRepo.getAll();
+
+    if (configService.isCacheEnabled()) {
+      await cacheService.setCachedProjects(projects);
+    }
+
+    return projects;
   });
 
   // Flat list with metadata
@@ -59,9 +72,9 @@ export async function registerProjectsRoutes(app: FastifyInstance) {
       
       const saved = await projectRepo.save(category, sub, effectiveSlug, body);
       
-      // Invalidate cache after successful save
+      // Regenerate cache after successful save
       if (configService.isCacheEnabled()) {
-        await cacheService.invalidateCache('projects');
+        await cacheService.regenerateCache();
       }
       
       return { 
@@ -91,9 +104,9 @@ export async function registerProjectsRoutes(app: FastifyInstance) {
       
       await projectRepo.delete(category, sub, slug);
       
-      // Invalidate cache after successful deletion
+      // Regenerate cache after successful deletion
       if (configService.isCacheEnabled()) {
-        await cacheService.invalidateCache('projects');
+        await cacheService.regenerateCache();
       }
       
       return { success: true };

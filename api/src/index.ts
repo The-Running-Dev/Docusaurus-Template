@@ -2,11 +2,12 @@ import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
-import { registerConfigRoutes } from './routes/configRoutes.js';
-import { registerProjectsRoutes } from './routes/projectsRoutes.js';
-import { configureContainer, getService } from './lib/di/index.js';
-import { SERVICE_TOKENS } from './lib/di/tokens.js';
-import { IConfigService } from './repositories/interfaces.js';
+import { registerConfigRoutes } from './routes/configRoutes';
+import { registerProjectsRoutes } from './routes/projectsRoutes';
+import { registerSyncRoutes } from './routes/syncRoutes';
+import { configureContainer, getService } from './lib/di/index';
+import { SERVICE_TOKENS } from './lib/di/tokens';
+import { IConfigService } from './repositories/interfaces';
 
 async function buildServer() {
   // Configure dependency injection container first
@@ -40,6 +41,7 @@ async function buildServer() {
   await app.register(async (instance) => {
     await registerConfigRoutes(instance);
     await registerProjectsRoutes(instance);
+    await registerSyncRoutes(instance);
   }, { prefix: BASE });
 
   return app;

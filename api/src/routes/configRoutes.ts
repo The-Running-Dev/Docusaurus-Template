@@ -1,10 +1,10 @@
 import { FastifyInstance } from 'fastify';
-import { loadYaml, listAvailableKeys } from '../lib/loaders.js';
-import { loadThemes } from '../lib/themes.js';
-import { generateNav } from '../lib/nav.js';
-import { getService, isContainerReady } from '../lib/di/index.js';
-import { SERVICE_TOKENS } from '../lib/di/tokens.js';
-import { IConfigService } from '../repositories/interfaces.js';
+import { loadYaml, listAvailableKeys } from '../lib/loaders';
+import { loadThemes } from '../lib/themes';
+import { generateNav } from '../lib/nav';
+import { getService, isContainerReady } from '../lib/di/index';
+import { SERVICE_TOKENS } from '../lib/di/tokens';
+import { IConfigService } from '../repositories/interfaces';
 
 export async function registerConfigRoutes(app: FastifyInstance) {
   app.get('/health', async () => {

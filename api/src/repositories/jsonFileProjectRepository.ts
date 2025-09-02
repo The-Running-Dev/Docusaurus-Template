@@ -1,9 +1,9 @@
-import { 
-  IProjectRepository, 
-  Project, 
-  Category, 
-  FlatProject 
-} from './interfaces.js';
+import {
+  IProjectRepository,
+  Project,
+  Category,
+  FlatProject
+} from './interfaces';
 
 // Import existing functions from projectsStore
 import {
@@ -13,7 +13,7 @@ import {
   saveProject,
   deleteProject as deleteProjectFromStorage,
   ProjectSchema
-} from '../lib/projectsStore.js';
+} from '../lib/projectsStore';
 
 /**
  * JSON File-based implementation of the project repository
@@ -34,6 +34,11 @@ export class JsonFileProjectRepository implements IProjectRepository {
   async getById(category: string, subCategory: string, slug: string): Promise<Project | null> {
     // Use existing function to get specific project
     return getProject(category, subCategory, slug);
+  }
+
+  async getByNumericId(id: number): Promise<FlatProject | null> {
+    // JSON storage doesn't support numeric IDs
+    return null;
   }
 
   async save(category: string, subCategory: string, slug: string, project: Project): Promise<Project> {

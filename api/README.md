@@ -27,6 +27,7 @@ Projects (editable storage)
 
 Storage
 
+- Set `PROJECT_REPOSITORY` to `database` and configure `DATABASE_URL` to use the TypeORM-backed repository.
 - Files under `api/storage/projects/<category>/<subCategory>/<slug>.json`
 - Atomic writes with timestamped backups (`.bak`)
 

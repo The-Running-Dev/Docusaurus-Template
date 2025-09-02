@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { THEMES_DIR } from './paths.js';
+import { THEMES_DIR } from './paths';
 
 export interface ThemeInfo {
   name: string; // theme-id

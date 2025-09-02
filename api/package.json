@@ -9,14 +9,20 @@
     "start": "tsx src/index.ts",
     "build": "tsc -p tsconfig.json",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
-    "migrate:projects": "tsx scripts/migrate-projects.ts"
+    "migrate:projects": "tsx scripts/migrate-projects.ts",
+    "migrate:db": "tsx scripts/migrate-to-db.ts"
   },
   "dependencies": {
     "@fastify/cors": "^10.1.0",
     "@fastify/swagger": "^9.5.1",
     "@fastify/swagger-ui": "^5.2.3",
+    "@octokit/rest": "^22.0.0",
     "fastify": "^5.5.0",
     "js-yaml": "^4.1.0",
+    "node-cron": "^4.2.1",
+    "pg": "^8.11.5",
+    "sqlite3": "^5.1.7",
+    "typeorm": "^0.3.20",
     "zod": "^3.23.8"
   },
   "devDependencies": {

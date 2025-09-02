@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 import yaml from 'js-yaml';
-import { STORAGE_DIR as STORAGE_ROOT, CONFIG_DIR } from './paths.js';
+import { STORAGE_DIR as STORAGE_ROOT, CONFIG_DIR } from './paths';
 
 const STORAGE_DIR = path.join(STORAGE_ROOT, 'projects');
 const CONFIG_PROJECTS_YAML = path.join(CONFIG_DIR, 'projects.yml');
@@ -13,7 +13,22 @@ export const ProjectSchema = z.object({
   link: z.string().url().or(z.string().min(1)).optional(),
   lastModified: z.union([z.string(), z.date()]).optional(),
   summary: z.string().min(1),
-  tags: z.array(z.string()).default([])
+  tags: z.array(z.string()).default([]),
+
+  repoUrl: z.string().url().optional(),
+  stats: z
+    .object({
+      stars: z.number(),
+      forks: z.number(),
+      language: z.string(),
+      size: z.number(),
+      lastCommit: z.union([z.string(), z.date()]),
+      openIssues: z.number()
+    })
+    .optional(),
+  lastSyncedAt: z.union([z.string(), z.date()]).optional(),
+  syncEnabled: z.boolean().default(true),
+  syncInterval: z.enum(['daily', 'weekly', 'disabled']).default('daily')
 });
 export type Project = z.infer<typeof ProjectSchema>;
 
@@ -28,6 +43,7 @@ export interface Category {
 }
 
 export interface FlatProject {
+  id?: number;
   category: string;
   subCategory: string;
   slug: string;
