@@ -1,6 +1,9 @@
 import { useMemo, useState } from 'react';
 import { getData } from '../../../data';
-import { ProcessedProjectData, ProcessedCategory } from '../models';
+import {
+  ProcessedProjectData,
+  ProcessedCategory
+} from '../../../../shared/types/project-types';
 import {
   calculateStats,
   createCategoryText,

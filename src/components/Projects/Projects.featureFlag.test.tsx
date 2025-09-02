@@ -12,6 +12,18 @@ vi.mock('../../hooks/useProjects', () => ({
   useProjects: () => ({ data: null, loading: false, error: null })
 }));
 
+// Mock AuthProvider hook
+vi.mock('../Auth/AuthProvider', () => ({
+  useAuth: () => ({
+    user: null,
+    isAuthenticated: false,
+    login: vi.fn(),
+    logout: vi.fn(),
+    refresh: vi.fn(),
+    error: null
+  })
+}));
+
 import Projects from './Projects';
 
 describe('Projects feature flag', () => {

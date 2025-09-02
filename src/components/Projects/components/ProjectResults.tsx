@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { ProcessedCategory } from '../models';
+import { ProcessedCategory } from '../../../../shared/types/project-types';
 import ProjectGrid from './ProjectGrid';
 
 interface ProjectResultsProps {
@@ -8,6 +8,10 @@ interface ProjectResultsProps {
   activeFilter: string;
   onFilterToggle: (filter: string) => void;
   onScrollToFilters: () => void;
+  isAdmin?: boolean;
+  selectedProjects?: string[];
+  onProjectSelect?: (projectId: string, selected: boolean) => void;
+  onProjectEdit?: (projectId: string) => void;
 }
 
 /**
@@ -19,7 +23,11 @@ export default function ProjectResults({
   searchTerm,
   activeFilter,
   onFilterToggle,
-  onScrollToFilters
+  onScrollToFilters,
+  isAdmin = false,
+  selectedProjects = [],
+  onProjectSelect,
+  onProjectEdit
 }: ProjectResultsProps): ReactNode {
   // Handle no results case
   if (!filteredCategories || filteredCategories.length === 0) {
@@ -63,6 +71,10 @@ export default function ProjectResults({
         activeFilter={activeFilter}
         onFilterToggle={onFilterToggle}
         onScrollToFilters={onScrollToFilters}
+        isAdmin={isAdmin}
+        selectedProjects={selectedProjects}
+        onProjectSelect={onProjectSelect}
+        onProjectEdit={onProjectEdit}
       />
     </div>
   );

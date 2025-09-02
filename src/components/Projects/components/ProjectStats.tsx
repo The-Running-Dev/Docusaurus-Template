@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { ProjectStats as ProjectStatsType } from '../models';
+import { ProjectStats as ProjectStatsType } from '../../../../shared/types/project-types';
 
 interface ProjectStatsProps {
   stats: ProjectStatsType;

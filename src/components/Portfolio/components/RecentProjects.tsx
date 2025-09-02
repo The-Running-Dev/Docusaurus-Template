@@ -4,7 +4,7 @@ import Section from './Section';
 import CardGrid from './CardGrid';
 import ProjectCard from './ProjectCard';
 import ProjectsLink from './ProjectsLink';
-import { Project } from '../../Projects/models';
+import { Project } from '../../../../shared/types/project-types';
 
 interface RecentProjectsProps {
   projects: Project[];

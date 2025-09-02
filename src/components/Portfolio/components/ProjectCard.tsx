@@ -1,7 +1,7 @@
 import React, { type ReactNode } from 'react';
 import Heading from '@theme/Heading';
 
-import { Project } from '../../Projects/models';
+import { Project } from '../../../../shared/types/project-types';
 
 interface ProjectCardProps {
   project: Project;

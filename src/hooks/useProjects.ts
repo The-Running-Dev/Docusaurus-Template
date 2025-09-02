@@ -3,7 +3,7 @@ import { useDataStore } from '../store/dataStore';
 import {
   ProjectCategory,
   ProjectStats
-} from '../components/Projects/models';
+} from '../../shared/types/project-types';
 
 export function useProjects() {
   const store = useDataStore();
@@ -61,13 +61,13 @@ export function useProjects() {
           if (!project.lastModified) return false;
 
           const projectDate = new Date(project.lastModified);
-          
+
           return projectDate > cutoffDate;
         })
         .sort((a, b) => {
           const dateA = new Date(a.lastModified!);
           const dateB = new Date(b.lastModified!);
-          
+
           return dateB.getTime() - dateA.getTime(); // Most recent first
         });
     },

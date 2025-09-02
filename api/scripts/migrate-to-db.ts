@@ -1,21 +1,21 @@
 #!/usr/bin/env tsx
 /**
- * Import existing JSON project files into the database.
+ * Import existing storage project files into the database.
  *
  * Usage:
  *   pnpm --dir api migrate:db
  */
-import { JsonFileProjectRepository } from '../src/repositories/jsonFileProjectRepository';
 import { DatabaseProjectRepository } from '../src/repositories/database-project-repository';
 import { ConfigService } from '../src/services/configService';
+import { getFlatFromStorage } from '../src/lib/projectsStore';
 import type { FlatProject } from '../src/repositories/interfaces';
 
 async function main() {
   const config = new ConfigService();
-  const jsonRepo = new JsonFileProjectRepository();
   const dbRepo = new DatabaseProjectRepository(config);
 
-  const projects: FlatProject[] = await jsonRepo.getFlat();
+  // Get projects from storage files using the existing function
+  const projects: FlatProject[] = getFlatFromStorage();
   await dbRepo.saveMany(projects);
 
   // Clean up datasource connection if available

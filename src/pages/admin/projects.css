@@ -121,3 +121,81 @@
 .admin-menu-item { display: block; width: 100%; text-align: left; background: transparent; border: none; padding: 0.35rem 0.6rem; cursor: pointer; }
 .admin-menu-item:hover { background: var(--ifm-color-emphasis-200); }
 .admin-menu-item.admin-danger { color: var(--ifm-color-danger); }
+
+/* Project Card Admin Controls */
+.projectCard {
+  position: relative;
+}
+
+.admin-project-controls {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 6px;
+  padding: 0.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.projectCard:hover .admin-project-controls {
+  opacity: 1;
+}
+
+.admin-project-checkbox {
+  margin: 0;
+  cursor: pointer;
+}
+
+.admin-edit-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 3px;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.admin-edit-btn:hover {
+  opacity: 1;
+  background: var(--ifm-color-emphasis-200);
+}
+
+.admin-selected {
+  border: 2px solid var(--ifm-color-primary) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ifm-color-primary) 30%, transparent);
+}
+
+/* Inline Edit Styling */
+.inline-edit-input {
+  background: transparent;
+  border: 1px dashed var(--ifm-color-primary);
+  padding: 0.25rem;
+  border-radius: 3px;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.inline-edit-value {
+  position: relative;
+}
+
+.inline-edit-value::after {
+  content: '✏️';
+  font-size: 0.8rem;
+  opacity: 0;
+  margin-left: 0.25rem;
+  transition: opacity 0.2s ease;
+}
+
+.admin-project-controls:hover ~ * .inline-edit-value::after,
+.projectCard:hover .inline-edit-value::after {
+  opacity: 0.6;
+}

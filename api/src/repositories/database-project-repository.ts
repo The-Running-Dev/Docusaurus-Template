@@ -104,7 +104,7 @@ export class DatabaseProjectRepository implements IProjectRepository {
     const repo = await this.getRepo();
     const entities = await repo.find();
     return entities.map((e) => ({
-      id: e.id,
+      id: e.id.toString(),
       category: e.category,
       subCategory: e.subCategory,
       slug: e.slug,
@@ -129,10 +129,12 @@ export class DatabaseProjectRepository implements IProjectRepository {
 
     const categories: Category[] = [];
     for (const [category, subMap] of map) {
-      const subCategories = Array.from(subMap.entries()).map(([name, projects]) => ({
-        name,
-        projects
-      }));
+      const subCategories = Array.from(subMap.entries()).map(
+        ([name, projects]) => ({
+          name,
+          projects
+        })
+      );
       categories.push({ category, subCategories });
     }
     return categories;
@@ -144,7 +146,9 @@ export class DatabaseProjectRepository implements IProjectRepository {
     slug: string
   ): Promise<Project | null> {
     const repo = await this.getRepo();
-    const entity = await repo.findOne({ where: { category, subCategory, slug } });
+    const entity = await repo.findOne({
+      where: { category, subCategory, slug }
+    });
     return entity ? this.toProject(entity) : null;
   }
 
@@ -153,7 +157,7 @@ export class DatabaseProjectRepository implements IProjectRepository {
     const entity = await repo.findOne({ where: { id } });
     return entity
       ? {
-          id: entity.id,
+          id: entity.id.toString(),
           category: entity.category,
           subCategory: entity.subCategory,
           slug: entity.slug,

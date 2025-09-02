@@ -1,4 +1,7 @@
-import { FilterOption, ProcessedProjectData } from '../models';
+import {
+  FilterOption,
+  ProcessedProjectData
+} from '../../../../shared/types/project-types';
 
 /**
  * Utility functions for calculating search results in filter buttons

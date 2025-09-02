@@ -6,10 +6,12 @@
 export const SERVICE_TOKENS = {
   // Repository tokens
   PROJECT_REPOSITORY: 'IProjectRepository',
+  USER_REPOSITORY: 'IUserRepository',
   
   // Service tokens
   CACHE_SERVICE: 'ICacheService',
   SYNC_SERVICE: 'ISyncService',
+  JWT_SERVICE: 'IJwtService',
   
   // Provider tokens
   GITHUB_PROVIDER: 'IGitHubProvider',

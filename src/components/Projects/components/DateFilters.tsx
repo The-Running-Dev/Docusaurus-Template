@@ -1,5 +1,5 @@
 import React from 'react';
-import { FilterOption } from '../models';
+import { FilterOption } from '../../../../shared/types/project-types';
 
 export interface DateFiltersProps {
   dateOptions: FilterOption[];
@@ -20,11 +20,7 @@ export function DateFilters({
         {dateOptions.map((option) => (
           <button
             key={option.key}
-            onClick={
-              searchTerm
-                ? undefined
-                : () => onDateChange(option.key)
-            }
+            onClick={searchTerm ? undefined : () => onDateChange(option.key)}
             disabled={!!searchTerm}
             className={`filterButton ${
               searchTerm

@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react';
-import { ProcessedCategory } from '../models';
+import { ProcessedCategory } from '../../../../shared/types/project-types';
+import { InlineEditMode } from '../InlineEditMode';
 
 interface ProjectGridProps {
   categories: ProcessedCategory[];
@@ -7,6 +8,10 @@ interface ProjectGridProps {
   activeFilter: string;
   onFilterToggle: (filter: string) => void;
   onScrollToFilters: () => void;
+  isAdmin?: boolean;
+  selectedProjects?: string[];
+  onProjectSelect?: (projectId: string, selected: boolean) => void;
+  onProjectEdit?: (projectId: string) => void;
 }
 
 export default function ProjectGrid({
@@ -14,7 +19,11 @@ export default function ProjectGrid({
   searchTerm,
   activeFilter,
   onFilterToggle,
-  onScrollToFilters
+  onScrollToFilters,
+  isAdmin = false,
+  selectedProjects = [],
+  onProjectSelect,
+  onProjectEdit
 }: ProjectGridProps): ReactNode {
   // Flatten all projects from all categories and subcategories
   const allProjects = categories.flatMap((cat) =>
@@ -39,17 +48,17 @@ export default function ProjectGrid({
     if (diffInDays < 1) return 'Today';
     if (diffInDays === 1) return '1 day ago';
     if (diffInDays < 7) return `${diffInDays} days ago`;
-    
+
     const weeks = Math.floor(diffInDays / 7);
     if (diffInDays < 30) {
       return weeks === 1 ? '1 week ago' : `${weeks} weeks ago`;
     }
-    
+
     const months = Math.floor(diffInDays / 30);
     if (diffInDays < 365) {
       return months === 1 ? '1 month ago' : `${months} months ago`;
     }
-    
+
     const years = Math.floor(diffInDays / 365);
     return years === 1 ? '1 year ago' : `${years} years ago`;
   };
@@ -65,10 +74,61 @@ export default function ProjectGrid({
             new Date().getTime() - new Date(project.lastModified).getTime() <
               6 * 30 * 24 * 60 * 60 * 1000; // 6 months
 
+          // Create project ID for admin functionality
+          const projectId = `${project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${projectIdx}`;
+          const isSelected = selectedProjects.includes(projectId);
+
           return (
-            <div key={projectIdx} className="projectCard">
+            <div 
+              key={projectIdx} 
+              className={`projectCard ${isAdmin && isSelected ? 'admin-selected' : ''}`}
+              onClick={isAdmin ? (e) => {
+                e.preventDefault();
+                onProjectSelect?.(projectId, !isSelected);
+              } : undefined}
+              style={{ cursor: isAdmin ? 'pointer' : 'default' }}
+            >
+              {/* Admin Controls Overlay */}
+              {isAdmin && (
+                <div className="admin-project-controls">
+                  <input
+                    type="checkbox"
+                    checked={isSelected}
+                    onChange={(e) => {
+                      e.stopPropagation();
+                      onProjectSelect?.(projectId, e.target.checked);
+                    }}
+                    className="admin-project-checkbox"
+                    title="Select project"
+                  />
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onProjectEdit?.(projectId);
+                    }}
+                    className="admin-edit-btn"
+                    title="Edit project"
+                  >
+                    ✏️
+                  </button>
+                </div>
+              )}
+
               <div className="projectCardHeader">
-                <h3 className="projectCardTitle">{project.title}</h3>
+                <h3 className="projectCardTitle">
+                  {isAdmin ? (
+                    <InlineEditMode
+                      value={project.title}
+                      onSave={(newTitle) => {
+                        // Handle inline title edit
+                        console.log('Save title:', newTitle);
+                      }}
+                      field="title"
+                    />
+                  ) : (
+                    project.title
+                  )}
+                </h3>
                 {project.link && (
                   <a
                     href={project.link}
@@ -84,7 +144,20 @@ export default function ProjectGrid({
                 )}
               </div>
 
-              <p className="projectSummary">{project.summary}</p>
+              <p className="projectSummary">
+                {isAdmin ? (
+                  <InlineEditMode
+                    value={project.summary}
+                    onSave={(newSummary) => {
+                      // Handle inline summary edit
+                      console.log('Save summary:', newSummary);
+                    }}
+                    field="summary"
+                  />
+                ) : (
+                  project.summary
+                )}
+              </p>
 
               {project.tags && project.tags.length > 0 && (
                 <div className="projectTags">
@@ -127,7 +200,11 @@ export default function ProjectGrid({
               <div className="projectFooter">
                 {project.lastModified && (
                   <span className="projectDate">
-                    {getRelativeTime(project.lastModified)}
+                    {getRelativeTime(
+                      typeof project.lastModified === 'string'
+                        ? project.lastModified
+                        : project.lastModified.toISOString()
+                    )}
                   </span>
                 )}
                 {isRecent && <span className="recentBadge">Recent</span>}

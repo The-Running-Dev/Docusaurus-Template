@@ -23,7 +23,7 @@ export class GitHubRepoProvider implements IRepoProvider {
 
   async getRepoStats(url: string): Promise<RepoStats> {
     await this.rateLimit();
-    const match = /github\.com[/:](?<owner>[^/]+)\/(?<repo>[^/]+)(?:\.git)?/.exec(url);
+    const match = /github\.com[/:](?<owner>[^/]+)\/(?<repo>[^/]+?)(?:\.git)?$/.exec(url);
     if (!match || !match.groups) {
       throw new Error('Invalid GitHub repository URL');
     }

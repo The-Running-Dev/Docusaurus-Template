@@ -1,0 +1,12 @@
+[
+  {
+    "id": "admin-001",
+    "username": "admin",
+    "passwordHash": "$2b$10$1N7GMbRR6stLaWjYWssaduOiI0KKJxeYDXTJcSXBSCH0grlTdnuS2",
+    "email": "admin@localhost",
+    "roles": [
+      "admin"
+    ],
+    "isActive": true
+  }
+]

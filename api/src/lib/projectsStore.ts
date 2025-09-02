@@ -7,14 +7,21 @@ import { STORAGE_DIR as STORAGE_ROOT, CONFIG_DIR } from './paths';
 const STORAGE_DIR = path.join(STORAGE_ROOT, 'projects');
 const CONFIG_PROJECTS_YAML = path.join(CONFIG_DIR, 'projects.yml');
 
-// Schema for a single project entry
+import {
+  Project,
+  Category,
+  SubCategory
+} from '../../../shared/types/project-types';
+// If you need RepoStats, import from shared/entities/project
+// import { RepoStats } from '../../../shared/entities/project';
+
+// Schema for a single project entry (for validation only)
 export const ProjectSchema = z.object({
   title: z.string().min(1),
   link: z.string().url().or(z.string().min(1)).optional(),
   lastModified: z.union([z.string(), z.date()]).optional(),
   summary: z.string().min(1),
   tags: z.array(z.string()).default([]),
-
   repoUrl: z.string().url().optional(),
   stats: z
     .object({
@@ -30,20 +37,9 @@ export const ProjectSchema = z.object({
   syncEnabled: z.boolean().default(true),
   syncInterval: z.enum(['daily', 'weekly', 'disabled']).default('daily')
 });
-export type Project = z.infer<typeof ProjectSchema>;
-
-export interface SubCategory {
-  name: string;
-  projects: Project[];
-}
-
-export interface Category {
-  category: string;
-  subCategories: SubCategory[];
-}
 
 export interface FlatProject {
-  id?: number;
+  id?: string;
   category: string;
   subCategory: string;
   slug: string;
@@ -63,9 +59,14 @@ export function slugify(input: string): string {
 }
 
 function readJsonFile<T>(filePath: string): T | null {
-  if (!fs.existsSync(filePath)) return null;
-  const raw = fs.readFileSync(filePath, 'utf8');
-  return JSON.parse(raw) as T;
+  try {
+    if (!fs.existsSync(filePath)) return null;
+    const raw = fs.readFileSync(filePath, 'utf8');
+    return JSON.parse(raw) as T;
+  } catch (error) {
+    console.error('Error reading JSON file:', error);
+    return null;
+  }
 }
 
 function writeJsonAtomic(filePath: string, data: any) {
@@ -82,21 +83,26 @@ function writeJsonAtomic(filePath: string, data: any) {
 }
 
 function listFilesRecursive(dir: string): string[] {
-  if (!fs.existsSync(dir)) return [];
-  const out: string[] = [];
-  const entries = fs.readdirSync(dir, { withFileTypes: true });
-  for (const e of entries) {
-    const p = path.join(dir, e.name);
-    if (e.isDirectory()) out.push(...listFilesRecursive(p));
-    else if (e.isFile() && e.name.endsWith('.json')) out.push(p);
+  try {
+    if (!fs.existsSync(dir)) return [];
+    const out: string[] = [];
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const e of entries) {
+      const p = path.join(dir, e.name);
+      if (e.isDirectory()) out.push(...listFilesRecursive(p));
+      else if (e.isFile() && e.name.endsWith('.json')) out.push(p);
+    }
+    return out.sort();
+  } catch (error) {
+    console.error('Error reading storage directory:', error);
+    return [];
   }
-  return out.sort();
 }
 
 export function getFlatFromStorage(): FlatProject[] {
   const files = listFilesRecursive(STORAGE_DIR);
   const result: FlatProject[] = [];
-  for (const file of files) {
+  for (const [i, file] of files.entries()) {
     const rel = path.relative(STORAGE_DIR, file).replace(/\\/g, '/');
     const parts = rel.split('/');
     if (parts.length < 3) continue;
@@ -104,7 +110,13 @@ export function getFlatFromStorage(): FlatProject[] {
     const slug = name.replace(/\.json$/i, '');
     const proj = readJsonFile<Project>(file);
     if (!proj) continue;
-    result.push({ category, subCategory, slug, project: proj });
+    result.push({
+      id: i.toString(),
+      category,
+      subCategory,
+      slug,
+      project: proj
+    });
   }
   return result;
 }
@@ -159,9 +171,10 @@ export function saveProject(
   const parsed = ProjectSchema.parse(input);
   const normalized: Project = {
     ...parsed,
-    lastModified: parsed.lastModified instanceof Date
-      ? parsed.lastModified.toISOString()
-      : parsed.lastModified
+    lastModified:
+      parsed.lastModified instanceof Date
+        ? parsed.lastModified.toISOString()
+        : parsed.lastModified || new Date().toISOString()
   } as any;
   const file = path.join(STORAGE_DIR, category, subCategory, `${slug}.json`);
   writeJsonAtomic(file, normalized);

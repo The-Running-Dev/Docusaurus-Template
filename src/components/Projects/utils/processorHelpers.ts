@@ -1,5 +1,8 @@
-import { ProcessedCategory, FilterOption, ProjectStats } from '../models';
-
+import {
+  ProcessedCategory,
+  FilterOption,
+  ProjectStats
+} from '../../../../shared/types/project-types';
 /**
  * Calculate project statistics
  */
@@ -138,7 +141,7 @@ export function generateDateOptions(
 ): FilterOption[] {
   // Collect all project dates to determine what options to show
   const allDates: Date[] = [];
-  
+
   // Count total projects (including those without dates)
   let totalProjects = 0;
 

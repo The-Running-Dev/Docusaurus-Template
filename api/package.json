@@ -5,29 +5,40 @@
   "type": "module",
   "description": "Local API to serve site data derived from config YAML files",
   "scripts": {
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "dev": "tsx watch src/index.ts",
     "start": "tsx src/index.ts",
     "build": "tsc -p tsconfig.json",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "migrate:projects": "tsx scripts/migrate-projects.ts",
-    "migrate:db": "tsx scripts/migrate-to-db.ts"
+    "migrate:db": "tsx scripts/migrate-to-db.ts",
+    "setup:admin": "tsx scripts/setup-admin-user.ts",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@fastify/cookie": "^11.0.2",
     "@fastify/cors": "^10.1.0",
     "@fastify/swagger": "^9.5.1",
     "@fastify/swagger-ui": "^5.2.3",
     "@octokit/rest": "^22.0.0",
+    "bcryptjs": "^3.0.2",
     "fastify": "^5.5.0",
     "js-yaml": "^4.1.0",
+    "jsonwebtoken": "^9.0.2",
     "node-cron": "^4.2.1",
     "pg": "^8.11.5",
+    "reflect-metadata": "^0.2.2",
     "sqlite3": "^5.1.7",
     "typeorm": "^0.3.20",
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
     "tsx": "^4.20.3",
-    "typescript": "~5.6.2"
+    "typescript": "~5.6.2",
+    "vitest": "^3.2.4"
   },
   "engines": {
     "node": ">=18.0.0"

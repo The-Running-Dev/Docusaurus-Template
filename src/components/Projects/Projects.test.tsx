@@ -2,6 +2,21 @@ import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
+// Mock useAuth hook for admin tests
+vi.mock('../Auth/AuthProvider', () => ({
+  AuthProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
+  useAuth: vi.fn(() => ({
+    user: { roles: ['admin'] },
+    isAuthenticated: true,
+    login: vi.fn(),
+    logout: vi.fn(),
+    refresh: vi.fn(),
+    error: null
+  }))
+}));
+
 // Mock feature flags to enable Projects page
 vi.mock('../../config', () => ({
   useFeaturesConfig: () => ({
@@ -104,7 +119,9 @@ describe('Projects (integration)', () => {
     ];
     render(<Projects />);
     // Header and one stat label should appear
-    expect(screen.getByRole('heading', { level: 1, name: /Projects/ })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 1, name: /Projects/ })
+    ).toBeInTheDocument();
     expect(document.body.textContent).toMatch(/Total|Recent|Technolog/);
     // Project card title should render from results
     expect(screen.getByText('Proj')).toBeInTheDocument();

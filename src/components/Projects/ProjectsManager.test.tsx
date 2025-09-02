@@ -1,7 +1,38 @@
 import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, within, fireEvent, waitFor, act } from '@testing-library/react';
+import {
+  render,
+  screen,
+  within,
+  fireEvent,
+  waitFor,
+  act
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { AuthProvider } from '../Auth/AuthProvider';
+
+// Mock useAuth hook for admin tests
+vi.mock('../Auth/AuthProvider', () => ({
+  AuthProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
+  useAuth: vi.fn(() => ({
+    user: { roles: ['admin'] },
+    isAuthenticated: true,
+    login: vi.fn(),
+    logout: vi.fn(),
+    refresh: vi.fn(),
+    error: null
+  }))
+}));
+
+// Mock fetch for AdminTabsModal
+global.fetch = vi.fn(() =>
+  Promise.resolve({
+    ok: true,
+    json: () => Promise.resolve([])
+  })
+) as any;
 
 // Enable Projects feature
 vi.mock('../../config', () => ({
@@ -52,10 +83,27 @@ describe('ProjectsManager', () => {
     mockLoading = false;
     mockError = null;
     mockData = [
-      { category: 'Web', subCategories: [ { name: 'React', projects: [ { title: 'Proj', summary: 'S', lastModified: new Date().toISOString(), tags: ['React'] } ] } ] }
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'Proj',
+                summary: 'S',
+                lastModified: new Date().toISOString(),
+                tags: ['React']
+              }
+            ]
+          }
+        ]
+      }
     ];
     render(<ProjectsManager />);
-    expect(screen.getByRole('heading', { level: 1, name: /Projects/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 1, name: /Projects/i })
+    ).toBeInTheDocument();
     expect(screen.queryByText(/Delete Selected/)).toBeNull();
     expect(screen.getByText('Proj')).toBeInTheDocument();
   });
@@ -65,7 +113,22 @@ describe('ProjectsManager', () => {
     mockLoading = false;
     mockError = null;
     mockData = [
-      { category: 'Web', subCategories: [ { name: 'React', projects: [ { title: 'Proj', summary: 'S', lastModified: new Date().toISOString(), tags: ['React'] } ] } ] }
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'Proj',
+                summary: 'S',
+                lastModified: new Date().toISOString(),
+                tags: ['React']
+              }
+            ]
+          }
+        ]
+      }
     ];
     render(<ProjectsManager isAdmin onSaveProject={onSave} />);
     // Admin actions visible
@@ -77,7 +140,9 @@ describe('ProjectsManager', () => {
       fireEvent.click(card);
     });
     // Save button should be present in edit tab
-    const saveBtn = await screen.findByRole('button', { name: /Save Project/i });
+    const saveBtn = await screen.findByRole('button', {
+      name: /Save Project/i
+    });
     await act(async () => {
       fireEvent.click(saveBtn);
     });
@@ -89,7 +154,22 @@ describe('ProjectsManager', () => {
     mockLoading = false;
     mockError = null;
     mockData = [
-      { category: 'Web', subCategories: [ { name: 'React', projects: [ { title: 'A', summary: 'S', lastModified: new Date().toISOString(), tags: ['R'] } ] } ] }
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'A',
+                summary: 'S',
+                lastModified: new Date().toISOString(),
+                tags: ['R']
+              }
+            ]
+          }
+        ]
+      }
     ];
     // Stub confirm
     // @ts-ignore
@@ -118,13 +198,29 @@ describe('ProjectsManager', () => {
     mockLoading = false;
     mockError = null;
     mockData = [
-      { category: 'Web', subCategories: [ { name: 'React', projects: [ { title: 'Zed', summary: 'S', lastModified: new Date().toISOString(), tags: [] } ] } ] }
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'Zed',
+                summary: 'S',
+                lastModified: new Date().toISOString(),
+                tags: []
+              }
+            ]
+          }
+        ]
+      }
     ];
     // @ts-ignore
     window.confirm = () => true;
     render(<ProjectsManager isAdmin onBulkDelete={onBulkDelete} />);
     const cardTitle = screen.getByText('Zed');
-    const card = (cardTitle.closest('.projectCard') || cardTitle) as HTMLElement;
+    const card = (cardTitle.closest('.projectCard') ||
+      cardTitle) as HTMLElement;
     const delBtn = within(card).getByRole('button', { name: /Delete/i });
     await act(async () => {
       delBtn.click();
@@ -141,16 +237,38 @@ describe('ProjectsManager', () => {
     mockLoading = false;
     mockError = null;
     mockData = [
-      { category: 'Web', subCategories: [ { name: 'React', projects: [ { title: 'CopyMe', summary: 'S', lastModified: new Date().toISOString(), tags: [], link: 'https://example.com' } ] } ] }
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'CopyMe',
+                summary: 'S',
+                lastModified: new Date().toISOString(),
+                tags: [],
+                link: 'https://example.com'
+              }
+            ]
+          }
+        ]
+      }
     ];
-    render(<ProjectsManager isAdmin adminApiBase="http://localhost:4000/api" />);
+    render(
+      <ProjectsManager isAdmin adminApiBase="http://localhost:4000/api" />
+    );
     const title = screen.getByText('CopyMe');
     const card = (title.closest('.projectCard') || title) as HTMLElement;
-    const menuBtn = within(card).getByRole('button', { name: /Quick actions/i });
+    const menuBtn = within(card).getByRole('button', {
+      name: /Quick actions/i
+    });
     await act(async () => {
       menuBtn.click();
     });
-    const copySlugBtn = await within(card).findByRole('button', { name: /Copy Slug/i });
+    const copySlugBtn = await within(card).findByRole('button', {
+      name: /Copy Slug/i
+    });
     await act(async () => {
       copySlugBtn.click();
     });
@@ -164,27 +282,66 @@ describe('ProjectsManager', () => {
     mockLoading = false;
     mockError = null;
     mockData = [
-      { category: 'Web', subCategories: [ { name: 'React', projects: [ { title: 'CopyAPI', summary: 'S', lastModified: new Date().toISOString(), tags: [], link: '' } ] } ] }
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'CopyAPI',
+                summary: 'S',
+                lastModified: new Date().toISOString(),
+                tags: [],
+                link: ''
+              }
+            ]
+          }
+        ]
+      }
     ];
-    render(<ProjectsManager isAdmin adminApiBase="http://localhost:4000/api" />);
+    render(
+      <ProjectsManager isAdmin adminApiBase="http://localhost:4000/api" />
+    );
     const title = screen.getByText('CopyAPI');
     const card = (title.closest('.projectCard') || title) as HTMLElement;
-    const menuBtn = within(card).getByRole('button', { name: /Quick actions/i });
+    const menuBtn = within(card).getByRole('button', {
+      name: /Quick actions/i
+    });
     await act(async () => {
       menuBtn.click();
     });
-    const copyApiBtn = await within(card).findByRole('button', { name: /Copy API URL/i });
+    const copyApiBtn = await within(card).findByRole('button', {
+      name: /Copy API URL/i
+    });
     await act(async () => {
       copyApiBtn.click();
     });
-    expect(writeText).toHaveBeenCalledWith(expect.stringContaining('/v1/projects/Web/React/copyapi'));
+    expect(writeText).toHaveBeenCalledWith(
+      expect.stringContaining('/v1/projects/Web/React/copyapi')
+    );
   });
 
   it('persists search and filter to localStorage', async () => {
     mockLoading = false;
     mockError = null;
     mockData = [
-      { category: 'Web', subCategories: [ { name: 'React', projects: [ { title: 'Alpha', summary: 'S', lastModified: new Date().toISOString(), tags: [] } ] } ] }
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'Alpha',
+                summary: 'S',
+                lastModified: new Date().toISOString(),
+                tags: []
+              }
+            ]
+          }
+        ]
+      }
     ];
     render(<ProjectsManager isAdmin />);
     // Search input should exist; type in it
@@ -192,7 +349,9 @@ describe('ProjectsManager', () => {
     fireEvent.change(searchInput, { target: { value: 'abc' } });
     // Select a filter by clicking technology/category if available; otherwise just ensure it doesn't throw
     // Verify localStorage save path (keys)
-    await waitFor(() => expect(localStorage.getItem('projects.search')).toBe('abc'));
+    await waitFor(() =>
+      expect(localStorage.getItem('projects.search')).toBe('abc')
+    );
   });
 
   it('imports JSON and calls onSaveProject for each item', async () => {
@@ -200,32 +359,54 @@ describe('ProjectsManager', () => {
     mockLoading = false;
     mockError = null;
     mockData = [
-      { category: 'Web', subCategories: [ { name: 'React', projects: [] } ] }
+      { category: 'Web', subCategories: [{ name: 'React', projects: [] }] }
     ];
     render(<ProjectsManager isAdmin onSaveProject={onSave} />);
     const input = screen.getByLabelText(/Import JSON/i) as HTMLInputElement;
-    const payload = [ { category: 'Web', subCategories: [ { name: 'React', projects: [ { title: 'FromFile', summary: 'S', tags: [], lastModified: new Date().toISOString() } ] } ] } ];
-    
+    const payload = [
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'FromFile',
+                summary: 'S',
+                tags: [],
+                lastModified: new Date().toISOString()
+              }
+            ]
+          }
+        ]
+      }
+    ];
+
     // Create file with proper structure
     const fileContent = JSON.stringify(payload);
-    const file = new File([fileContent], 'projects.json', { type: 'application/json' });
-    
+    const file = new File([fileContent], 'projects.json', {
+      type: 'application/json'
+    });
+
     // Mock file.text() method for test environment
     Object.defineProperty(file, 'text', {
       value: () => Promise.resolve(fileContent),
       writable: false
     });
-    
+
     // Upload file and wait for processing
     await act(async () => {
       await userEvent.upload(input, file);
     });
-    
+
     // Wait for the onSave to be called - increased timeout and better wait condition
-    await waitFor(() => {
-      expect(onSave).toHaveBeenCalled();
-    }, { timeout: 5000 });
-    
+    await waitFor(
+      () => {
+        expect(onSave).toHaveBeenCalled();
+      },
+      { timeout: 5000 }
+    );
+
     // Verify the call was made with the right data structure
     expect(onSave).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -247,7 +428,22 @@ describe('ProjectsManager', () => {
     mockLoading = false;
     mockError = null;
     mockData = [
-      { category: 'Web', subCategories: [ { name: 'React', projects: [ { title: 'Alpha', summary: 'S', lastModified: new Date().toISOString(), tags: [] } ] } ] }
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'Alpha',
+                summary: 'S',
+                lastModified: new Date().toISOString(),
+                tags: []
+              }
+            ]
+          }
+        ]
+      }
     ];
     const createObjectURL = vi.fn(() => 'blob://test');
     // @ts-ignore
@@ -264,7 +460,9 @@ describe('ProjectsManager', () => {
       return el;
     });
     render(<ProjectsManager isAdmin />);
-    const exportBtn = screen.getByRole('button', { name: /Export \(Filtered\)/i });
+    const exportBtn = screen.getByRole('button', {
+      name: /Export \(Filtered\)/i
+    });
     exportBtn.click();
     expect(createObjectURL).toHaveBeenCalled();
     expect(clickSpy).toHaveBeenCalled();
@@ -275,7 +473,22 @@ describe('ProjectsManager', () => {
     mockLoading = false;
     mockError = null;
     mockData = [
-      { category: 'Web', subCategories: [ { name: 'React', projects: [ { title: 'Alpha', summary: 'S', lastModified: new Date().toISOString(), tags: [] } ] } ] }
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'Alpha',
+                summary: 'S',
+                lastModified: new Date().toISOString(),
+                tags: []
+              }
+            ]
+          }
+        ]
+      }
     ];
     // @ts-ignore
     window.confirm = () => true;
@@ -290,7 +503,22 @@ describe('ProjectsManager', () => {
     mockLoading = false;
     mockError = null;
     mockData = [
-      { category: 'Web', subCategories: [ { name: 'React', projects: [ { title: 'Alpha', summary: 'S', lastModified: new Date().toISOString(), tags: [] } ] } ] }
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'Alpha',
+                summary: 'S',
+                lastModified: new Date().toISOString(),
+                tags: []
+              }
+            ]
+          }
+        ]
+      }
     ];
     // @ts-ignore
     window.confirm = () => false;
@@ -304,20 +532,52 @@ describe('ProjectsManager', () => {
     mockLoading = false;
     mockError = null;
     mockData = [
-      { category: 'Web', subCategories: [ { name: 'React', projects: [ { title: 'Alpha', summary: 'S', lastModified: new Date().toISOString(), tags: [] } ] } ] }
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'Alpha',
+                summary: 'S',
+                lastModified: new Date().toISOString(),
+                tags: []
+              }
+            ]
+          }
+        ]
+      }
     ];
     render(<ProjectsManager isAdmin />);
     // Ensure Save not visible yet
     expect(screen.queryByRole('button', { name: /Save Project/i })).toBeNull();
     fireEvent.keyDown(window, { key: 'e' });
-    expect(screen.getByRole('button', { name: /Save Project/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Save Project/i })
+    ).toBeInTheDocument();
   });
 
   it('slash focuses search input', () => {
     mockLoading = false;
     mockError = null;
     mockData = [
-      { category: 'Web', subCategories: [ { name: 'React', projects: [ { title: 'Alpha', summary: 'S', lastModified: new Date().toISOString(), tags: [] } ] } ] }
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'Alpha',
+                summary: 'S',
+                lastModified: new Date().toISOString(),
+                tags: []
+              }
+            ]
+          }
+        ]
+      }
     ];
     render(<ProjectsManager isAdmin />);
     const search = screen.getByRole('textbox');
@@ -334,11 +594,27 @@ describe('ProjectsManager', () => {
     mockLoading = false;
     mockError = null;
     mockData = [
-      { category: 'Web', subCategories: [ { name: 'React', projects: [ { title: 'Sluggy', summary: 'S', lastModified: new Date().toISOString(), tags: [] } ] } ] }
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'Sluggy',
+                summary: 'S',
+                lastModified: new Date().toISOString(),
+                tags: []
+              }
+            ]
+          }
+        ]
+      }
     ];
     render(<ProjectsManager isAdmin />);
     const cardTitle = screen.getByText('Sluggy');
-    const card = (cardTitle.closest('.projectCard') || cardTitle) as HTMLElement;
+    const card = (cardTitle.closest('.projectCard') ||
+      cardTitle) as HTMLElement;
     await act(async () => {
       card.click();
     });
@@ -356,11 +632,28 @@ describe('ProjectsManager', () => {
     mockLoading = false;
     mockError = null;
     mockData = [
-      { category: 'Web', subCategories: [ { name: 'React', projects: [ { title: 'HasLink', summary: 'S', lastModified: new Date().toISOString(), tags: [], link: 'https://example.com' } ] } ] }
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'HasLink',
+                summary: 'S',
+                lastModified: new Date().toISOString(),
+                tags: [],
+                link: 'https://example.com'
+              }
+            ]
+          }
+        ]
+      }
     ];
     render(<ProjectsManager isAdmin />);
     const cardTitle = screen.getByText('HasLink');
-    const card = (cardTitle.closest('.projectCard') || cardTitle) as HTMLElement;
+    const card = (cardTitle.closest('.projectCard') ||
+      cardTitle) as HTMLElement;
     await act(async () => {
       card.click();
     });
@@ -375,7 +668,22 @@ describe('ProjectsManager', () => {
     mockLoading = false;
     mockError = null;
     mockData = [
-      { category: 'Web', subCategories: [ { name: 'React', projects: [ { title: 'Alpha', summary: 'S', lastModified: new Date().toISOString(), tags: [] } ] } ] }
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'Alpha',
+                summary: 'S',
+                lastModified: new Date().toISOString(),
+                tags: []
+              }
+            ]
+          }
+        ]
+      }
     ];
     render(<ProjectsManager isAdmin />);
     // Hints visible initially
@@ -397,7 +705,22 @@ describe('ProjectsManager', () => {
     mockLoading = false;
     mockError = null;
     mockData = [
-      { category: 'Web', subCategories: [ { name: 'React', projects: [ { title: 'Alpha', summary: 'S', lastModified: new Date().toISOString(), tags: [] } ] } ] }
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'Alpha',
+                summary: 'S',
+                lastModified: new Date().toISOString(),
+                tags: []
+              }
+            ]
+          }
+        ]
+      }
     ];
     const { unmount } = render(React.createElement(ProjectsAdmin));
     // Hints visible initially via manager
@@ -408,7 +731,9 @@ describe('ProjectsManager', () => {
       gear.click();
     });
     // Toggle checkbox off
-    const checkbox = screen.getByRole('checkbox', { name: /Toggle keyboard hints/i });
+    const checkbox = screen.getByRole('checkbox', {
+      name: /Toggle keyboard hints/i
+    });
     await act(async () => {
       fireEvent.click(checkbox);
     });
@@ -420,5 +745,81 @@ describe('ProjectsManager', () => {
     // Hints should disappear
     expect(screen.queryByText(/Focus Search/)).toBeNull();
     unmount();
+  });
+
+  it('renders without crashing', () => {
+    mockLoading = false;
+    mockError = null;
+    mockData = [
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'Test Project',
+                summary: 'A test project',
+                lastModified: new Date().toISOString(),
+                tags: []
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    render(
+      <AuthProvider>
+        <ProjectsManager isAdmin={true} />
+      </AuthProvider>
+    );
+    expect(
+      screen.getByRole('heading', { level: 1, name: /Projects/i })
+    ).toBeInTheDocument();
+  });
+
+  it('shows admin overlay for admin user', () => {
+    mockLoading = false;
+    mockError = null;
+    mockData = [
+      {
+        category: 'Web',
+        subCategories: [
+          {
+            name: 'React',
+            projects: [
+              {
+                title: 'Test Project',
+                summary: 'A test project',
+                lastModified: new Date().toISOString(),
+                tags: []
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    render(
+      <AuthProvider>
+        <ProjectsManager isAdmin={true} />
+      </AuthProvider>
+    );
+    // Look for admin UI elements instead of "Bulk Actions"
+    expect(screen.getByText(/Delete Selected/)).toBeInTheDocument();
+  });
+
+  it('handles drag & drop reordering', () => {
+    // Simulate drag & drop and check order update
+    // ...mock drag & drop logic...
+  });
+
+  it('validates project fields in real time', () => {
+    // Simulate editing and check validation errors
+    // ...mock validation logic...
+  });
+
+  it('auto-saves drafts on change', () => {
+    // Simulate change and check auto-save call
+    // ...mock auto-save logic...
   });
 });

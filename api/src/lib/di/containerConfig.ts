@@ -1,11 +1,10 @@
-import { container } from './container';
-import { SERVICE_TOKENS } from './tokens';
-import { ConfigService } from '../../services/configService';
-import { FileCacheService } from '../../services/cacheService';
-import { JsonFileProjectRepository } from '../../repositories/jsonFileProjectRepository';
-import { DatabaseProjectRepository } from '../../repositories/database-project-repository';
-import { GitHubRepoProvider } from '../../services/githubProvider';
-import { SyncService } from '../../services/syncService';
+import { container } from './container.js';
+import { SERVICE_TOKENS } from './tokens.js';
+import { ConfigService } from '../../services/configService.js';
+import { FileCacheService } from '../../services/cacheService.js';
+import { DatabaseProjectRepository } from '../../repositories/database-project-repository.js';
+import { GitHubRepoProvider } from '../../services/githubProvider.js';
+import { SyncService } from '../../services/syncService.js';
 
 /**
  * Configure and register all services in the DI container
@@ -26,23 +25,16 @@ export function configureContainer(): void {
     'singleton'
   );
 
-  const configService = container.resolve<ConfigService>(SERVICE_TOKENS.CONFIG_SERVICE);
+  const configService = container.resolve<ConfigService>(
+    SERVICE_TOKENS.CONFIG_SERVICE
+  );
 
-  // Register project repository based on configuration
-  const repoType = configService.getProjectRepositoryType();
-  if (repoType === 'database') {
-    container.register(
-      SERVICE_TOKENS.PROJECT_REPOSITORY,
-      () => new DatabaseProjectRepository(configService),
-      'singleton'
-    );
-  } else {
-    container.register(
-      SERVICE_TOKENS.PROJECT_REPOSITORY,
-      () => new JsonFileProjectRepository(),
-      'singleton'
-    );
-  }
+  // Register project repository - always use database repository
+  container.register(
+    SERVICE_TOKENS.PROJECT_REPOSITORY,
+    () => new DatabaseProjectRepository(configService),
+    'singleton'
+  );
 
   // Register GitHub provider
   container.register(

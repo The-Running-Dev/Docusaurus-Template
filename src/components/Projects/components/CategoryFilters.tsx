@@ -1,5 +1,8 @@
 import { type ReactNode } from 'react';
-import { FilterOption, ProcessedProjectData } from '../models';
+import {
+  FilterOption,
+  ProcessedProjectData
+} from '../../../../shared/types/project-types';
 import { FilterButton } from './FilterButton';
 import { calculateCategoryResults } from '../utils';
 
@@ -20,7 +23,7 @@ export default function CategoryFilters({
   searchTerm,
   processedData,
   isLoading = false,
-  title = "Categories"
+  title = 'Categories'
 }: CategoryFiltersProps): ReactNode {
   return (
     <div className="filterGroup">
@@ -39,16 +42,22 @@ export default function CategoryFilters({
             totalCount = labelMatch ? parseInt(labelMatch[1]) : 0;
 
             // Calculate current search results
-            const results = calculateCategoryResults(processedData, option, totalCount);
-            
+            const results = calculateCategoryResults(
+              processedData,
+              option,
+              totalCount
+            );
+
             searchResultCount = results.searchResultCount;
             hasResults = searchResultCount > 0;
           }
 
           // Check if this option is selected, handling both direct match and category- prefix
-          const isSelected = activeFilter === option.key || 
-                           (activeFilter?.startsWith('category-') && 
-                            activeFilter.replace('category-', '').toLowerCase() === option.key.toLowerCase());
+          const isSelected =
+            activeFilter === option.key ||
+            (activeFilter?.startsWith('category-') &&
+              activeFilter.replace('category-', '').toLowerCase() ===
+                option.key.toLowerCase());
 
           return (
             <FilterButton

@@ -5,19 +5,19 @@ export class ProjectEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column('text')
   category!: string;
 
-  @Column()
+  @Column('text')
   subCategory!: string;
 
-  @Column()
+  @Column('text')
   slug!: string;
 
-  @Column()
+  @Column('text')
   title!: string;
 
-  @Column({ nullable: true })
+  @Column('text', { nullable: true })
   link?: string;
 
   @Column('text')
@@ -29,7 +29,7 @@ export class ProjectEntity {
   @Column({ type: 'datetime', nullable: true })
   lastModified?: Date;
 
-  @Column({ nullable: true })
+  @Column('text', { nullable: true })
   repoUrl?: string;
 
   @Column({ type: 'int', nullable: true })
@@ -38,7 +38,7 @@ export class ProjectEntity {
   @Column({ type: 'int', nullable: true })
   forks?: number;
 
-  @Column({ nullable: true })
+  @Column('text', { nullable: true })
   language?: string;
 
   @Column({ type: 'int', nullable: true })
@@ -53,9 +53,9 @@ export class ProjectEntity {
   @Column({ type: 'datetime', nullable: true })
   lastSyncedAt?: Date;
 
-  @Column({ default: true })
+  @Column('boolean', { default: true })
   syncEnabled!: boolean;
 
-  @Column({ default: 'daily' })
+  @Column('text', { default: 'daily' })
   syncInterval!: 'daily' | 'weekly' | 'disabled';
 }

@@ -15,27 +15,31 @@ export class ConfigService implements IConfigService {
     this.set('DATABASE_URL', process.env.DATABASE_URL || 'sqlite::memory:');
     this.set('DATABASE_TYPE', process.env.DATABASE_TYPE || 'sqlite');
     this.set('PROJECT_REPOSITORY', process.env.PROJECT_REPOSITORY || 'json');
-    
+
     // API configuration
     this.set('PORT', Number(process.env.PORT || 4000));
     this.set('BASE_PATH', process.env.BASE_PATH || '/api');
     this.set('CORS_ORIGIN', process.env.CORS_ORIGIN || '*');
-    
+
     // Authentication
     this.set('ADMIN_TOKEN', process.env.ADMIN_TOKEN);
-    
+
+    // Repository configuration
+    this.set('PROJECT_REPOSITORY', process.env.PROJECT_REPOSITORY || 'json');
+
     // Sync configuration
     this.set('SYNC_ENABLED', process.env.SYNC_ENABLED === 'true');
     this.set('SYNC_INTERVAL', process.env.SYNC_INTERVAL || 'daily');
-    
+    this.set('SYNC_CRON', process.env.SYNC_CRON || '0 2 * * *'); // Daily at 2 AM
+
     // External API tokens
     this.set('GITHUB_TOKEN', process.env.GITHUB_TOKEN);
     this.set('GITLAB_TOKEN', process.env.GITLAB_TOKEN);
-    
+
     // Cache configuration
     this.set('CACHE_ENABLED', process.env.CACHE_ENABLED !== 'false'); // default true
     this.set('CACHE_TTL', Number(process.env.CACHE_TTL || 3600)); // 1 hour
-    
+
     // Environment
     this.set('NODE_ENV', process.env.NODE_ENV || 'development');
   }
@@ -62,9 +66,9 @@ export class ConfigService implements IConfigService {
     return 'sqlite';
   }
 
-  getProjectRepositoryType(): 'json' | 'database' {
-    const type = this.get<string>('PROJECT_REPOSITORY', 'json').toLowerCase();
-    return type === 'database' ? 'database' : 'json';
+  getProjectRepositoryType(): 'database' {
+    // Always use database repository
+    return 'database';
   }
 
   isSyncEnabled(): boolean {
@@ -103,6 +107,10 @@ export class ConfigService implements IConfigService {
     return this.get<'daily' | 'weekly'>('SYNC_INTERVAL', 'daily');
   }
 
+  getSyncCron(): string {
+    return this.get<string>('SYNC_CRON', '0 2 * * *');
+  }
+
   getCacheTTL(): number {
     return this.get<number>('CACHE_TTL', 3600);
   }
@@ -118,7 +126,7 @@ export class ConfigService implements IConfigService {
   // Validation methods
   validateConfiguration(): void {
     const requiredInProduction = ['ADMIN_TOKEN'];
-    
+
     if (this.isProduction()) {
       for (const key of requiredInProduction) {
         if (!this.get(key)) {
