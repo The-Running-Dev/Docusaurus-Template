@@ -6,10 +6,39 @@ export const ProjectSchema = z.object({
   link: z.string().url().or(z.string().min(1)).optional(),
   lastModified: z.union([z.string(), z.date()]).optional(),
   summary: z.string().min(1),
-  tags: z.array(z.string()).default([])
+  tags: z.array(z.string()).default([]),
+
+  // Repository information
+  repoUrl: z.string().url().optional(),
+
+  // Auto-sync statistics
+  stats: z
+    .object({
+      stars: z.number(),
+      forks: z.number(),
+      language: z.string(),
+      size: z.number(),
+      lastCommit: z.union([z.string(), z.date()]),
+      openIssues: z.number()
+    })
+    .optional(),
+
+  // Sync metadata
+  lastSyncedAt: z.union([z.string(), z.date()]).optional(),
+  syncEnabled: z.boolean().default(true),
+  syncInterval: z.enum(['daily', 'weekly', 'disabled']).default('daily')
 });
 
 export type Project = z.infer<typeof ProjectSchema>;
+
+export interface RepoStats {
+  stars: number;
+  forks: number;
+  language: string;
+  size: number;
+  lastCommit: Date;
+  openIssues: number;
+}
 
 export interface SubCategory {
   name: string;
@@ -22,31 +51,21 @@ export interface Category {
 }
 
 export interface FlatProject {
+  id?: number;
   category: string;
   subCategory: string;
   slug: string;
   project: Project;
 }
 
-// Enhanced project with sync metadata
-export interface ProjectWithMetadata extends Project {
-  // Repository information
-  repoUrl?: string;
-  
-  // Auto-sync statistics
-  stats?: {
-    stars: number;
-    forks: number;
-    language: string;
-    size: number;
-    lastCommit: Date;
-    openIssues: number;
-  };
-  
-  // Sync metadata
-  lastSyncedAt?: Date;
-  syncEnabled: boolean;
-  syncInterval: 'daily' | 'weekly' | 'disabled';
+export interface IRepoProvider {
+  getRepoStats(url: string): Promise<RepoStats>;
+}
+
+export interface ISyncService {
+  start(): void;
+  syncAll(): Promise<void>;
+  syncProject(id: number): Promise<void>;
 }
 
 /**
@@ -57,6 +76,7 @@ export interface IProjectRepository {
   getAll(): Promise<Category[]>;
   getFlat(): Promise<FlatProject[]>;
   getById(category: string, subCategory: string, slug: string): Promise<Project | null>;
+  getByNumericId(id: number): Promise<FlatProject | null>;
   
   // Write operations
   save(category: string, subCategory: string, slug: string, project: Project): Promise<Project>;
@@ -95,7 +115,9 @@ export interface IConfigService {
   // Specific config getters
   getDatabaseUrl(): string;
   getDatabaseType(): 'postgres' | 'sqlite' | 'mysql';
+  getProjectRepositoryType(): 'json' | 'database';
   isSyncEnabled(): boolean;
+  getSyncInterval(): 'daily' | 'weekly';
   getGitHubToken(): string | undefined;
   getAdminToken(): string | undefined;
   getPort(): number;

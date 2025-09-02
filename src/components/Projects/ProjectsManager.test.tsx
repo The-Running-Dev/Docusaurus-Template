@@ -42,7 +42,11 @@ import { beforeEach } from 'vitest';
 
 describe('ProjectsManager', () => {
   beforeEach(() => {
-    try { localStorage.clear(); } catch {}
+    try {
+      localStorage.clear();
+    } catch {
+      /* ignore */
+    }
   });
   it('renders display mode without admin controls', () => {
     mockLoading = false;

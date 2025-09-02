@@ -1,4 +1,4 @@
-import { DIContainer } from '../container.js';
+import { DIContainer } from '../container';
 
 describe('DIContainer', () => {
   let container: DIContainer;

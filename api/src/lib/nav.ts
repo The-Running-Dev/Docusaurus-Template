@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { PAGES_DIR } from './paths.js';
+import { PAGES_DIR } from './paths';
 
 const DEMOS_DIR = path.join(PAGES_DIR, 'demos');
 
