@@ -5,7 +5,7 @@ export function useAutoSave(
   onSave: (draft: any) => void,
   delay = 1500
 ) {
-  const timer = useRef<NodeJS.Timeout | null>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (timer.current) clearTimeout(timer.current);

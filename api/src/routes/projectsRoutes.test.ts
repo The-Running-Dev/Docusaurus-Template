@@ -1,11 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import Fastify from 'fastify';
 import { registerProjectsRoutes } from './projectsRoutes';
-import {
-  configureContainer,
-  getService,
-  resetContainer
-} from '../lib/di/index';
+import { resetContainer } from '../lib/di/index';
 import { SERVICE_TOKENS } from '../lib/di/tokens';
 
 // Helper to create app instance

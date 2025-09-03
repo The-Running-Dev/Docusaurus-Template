@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { BulkActionsToolbar } from './BulkActionsToolbar';
 
@@ -17,9 +17,7 @@ vi.mock('../Auth/AuthProvider', () => ({
 
 describe('BulkActionsToolbar', () => {
   it('renders bulk action buttons for admin', () => {
-    render(
-      <BulkActionsToolbar selected={['1', '2']} onAction={() => {}} />
-    );
+    render(<BulkActionsToolbar selected={['1', '2']} onAction={() => {}} />);
     expect(screen.getByText('Delete')).toBeInTheDocument();
     expect(screen.getByText('Move Category')).toBeInTheDocument();
     expect(screen.getByText('Change Tags')).toBeInTheDocument();

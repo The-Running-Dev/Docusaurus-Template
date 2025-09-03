@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 
 import Custom404Component from '../Custom404';
 
@@ -15,27 +15,35 @@ describe('Custom404Component', () => {
 
   it('renders main 404 heading and message', () => {
     render(<Custom404Component />);
-    
+
     expect(screen.getByText('404')).toBeInTheDocument();
-    expect(screen.getByText(/OOPS! PAGE WENT TO WONDERLAND!/)).toBeInTheDocument();
-    expect(screen.getByText(/The page you're looking for has mysteriously vanished/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/OOPS! PAGE WENT TO WONDERLAND!/)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/The page you're looking for has mysteriously vanished/)
+    ).toBeInTheDocument();
   });
 
   it('shows excuse generator that rotates excuses', () => {
     render(<Custom404Component />);
-    
-    expect(screen.getByText('🎭 Official Excuse Generator™')).toBeInTheDocument();
-    
+
+    expect(
+      screen.getByText('🎭 Official Excuse Generator™')
+    ).toBeInTheDocument();
+
     // Get initial excuse (first one in the array)
     expect(screen.getByText(/🐕 A dog ate the page/)).toBeInTheDocument();
   });
 
   it('shows cat facts section with spin button', () => {
     render(<Custom404Component />);
-    
+
     expect(screen.getByText('🎰 Spin for Cat Facts!')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /SPIN FOR WISDOM/ })).toBeInTheDocument();
-    
+    expect(
+      screen.getByRole('button', { name: /SPIN FOR WISDOM/ })
+    ).toBeInTheDocument();
+
     // The cat fact paragraph element should exist
     const catFactElements = screen.getAllByText(/70%|clowder|taste|toes|purr/);
     expect(catFactElements.length).toBeGreaterThan(0);
@@ -43,41 +51,52 @@ describe('Custom404Component', () => {
 
   it('handles spin button click', async () => {
     render(<Custom404Component />);
-    
+
     const spinButton = screen.getByRole('button', { name: /SPIN FOR WISDOM/ });
-    
+
     await act(async () => {
       fireEvent.click(spinButton);
     });
-    
+
     // Button should have spinning transform initially
     expect(spinButton).toHaveStyle('transform: rotate(360deg)');
-    
+
     // Fast forward animation
     act(() => {
       vi.advanceTimersByTime(1000);
     });
-    
+
     // Verify button returns to normal after animation
     expect(spinButton).toHaveStyle('transform: none');
   });
 
   it('shows emergency navigation links', () => {
     render(<Custom404Component />);
-    
+
     expect(screen.getByText('🚀 Emergency Navigation')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /Go Home/ })).toHaveAttribute('href', '/');
-    expect(screen.getByRole('link', { name: /Read Docs/ })).toHaveAttribute('href', '/docs');
-    expect(screen.getByRole('link', { name: /Try Demos/ })).toHaveAttribute('href', '/demos');
+    expect(screen.getByRole('link', { name: /Go Home/ })).toHaveAttribute(
+      'href',
+      '/'
+    );
+    expect(screen.getByRole('link', { name: /Read Docs/ })).toHaveAttribute(
+      'href',
+      '/docs'
+    );
+    expect(screen.getByRole('link', { name: /Try Demos/ })).toHaveAttribute(
+      'href',
+      '/demos'
+    );
   });
 
   it('shows troubleshooting sections', () => {
     render(<Custom404Component />);
-    
-    expect(screen.getByText('🛠️ Troubleshooting Steps (Not Guaranteed to Work)')).toBeInTheDocument();
+
+    expect(
+      screen.getByText('🛠️ Troubleshooting Steps (Not Guaranteed to Work)')
+    ).toBeInTheDocument();
     expect(screen.getByText('🔧 Technical Solutions:')).toBeInTheDocument();
     expect(screen.getByText('🎪 Creative Solutions:')).toBeInTheDocument();
-    
+
     // Check for some of the funny troubleshooting steps
     expect(screen.getByText(/Turn it off and on again/)).toBeInTheDocument();
     expect(screen.getByText(/Draw the page on paper/)).toBeInTheDocument();
@@ -85,26 +104,39 @@ describe('Custom404Component', () => {
 
   it('shows statistics with random numbers', () => {
     render(<Custom404Component />);
-    
+
     expect(screen.getByText('Pages Found Today')).toBeInTheDocument();
     expect(screen.getByText('Robots Consulted')).toBeInTheDocument();
     expect(screen.getByText('Coffee Consumed')).toBeInTheDocument();
-    
+
     // Check that statistics show numbers (they're random but should be present)
     expect(screen.getByText(/This one wasn't one of them/)).toBeInTheDocument();
-    expect(screen.getByText(/They're as confused as you are/)).toBeInTheDocument();
-    expect(screen.getByText(/By our developers while fixing this/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/They're as confused as you are/)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/By our developers while fixing this/)
+    ).toBeInTheDocument();
   });
 
   it('shows call to action section with links', () => {
     render(<Custom404Component />);
-    
-    expect(screen.getByText('🎨 Did you enjoy this 404 page?')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /component demos/ })).toHaveAttribute('href', '/demos');
-    expect(screen.getByRole('link', { name: /documentation/ })).toHaveAttribute('href', '/docs');
-    
+
+    expect(
+      screen.getByText('🎨 Did you enjoy this 404 page?')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: /component demos/ })
+    ).toHaveAttribute('href', '/demos');
+    expect(screen.getByRole('link', { name: /documentation/ })).toHaveAttribute(
+      'href',
+      '/docs'
+    );
+
     // Check for the fun fact with random number
     expect(screen.getByText(/Fun Fact/)).toBeInTheDocument();
-    expect(screen.getByText(/This number is completely made up/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/This number is completely made up/)
+    ).toBeInTheDocument();
   });
 });

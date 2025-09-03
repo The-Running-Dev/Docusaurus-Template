@@ -11,6 +11,6 @@ describe('JWT Service', () => {
   });
 
   it('returns null for invalid token', () => {
-    expect(verifyToken('invalid.token', 'testsecret')).toBeNull;
+    expect(verifyToken('invalid.token', 'testsecret')).toBeNull();
   });
 });

@@ -172,7 +172,7 @@ export async function registerProjectsRoutes(app: FastifyInstance) {
   });
 
   // Get projects by category
-  app.get('/v1/projects/category/:category', async (req, reply) => {
+  app.get('/v1/projects/category/:category', async (req, _reply) => {
     const { category } = req.params as any;
 
     if (

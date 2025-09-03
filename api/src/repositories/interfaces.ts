@@ -4,11 +4,7 @@ export type {
   FlatProject
 } from '../../../shared/types/project-types';
 import { Project, RepoStats } from '../../../shared/entities/project';
-import {
-  Category,
-  SubCategory,
-  FlatProject
-} from '../../../shared/types/project-types';
+import { Category, FlatProject } from '../../../shared/types/project-types';
 import { User } from '../../../shared/entities/user';
 
 export interface IUserRepository {

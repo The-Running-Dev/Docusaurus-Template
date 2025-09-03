@@ -49,7 +49,7 @@ export class DatabaseUserRepository implements IUserRepository {
     return user;
   }
 
-  async updateLastLogin(userId: string): Promise<void> {
+  async updateLastLogin(_userId: string): Promise<void> {
     // For now, this is a no-op since User doesn't have lastLoginAt
     // In production, this would update the database
   }

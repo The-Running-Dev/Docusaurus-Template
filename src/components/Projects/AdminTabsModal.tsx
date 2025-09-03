@@ -22,7 +22,7 @@ export const AdminTabsModal: React.FC<{
     link: '',
     tags: []
   });
-  const [allProjects, setAllProjects] = useState<any[]>([]); // Should be fetched from context/store
+  const [allProjects] = useState<any[]>([]); // Should be fetched from context/store
   const [activityEvents, setActivityEvents] = useState<any[]>([]);
 
   // Real-time validation

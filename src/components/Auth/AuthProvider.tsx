@@ -5,7 +5,6 @@ import React, {
   useEffect,
   ReactNode
 } from 'react';
-import jwtDecode from 'jwt-decode';
 
 interface AuthContextType {
   user: any;

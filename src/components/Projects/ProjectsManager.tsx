@@ -27,13 +27,10 @@ import {
   TagFilters
 } from './components';
 import { AdminOverlay } from './AdminOverlay';
-import { InlineEditMode } from './InlineEditMode';
 import { BulkActionsToolbar } from './BulkActionsToolbar';
 import { AdminTabsModal } from './AdminTabsModal';
 import { KeyboardShortcuts } from './KeyboardShortcuts';
-import { useAdminState } from './AdminState';
 import { showAuthToast } from '../Auth/AuthToast';
-import { DragDropReorder } from './DragDropReorder';
 
 import './projects.css';
 import './projects-reader.css';
@@ -379,10 +376,6 @@ function AdminProjects({
   onScrollToFilters: () => void;
   adminApiBase?: string;
 }) {
-  // Zustand admin state
-  const { adminMode, setAdminMode, selectedProjects, setSelectedProjects } =
-    useAdminState();
-
   // selection keys and helpers
   const keyFor = (cat: string, sub: string, slug: string) =>
     `${cat}||${sub}||${slug}`;
@@ -396,9 +389,12 @@ function AdminProjects({
   const [toasts, setToasts] = useState<
     Array<{ id: number; type: 'info' | 'success' | 'error'; message: string }>
   >([]);
-  const showToast = (type: 'info' | 'success' | 'error', message: string) => {
-    showAuthToast(message, type);
-  };
+  const showToast = useCallback(
+    (type: 'info' | 'success' | 'error', message: string) => {
+      showAuthToast(message, type);
+    },
+    []
+  );
 
   // form state
   const [form, setForm] = useState<{

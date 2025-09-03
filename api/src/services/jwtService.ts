@@ -29,7 +29,7 @@ export function signRefreshToken(
 export function verifyToken(token: string, secret?: string) {
   try {
     return jwt.verify(token, secret || DEFAULT_SECRET);
-  } catch (err) {
+  } catch (_err) {
     return null;
   }
 }

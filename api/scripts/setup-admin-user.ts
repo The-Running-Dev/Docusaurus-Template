@@ -32,14 +32,14 @@ async function createInitialAdmin() {
       const data = fs.readFileSync(USERS_FILE, 'utf-8');
       users = JSON.parse(data);
       console.log(`📄 Found existing users file with ${users.length} users`);
-    } catch (error) {
+    } catch {
       console.log('⚠️  Could not parse existing users file, starting fresh');
       users = [];
     }
   }
 
   // Check if admin user already exists
-  const existingAdmin = users.find(u => u.username === 'admin');
+  const existingAdmin = users.find((u) => u.username === 'admin');
   if (existingAdmin) {
     console.log('✅ Admin user already exists');
     console.log(`   Username: ${existingAdmin.username}`);

@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { DatabaseProjectRepository } from './database-project-repository';
 import { IConfigService } from './interfaces';
 import { ProjectEntity } from './entities/project-entity';
-import { DataSource } from 'typeorm';
 
 // Mock the DataSource
 const mockDataSource = {
@@ -39,10 +38,10 @@ describe('DatabaseProjectRepository', () => {
       save: vi.fn(),
       count: vi.fn()
     };
-    
+
     mockDataSource.getRepository.mockReturnValue(mockRepository);
     mockDataSource.initialize.mockResolvedValue(undefined);
-    
+
     repo = new DatabaseProjectRepository(mockConfig);
   });
 
@@ -54,9 +53,9 @@ describe('DatabaseProjectRepository', () => {
 
   it('should return empty array when no projects exist', async () => {
     mockRepository.find.mockResolvedValue([]);
-    
+
     const result = await repo.getAll();
-    
+
     expect(result).toEqual([]);
     expect(mockRepository.find).toHaveBeenCalled();
   });
@@ -74,11 +73,11 @@ describe('DatabaseProjectRepository', () => {
       stars: 10,
       forks: 2
     };
-    
+
     mockRepository.find.mockResolvedValue([mockEntity]);
-    
+
     const result = await repo.getFlat();
-    
+
     expect(result).toHaveLength(1);
     expect(result[0].project.title).toBe('Test Project');
     expect(result[0].project.tags).toEqual(['tag1', 'tag2']);
@@ -92,11 +91,11 @@ describe('DatabaseProjectRepository', () => {
       subCategory: 'test',
       slug: 'test-project'
     };
-    
+
     mockRepository.findOne.mockResolvedValue(mockEntity);
-    
+
     const result = await repo.getById('demo', 'test', 'test-project');
-    
+
     expect(result).toBeDefined();
     expect(result?.title).toBe('Test Project');
     expect(mockRepository.findOne).toHaveBeenCalledWith({
@@ -106,17 +105,17 @@ describe('DatabaseProjectRepository', () => {
 
   it('should return null when project not found', async () => {
     mockRepository.findOne.mockResolvedValue(null);
-    
+
     const result = await repo.getById('nonexistent', 'category', 'slug');
-    
+
     expect(result).toBeNull();
   });
 
   it('should count total projects', async () => {
     mockRepository.count.mockResolvedValue(42);
-    
+
     const result = await repo.count();
-    
+
     expect(result).toBe(42);
     expect(mockRepository.count).toHaveBeenCalled();
   });

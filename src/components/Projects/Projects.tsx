@@ -10,7 +10,6 @@ import { useProcessor, useUrlFilter, useSearch, useScrollRefs } from './hooks';
 import { FilterErrorBoundary } from './components/FilterErrorBoundary';
 import { useAuth } from '../Auth/AuthProvider';
 import { AdminOverlay } from './AdminOverlay';
-import { InlineEditMode } from './InlineEditMode';
 import { BulkActionsToolbar } from './BulkActionsToolbar';
 import { AdminTabsModal } from './AdminTabsModal';
 import { LoginModal } from '../Auth/LoginModal';
@@ -39,7 +38,7 @@ export default function Projects(): ReactNode {
   const { data, loading, error } = useProjects();
   const { user, isAuthenticated, logout } = useAuth();
   const [loginModalOpen, setLoginModalOpen] = useState(false);
-  
+
   // Check if user is admin
   const isAdmin = isAuthenticated && user?.roles?.includes('admin');
 
@@ -50,8 +49,14 @@ export default function Projects(): ReactNode {
   if (loading) {
     return (
       <Loading
-        message={isAdmin ? "🔄 Loading Projects (Admin)..." : "🔄 Loading Projects..."}
-        secondaryMessage={isAdmin ? "Fetching + preparing admin UI..." : "Fetching Data and Filtering..."}
+        message={
+          isAdmin ? '🔄 Loading Projects (Admin)...' : '🔄 Loading Projects...'
+        }
+        secondaryMessage={
+          isAdmin
+            ? 'Fetching + preparing admin UI...'
+            : 'Fetching Data and Filtering...'
+        }
         useWrap={true}
       />
     );
@@ -104,25 +109,29 @@ export default function Projects(): ReactNode {
       ) : (
         <ProjectsContent rawData={data} isAdmin={false} />
       )}
-      
+
       {/* Floating Admin Button */}
-      <div style={{ 
-        position: 'fixed', 
-        bottom: '20px', 
-        right: '20px', 
-        zIndex: 1000 
-      }}>
+      <div
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          zIndex: 1000
+        }}
+      >
         {isAuthenticated ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {isAdmin && (
-              <div style={{
-                background: 'var(--ifm-color-primary)',
-                color: 'white',
-                padding: '8px 12px',
-                borderRadius: '20px',
-                fontSize: '0.8rem',
-                fontWeight: 'bold'
-              }}>
+              <div
+                style={{
+                  background: 'var(--ifm-color-primary)',
+                  color: 'white',
+                  padding: '8px 12px',
+                  borderRadius: '20px',
+                  fontSize: '0.8rem',
+                  fontWeight: 'bold'
+                }}
+              >
                 Admin Mode ✨
               </div>
             )}
@@ -161,11 +170,11 @@ export default function Projects(): ReactNode {
           </button>
         )}
       </div>
-      
+
       {/* Login Modal */}
-      <LoginModal 
-        isOpen={loginModalOpen} 
-        onClose={() => setLoginModalOpen(false)} 
+      <LoginModal
+        isOpen={loginModalOpen}
+        onClose={() => setLoginModalOpen(false)}
       />
     </FilterErrorBoundary>
   );
@@ -175,7 +184,13 @@ export default function Projects(): ReactNode {
  * Inner component that handles all the projects logic
  * Separated to keep the main component wrapper clean
  */
-function ProjectsContent({ rawData, isAdmin }: { rawData: any[]; isAdmin: boolean }): ReactNode {
+function ProjectsContent({
+  rawData,
+  isAdmin
+}: {
+  rawData: any[];
+  isAdmin: boolean;
+}): ReactNode {
   const {
     selectedFilter,
     setSelectedFilter,
@@ -188,7 +203,7 @@ function ProjectsContent({ rawData, isAdmin }: { rawData: any[]; isAdmin: boolea
 
   // Initialize date range state
   const [selectedDateRange, setSelectedDateRange] = useState('most-recent');
-  
+
   // Admin state management
   const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
   const [adminModalOpen, setAdminModalOpen] = useState(false);
@@ -288,7 +303,7 @@ function ProjectsContent({ rawData, isAdmin }: { rawData: any[]; isAdmin: boolea
   return (
     <>
       <ProjectHeader categoryText={processedData.categoryText} />
-      
+
       {/* Admin Controls */}
       {isAdmin && (
         <BulkActionsToolbar
@@ -312,7 +327,7 @@ function ProjectsContent({ rawData, isAdmin }: { rawData: any[]; isAdmin: boolea
           }}
         />
       )}
-      
+
       <main>
         <ProjectStats stats={processedData.stats} />
         <ProjectFiltersAndResults
@@ -336,7 +351,9 @@ function ProjectsContent({ rawData, isAdmin }: { rawData: any[]; isAdmin: boolea
             if (selected) {
               setSelectedProjects([...selectedProjects, projectId]);
             } else {
-              setSelectedProjects(selectedProjects.filter(id => id !== projectId));
+              setSelectedProjects(
+                selectedProjects.filter((id) => id !== projectId)
+              );
             }
           }}
           onProjectEdit={(projectId) => {
@@ -345,7 +362,7 @@ function ProjectsContent({ rawData, isAdmin }: { rawData: any[]; isAdmin: boolea
           }}
         />
       </main>
-      
+
       {/* Admin Modal */}
       {isAdmin && adminModalOpen && editingProjectId && (
         <AdminTabsModal
@@ -357,7 +374,7 @@ function ProjectsContent({ rawData, isAdmin }: { rawData: any[]; isAdmin: boolea
           projectId={editingProjectId}
         />
       )}
-      
+
       <DebugInfo
         meta={undefined}
         metrics={[

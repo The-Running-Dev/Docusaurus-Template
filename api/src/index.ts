@@ -20,7 +20,6 @@ async function buildServer() {
     SERVICE_TOKENS.CONFIG_SERVICE
   );
 
-  const PORT = configService.getPort();
   const BASE = configService.getBasePath();
   const CORS_ORIGIN = configService.getCorsOrigin();
 
