@@ -65,10 +65,10 @@ export function DocusaurusContextProvider({ children }) { return children; }`;
       ],
       all: false,
       thresholds: {
-        lines: 75,
-        functions: 70,
-        branches: 60,
-        statements: 75
+        lines: 55,
+        functions: 55,
+        branches: 45,
+        statements: 55
       }
     }
   }

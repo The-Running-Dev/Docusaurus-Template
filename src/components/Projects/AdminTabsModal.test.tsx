@@ -3,28 +3,28 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { AdminTabsModal } from './AdminTabsModal';
 
-// Mock useAuth hook
-vi.mock('../Auth/AuthProvider', () => ({
-  useAuth: vi.fn(() => ({
-    user: { roles: ['admin'] },
-    isAuthenticated: true,
-    isInitializing: false,
-    login: vi.fn(),
-    logout: vi.fn(),
-    refresh: vi.fn(),
-    error: null
+// Mock useAdminProjects hook
+vi.mock('./hooks/useAdminProjects', () => ({
+  useAdminProjects: vi.fn(() => ({
+    putProject: vi.fn(),
+    token: 'test-token',
+    apiBase: 'http://localhost:4000/api'
   }))
 }));
 
-// Mock custom hooks
-vi.mock('./useAutoSave', () => ({
-  useAutoSave: vi.fn()
+// Mock useAuthenticatedFetch hook
+vi.mock('../../hooks/useAuthenticatedFetch', () => ({
+  useAuthenticatedFetch: vi.fn(() => ({
+    authenticatedFetch: vi.fn()
+  }))
 }));
 
+// Mock useProjectValidation hook
 vi.mock('./useProjectValidation', () => ({
   useProjectValidation: vi.fn(() => [])
 }));
 
+// Mock ActivityLogPanel
 vi.mock('./ActivityLogPanel', () => ({
   ActivityLogPanel: () => <div>Activity Log</div>
 }));
@@ -44,7 +44,7 @@ describe('AdminTabsModal', () => {
 
   it('renders modal and validation errors', () => {
     render(
-      <AdminTabsModal open={true} onClose={() => {}} projectId="test-id" />
+      <AdminTabsModal open={true} onClose={() => {}} projectId="test-id" isAdmin={true} />
     );
     expect(screen.getByText(/Edit Project/)).toBeInTheDocument();
     expect(screen.getByText(/test-id/)).toBeInTheDocument();

@@ -38,7 +38,13 @@ describe('useAdminProjects', () => {
 
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining('/v1/projects/Web/React/proj'),
-      expect.objectContaining({ method: 'PUT', headers: expect.objectContaining({ 'x-admin-token': 'OVERRIDE', 'Content-Type': 'application/json' }) })
+      expect.objectContaining({ 
+        method: 'PUT', 
+        headers: expect.objectContaining({ 
+          'Authorization': 'Bearer OVERRIDE', 
+          'Content-Type': 'application/json' 
+        }) 
+      })
     );
   });
 
@@ -56,21 +62,21 @@ describe('useAdminProjects', () => {
 
   it('DELETE bulk deletes all targets with token header', async () => {
     // @ts-ignore
-    global.fetch.mockResolvedValue({ ok: true });
+    global.fetch.mockResolvedValue({ ok: true, json: () => Promise.resolve({}) });
 
     const ready = new Promise<ReturnType<typeof useAdminProjects>>((resolve) => {
       render(<HookHarness onReady={resolve} />);
     });
     const api = await ready;
-    localStorage.setItem('adminToken', 'TKN');
+    localStorage.setItem('accessToken', 'TKN');
     await api.bulkDelete([
       { category: 'Web', subCategory: 'React', slug: 'a' },
       { category: 'Web', subCategory: 'React', slug: 'b' }
     ]);
 
     expect((fetch as any).mock.calls.length).toBe(2);
-    expect((fetch as any).mock.calls[0][1].headers['x-admin-token']).toBe('TKN');
-    expect((fetch as any).mock.calls[1][1].headers['x-admin-token']).toBe('TKN');
+    expect((fetch as any).mock.calls[0][1].headers['Authorization']).toBe('Bearer TKN');
+    expect((fetch as any).mock.calls[1][1].headers['Authorization']).toBe('Bearer TKN');
   });
 
   it('persists token to localStorage when changed', async () => {
@@ -86,4 +92,3 @@ describe('useAdminProjects', () => {
     expect(localStorage.getItem('adminToken')).toBe('ABC');
   });
 });
-
