@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react';
-import { useAuth } from '../Auth/AuthProvider';
 
 /**
  * Keyboard shortcuts for admin actions
  */
 export const KeyboardShortcuts: React.FC<{
   onShortcut: (action: string) => void;
-}> = ({ onShortcut }) => {
-  const { user, isAuthenticated } = useAuth();
-  const isAdmin = isAuthenticated && user?.roles?.includes('admin');
-
+  isAdmin?: boolean;
+}> = ({ onShortcut, isAdmin = false }) => {
   useEffect(() => {
     if (!isAdmin) return;
     const handler = (e: KeyboardEvent) => {

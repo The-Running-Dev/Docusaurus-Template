@@ -80,11 +80,11 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@docusaurus/core": "3.8.1",
-    "@docusaurus/preset-classic": "3.8.1",
-    "@docusaurus/theme-classic": "3.8.1",
-    "@docusaurus/theme-common": "3.8.1",
-    "@docusaurus/theme-mermaid": "3.8.1",
+    "@docusaurus/core": "3.9.1",
+    "@docusaurus/preset-classic": "3.9.1",
+    "@docusaurus/theme-classic": "3.9.1",
+    "@docusaurus/theme-common": "3.9.1",
+    "@docusaurus/theme-mermaid": "3.9.1",
     "@fortawesome/fontawesome-svg-core": "^7.0.0",
     "@fortawesome/free-brands-svg-icons": "^7.0.0",
     "@fortawesome/free-solid-svg-icons": "^7.0.0",
@@ -108,9 +108,9 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.8.1",
-    "@docusaurus/tsconfig": "3.8.1",
-    "@docusaurus/types": "3.8.1",
+    "@docusaurus/module-type-aliases": "3.9.1",
+    "@docusaurus/tsconfig": "3.9.1",
+    "@docusaurus/types": "3.9.1",
     "@eslint/js": "^9.32.0",
     "@rollup/rollup-linux-x64-gnu": "4.46.2",
     "@testing-library/jest-dom": "^6.5.0",

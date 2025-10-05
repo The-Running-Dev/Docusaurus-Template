@@ -1,0 +1,242 @@
+/* Streamlined Admin Styles */
+
+.streamlined-admin {
+  position: relative;
+  min-height: 400px;
+}
+
+.admin-status {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-weight: 500;
+  box-shadow: var(--ifm-global-shadow-md);
+  animation: slideInFromRight 0.3s ease-out;
+}
+
+.admin-status--success {
+  background: var(--ifm-color-success-lightest);
+  color: var(--ifm-color-success-dark);
+  border: 1px solid var(--ifm-color-success);
+}
+
+.admin-status--error {
+  background: var(--ifm-color-danger-lightest);
+  color: var(--ifm-color-danger-dark);
+  border: 1px solid var(--ifm-color-danger);
+}
+
+.admin-status--info {
+  background: var(--ifm-color-info-lightest);
+  color: var(--ifm-color-info-dark);
+  border: 1px solid var(--ifm-color-info);
+}
+
+.admin-status-close {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.7;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-status-close:hover {
+  opacity: 1;
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.streamlined-admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem;
+  background: var(--ifm-background-surface-color);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  gap: 1rem;
+}
+
+.admin-header-content {
+  flex: 1;
+}
+
+.admin-header-content h2 {
+  margin: 0 0 0.5rem 0;
+  color: var(--ifm-color-content);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.admin-header-stats {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.stat-item strong {
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+.admin-header-actions {
+  flex-shrink: 0;
+}
+
+.streamlined-admin-content {
+  background: var(--ifm-background-color);
+}
+
+.admin-loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.admin-loading-spinner {
+  background: var(--ifm-background-color);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: var(--ifm-global-shadow-md);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--ifm-color-emphasis-300);
+  border-top: 3px solid var(--ifm-color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.admin-loading-spinner p {
+  margin: 0;
+  color: var(--ifm-color-emphasis-700);
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .streamlined-admin-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .admin-header-stats {
+    justify-content: center;
+  }
+
+  .admin-header-actions {
+    align-self: stretch;
+  }
+
+  .admin-header-actions .button {
+    width: 100%;
+  }
+
+  .admin-status {
+    left: 1rem;
+    right: 1rem;
+    top: 1rem;
+  }
+}
+
+/* Dark mode adjustments */
+[data-theme='dark'] .admin-status--success {
+  background: rgba(var(--ifm-color-success-rgb), 0.2);
+  color: var(--ifm-color-success-light);
+  border-color: var(--ifm-color-success-dark);
+}
+
+[data-theme='dark'] .admin-status--error {
+  background: rgba(var(--ifm-color-danger-rgb), 0.2);
+  color: var(--ifm-color-danger-light);
+  border-color: var(--ifm-color-danger-dark);
+}
+
+[data-theme='dark'] .admin-status--info {
+  background: rgba(var(--ifm-color-info-rgb), 0.2);
+  color: var(--ifm-color-info-light);
+  border-color: var(--ifm-color-info-dark);
+}
+
+[data-theme='dark'] .admin-loading-overlay {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* Animation improvements */
+.streamlined-admin-content {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.streamlined-admin.loading .streamlined-admin-content {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Focus management */
+.streamlined-admin-header .button:focus,
+.admin-status-close:focus {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .admin-status {
+    border-width: 2px;
+  }
+
+  .spinner {
+    border-width: 4px;
+  }
+}

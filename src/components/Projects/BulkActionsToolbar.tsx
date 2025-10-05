@@ -1,5 +1,4 @@
 import React from 'react';
-import { useAuth } from '../Auth/AuthProvider';
 
 /**
  * Bulk actions toolbar for admin users
@@ -7,10 +6,8 @@ import { useAuth } from '../Auth/AuthProvider';
 export const BulkActionsToolbar: React.FC<{
   selected: string[];
   onAction: (action: string) => void;
-}> = ({ selected, onAction }) => {
-  const { user, isAuthenticated } = useAuth();
-  const isAdmin = isAuthenticated && user?.roles?.includes('admin');
-
+  isAdmin?: boolean;
+}> = ({ selected, onAction, isAdmin = false }) => {
   if (!isAdmin || selected.length === 0) return null;
 
   return (

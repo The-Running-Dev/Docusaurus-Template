@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from './AuthProvider';
 
 export const LoginPage: React.FC = () => {
@@ -6,6 +6,14 @@ export const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const usernameInputRef = useRef<HTMLInputElement>(null);
+
+  // Focus username input when component mounts
+  useEffect(() => {
+    if (usernameInputRef.current) {
+      usernameInputRef.current.focus();
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,6 +27,7 @@ export const LoginPage: React.FC = () => {
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input
+          ref={usernameInputRef}
           type="text"
           placeholder="Username"
           value={username}

@@ -8,6 +8,7 @@ vi.mock('../Auth/AuthProvider', () => ({
   useAuth: vi.fn(() => ({
     user: { roles: ['admin'] },
     isAuthenticated: true,
+    isInitializing: false,
     login: vi.fn(),
     logout: vi.fn(),
     refresh: vi.fn(),
@@ -17,9 +18,7 @@ vi.mock('../Auth/AuthProvider', () => ({
 
 describe('InlineEditMode', () => {
   it('renders value and allows editing for admin', () => {
-    render(
-      <InlineEditMode value="Test Title" onSave={() => {}} />
-    );
+    render(<InlineEditMode value="Test Title" onSave={() => {}} />);
     expect(screen.getByText('Test Title')).toBeInTheDocument();
     fireEvent.doubleClick(screen.getByText('Test Title'));
     expect(screen.getByDisplayValue('Test Title')).toBeInTheDocument();

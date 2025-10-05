@@ -16,7 +16,8 @@ export enum Features {
   PortfolioPage,
   ProjectsPage,
   PortfolioPageAsIndex,
-  DataCaching
+  DataCaching,
+  AdminUI
 }
 
 /**
@@ -59,6 +60,9 @@ export interface FeaturesConfig {
 
   /** Whether to enable data caching for improved performance */
   dataCaching: boolean;
+
+  /** Whether to show admin UI in navbar */
+  adminUI: boolean;
 }
 
 /**
@@ -76,7 +80,8 @@ export const FeatureToConfigMap: Record<Features, keyof FeaturesConfig> = {
   [Features.PortfolioPage]: 'portfolioPage',
   [Features.ProjectsPage]: 'projectsPage',
   [Features.PortfolioPageAsIndex]: 'portfolioPageAsIndex',
-  [Features.DataCaching]: 'dataCaching'
+  [Features.DataCaching]: 'dataCaching',
+  [Features.AdminUI]: 'adminUI'
 };
 
 /**
@@ -97,7 +102,8 @@ export function validateFeaturesConfig(config: any): config is FeaturesConfig {
     'portfolioPage',
     'portfolioPageAsIndex',
     'projectsPage',
-    'dataCaching'
+    'dataCaching',
+    'adminUI'
   ];
 
   for (const field of requiredBooleanFields) {

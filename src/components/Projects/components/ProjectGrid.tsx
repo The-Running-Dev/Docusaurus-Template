@@ -11,7 +11,7 @@ interface ProjectGridProps {
   isAdmin?: boolean;
   selectedProjects?: string[];
   onProjectSelect?: (projectId: string, selected: boolean) => void;
-  onProjectEdit?: (projectId: string) => void;
+  onProjectSave?: (projectId: string, field: string, value: string) => void;
 }
 
 export default function ProjectGrid({
@@ -23,7 +23,7 @@ export default function ProjectGrid({
   isAdmin = false,
   selectedProjects = [],
   onProjectSelect,
-  onProjectEdit
+  onProjectSave
 }: ProjectGridProps): ReactNode {
   // Flatten all projects from all categories and subcategories
   const allProjects = categories.flatMap((cat) =>
@@ -79,13 +79,17 @@ export default function ProjectGrid({
           const isSelected = selectedProjects.includes(projectId);
 
           return (
-            <div 
-              key={projectIdx} 
+            <div
+              key={projectIdx}
               className={`projectCard ${isAdmin && isSelected ? 'admin-selected' : ''}`}
-              onClick={isAdmin ? (e) => {
-                e.preventDefault();
-                onProjectSelect?.(projectId, !isSelected);
-              } : undefined}
+              onClick={
+                isAdmin
+                  ? (e) => {
+                      e.preventDefault();
+                      onProjectSelect?.(projectId, !isSelected);
+                    }
+                  : undefined
+              }
               style={{ cursor: isAdmin ? 'pointer' : 'default' }}
             >
               {/* Admin Controls Overlay */}
@@ -101,16 +105,6 @@ export default function ProjectGrid({
                     className="admin-project-checkbox"
                     title="Select project"
                   />
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onProjectEdit?.(projectId);
-                    }}
-                    className="admin-edit-btn"
-                    title="Edit project"
-                  >
-                    ✏️
-                  </button>
                 </div>
               )}
 
@@ -120,8 +114,11 @@ export default function ProjectGrid({
                     <InlineEditMode
                       value={project.title}
                       onSave={(newTitle) => {
-                        // Handle inline title edit
-                        console.log('Save title:', newTitle);
+                        if (onProjectSave) {
+                          // Generate a unique project ID similar to how AdminProjects does it
+                          const projectId = `${project.title}|${new Date(project.lastModified || Date.now()).getTime()}`;
+                          onProjectSave(projectId, 'title', newTitle);
+                        }
                       }}
                       field="title"
                     />
@@ -149,8 +146,11 @@ export default function ProjectGrid({
                   <InlineEditMode
                     value={project.summary}
                     onSave={(newSummary) => {
-                      // Handle inline summary edit
-                      console.log('Save summary:', newSummary);
+                      if (onProjectSave) {
+                        // Generate a unique project ID similar to how AdminProjects does it
+                        const projectId = `${project.title}|${new Date(project.lastModified || Date.now()).getTime()}`;
+                        onProjectSave(projectId, 'summary', newSummary);
+                      }
                     }}
                     field="summary"
                   />

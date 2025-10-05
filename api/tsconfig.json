@@ -4,8 +4,8 @@
     "target": "ES2020",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "outDir": "./dist",
-    "rootDir": "../",
+    "outDir": "./artifacts",
+    "rootDir": "./src",
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "strict": false,
@@ -13,6 +13,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "include": ["src/**/*", "../shared/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }

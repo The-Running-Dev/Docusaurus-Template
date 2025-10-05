@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from './AuthProvider';
 
 interface LoginModalProps {
@@ -11,15 +11,26 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const usernameInputRef = useRef<HTMLInputElement>(null);
+
+  // Focus username input when modal opens
+  useEffect(() => {
+    if (isOpen && usernameInputRef.current) {
+      // Small delay to ensure the modal is fully rendered
+      setTimeout(() => {
+        usernameInputRef.current?.focus();
+      }, 100);
+    }
+  }, [isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     await login(username, password);
-    
+
     setLoading(false);
-    
+
     if (!error) onClose();
   };
 
@@ -31,6 +42,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
           <input
+            ref={usernameInputRef}
             type="text"
             placeholder="Username"
             value={username}

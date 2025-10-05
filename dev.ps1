@@ -37,6 +37,8 @@ param(
     [string]$Mode = 'watch'
 )
 
+Clear-Host
+
 Write-Host "🚀 Starting Development Server" -ForegroundColor Cyan
 Write-Host "Mode: $Mode" -ForegroundColor Yellow
 

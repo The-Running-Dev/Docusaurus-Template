@@ -44,7 +44,7 @@ Environment
 Notes
 
 - Phase 1 reads directly from `../config/*.yml`. We can extend with derived resources (themes, nav) by refactoring shared logic from `scripts/pre-build.ts` into reusable modules and exposing `/api/v1/themes`, `/api/v1/nav`.
-API and Admin Editor
+  API and Admin Editor
 
 Overview
 
@@ -67,7 +67,7 @@ Environment
 
 - PORT: API port (default 4000)
 - BASE_PATH: API base path (default /api)
-- CORS_ORIGIN: CORS origin(s) (default *)
+- CORS_ORIGIN: CORS origin(s) (default \*)
 - ADMIN_TOKEN: write protection token (optional but recommended)
 
 Endpoints
@@ -75,19 +75,19 @@ Endpoints
 - GET /api/health: Service health
 - GET /api/v1: List available resources
 - GET /api/v1/{key}: Raw YAML-backed JSON (badges, cvData, giscus, gitHub, gitHubLinks, globalConfig, navBarLinks, portfolioData, projects, version)
-- GET /api/v1/themes: Derived from static/themes/*.css header comments (@theme-id, @theme-name)
-- GET /api/v1/nav: Derived from src/pages/demos/*.tsx
+- GET /api/v1/themes: Derived from static/themes/\*.css header comments (@theme-id, @theme-name)
+- GET /api/v1/nav: Derived from src/pages/demos/\*.tsx
 
 Projects Storage (editable)
 
 - Layout: api/storage/projects/<category>/<subCategory>/<slug>.json
 - Each file contains a single project object:
   {
-    "title": "My Project",
-    "summary": "Short summary...",
-    "lastModified": "2025-01-23T14:23:00.000Z",
-    "link": "https://...",
-    "tags": ["TypeScript", "Fastify"]
+  "title": "My Project",
+  "summary": "Short summary...",
+  "lastModified": "2025-01-23T14:23:00.000Z",
+  "link": "https://...",
+  "tags": ["TypeScript", "Fastify"]
   }
 
 Project Endpoints
@@ -135,7 +135,7 @@ Selection & Bulk
 
 - Actions: Select All (filtered), Clear Selection, Delete Selected (with count).
 - Sticky: actions bar stays visible while scrolling.
-- Keyboard: 
+- Keyboard:
   - / focuses Search
   - A selects all filtered
   - C clears selection

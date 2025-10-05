@@ -1,3 +1,7 @@
 ignoredBuiltDependencies:
+  - better-sqlite3
   - esbuild
   - sqlite3
+
+onlyBuiltDependencies:
+  - better-sqlite3

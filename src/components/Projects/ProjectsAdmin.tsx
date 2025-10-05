@@ -1,103 +1,123 @@
-import React, { useState } from 'react';
-import ProjectsManager from './ProjectsManager';
+import React, { useMemo } from 'react';
+import { useAuth } from '../Auth/AuthProvider';
+import Loading from '../Loading/Loading';
+import { StreamlinedAdmin } from './StreamlinedAdmin';
 import { useAdminProjects } from './hooks/useAdminProjects';
-import { DataLoader } from '../../services/dataLoader';
-import { Features } from '../../config/FeaturesConfig/models';
-import { DEFAULT_PROJECTS_DATA } from './constants';
+import { useProjects as useStoreProjects } from '../../hooks/useProjects';
+import './StreamlinedAdmin.css';
 
-export default function ProjectsAdmin(): React.ReactNode {
-  const { token, setToken, putProject, bulkDelete, refresh, apiBase, setApiBase } = useAdminProjects();
-  const [settingsOpen, setSettingsOpen] = useState(false);
-  const [showHints, setShowHints] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return true;
-    try { const v = localStorage.getItem('projects.admin.hints'); return v ? v === 'true' : true; } catch { return true; }
-  });
+export default function ProjectsAdmin(): React.ReactElement {
+  const { user, isAuthenticated, isInitializing } = useAuth();
+  const {
+    data,
+    loading: projectsLoading,
+    error: projectsError
+  } = useStoreProjects();
+  const { putProject, bulkDelete, refresh } = useAdminProjects();
 
-  const onRefreshStore = async () => {
-    const loader = new DataLoader();
-    await loader.loadData('projects', Features.ProjectsPage, DEFAULT_PROJECTS_DATA);
-    await refresh();
-  };
+  // Convert store data to ProcessedProjectData format for admin interface
+  const processedData = useMemo(() => {
+    if (!data) {
+      return {
+        categories: [],
+        technologyOptions: [],
+        categoryOptions: [],
+        dateOptions: [],
+        tagOptions: [],
+        stats: {
+          totalProjects: 0,
+          recentProjects: 0,
+          totalTechnologies: 0,
+          averageAge: 'N/A'
+        },
+        categoryText: 'No Categories'
+      };
+    }
+
+    // Convert the data to ProcessedProjectData format
+    const categories = data.map((cat) => ({
+      category: cat.category,
+      subCategories: cat.subCategories.map((sub) => ({
+        name: sub.name,
+        projects: sub.projects
+      }))
+    }));
+
+    // Extract all projects for stats
+    const allProjects = data.flatMap((cat) =>
+      cat.subCategories.flatMap((sub) => sub.projects)
+    );
+
+    // Extract all tags
+    const allTags = Array.from(
+      new Set(allProjects.flatMap((project) => project.tags || []))
+    );
+
+    return {
+      categories,
+      technologyOptions: [],
+      categoryOptions: data.map((cat) => ({
+        key: cat.category,
+        label: cat.category,
+        count: cat.subCategories.reduce(
+          (sum, sub) => sum + sub.projects.length,
+          0
+        )
+      })),
+      dateOptions: [],
+      tagOptions: allTags.map((tag) => ({
+        key: tag,
+        label: tag,
+        count: allProjects.filter((p) => p.tags?.includes(tag)).length
+      })),
+      stats: {
+        totalProjects: allProjects.length,
+        recentProjects: 0, // Could calculate based on lastModified
+        totalTechnologies: allTags.length,
+        averageAge: 'N/A'
+      },
+      categoryText: `${data.length} Categories`
+    };
+  }, [data]);
+
+  // Show loading while auth is initializing
+  if (isInitializing) {
+    return <Loading message="🔐 Checking authentication..." />;
+  }
+
+  // Show message if not authenticated
+  if (!isAuthenticated || !user) {
+    return (
+      <div className="admin-access-denied">
+        <h2>Access Denied</h2>
+        <p>You must be logged in as an administrator to access this page.</p>
+      </div>
+    );
+  }
+
+  // Show loading while projects are loading
+  if (projectsLoading) {
+    return <Loading message="🔄 Loading projects..." />;
+  }
+
+  // Show error if there's an error loading projects
+  if (projectsError) {
+    return (
+      <div className="admin-error">
+        <h2>Error Loading Projects</h2>
+        <p>
+          {projectsError.message || 'An error occurred while loading projects.'}
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <div className="admin-list-header" style={{ marginBottom: '0.5rem' }}>
-        <div className="admin-list-title" />
-        <button
-          type="button"
-          className="button button--sm admin-gear"
-          aria-label="Settings"
-          title="Settings"
-          onClick={() => setSettingsOpen(true)}
-        >
-          ⚙
-        </button>
-      </div>
-      <ProjectsManager
-        isAdmin
-        adminToken={token}
-        adminApiBase={apiBase}
-        onSaveProject={putProject}
-        onBulkDelete={bulkDelete}
-        onRefresh={onRefreshStore}
-      />
-
-      {settingsOpen && (
-        <div className="admin-modal" onClick={() => setSettingsOpen(false)}>
-          <div className="admin-modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3 style={{ marginTop: 0 }}>Settings</h3>
-            <div className="admin-row">
-              <label className="admin-field">
-                <div>API Base</div>
-                <input
-                  className="admin-input"
-                  type="text"
-                  value={apiBase}
-                  onChange={(e) => setApiBase(e.target.value)}
-                  placeholder="http://localhost:4000/api"
-                />
-              </label>
-              <label className="admin-field">
-                <div>Admin Token</div>
-                <input
-                  className="admin-input"
-                  type="password"
-                  value={token}
-                  onChange={(e) => setToken(e.target.value)}
-                  placeholder="x-admin-token"
-                />
-              </label>
-              <label className="admin-field" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <div>Show Keyboard Hints</div>
-                <input
-                  type="checkbox"
-                  checked={showHints}
-                  onChange={(e) => setShowHints(e.target.checked)}
-                  aria-label="Toggle keyboard hints"
-                />
-              </label>
-            </div>
-            <div className="admin-actions" style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
-              <button className="button button--sm" onClick={() => setSettingsOpen(false)}>Close</button>
-              <button
-                className="button button--sm button--primary"
-                onClick={() => {
-                  setSettingsOpen(false);
-                  try {
-                    localStorage.setItem('projects.admin.hints', String(showHints));
-                    window.dispatchEvent(new Event('projects.admin.hints.change'));
-                  } catch {
-                    // ignore storage failures
-                    void 0;
-                  }
-                }}
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+    <StreamlinedAdmin
+      processedData={processedData}
+      onSaveProject={putProject}
+      onBulkDelete={bulkDelete}
+      onRefresh={refresh}
+    />
   );
 }

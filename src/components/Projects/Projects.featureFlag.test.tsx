@@ -17,6 +17,7 @@ vi.mock('../Auth/AuthProvider', () => ({
   useAuth: () => ({
     user: null,
     isAuthenticated: false,
+    isInitializing: false,
     login: vi.fn(),
     logout: vi.fn(),
     refresh: vi.fn(),
@@ -32,4 +33,3 @@ describe('Projects feature flag', () => {
     expect(container.firstChild).toBeNull();
   });
 });
-

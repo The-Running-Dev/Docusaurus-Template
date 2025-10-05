@@ -81,6 +81,10 @@ const config: Config = {
         {
           type: 'custom-ReaderMode',
           position: 'right'
+        },
+        {
+          type: 'custom-Admin',
+          position: 'right'
         }
       ]
     },

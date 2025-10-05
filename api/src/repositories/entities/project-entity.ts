@@ -26,31 +26,31 @@ export class ProjectEntity {
   @Column('simple-array')
   tags!: string[];
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'text', nullable: true })
   lastModified?: Date;
 
   @Column('text', { nullable: true })
   repoUrl?: string;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ type: 'integer', nullable: true })
   stars?: number;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ type: 'integer', nullable: true })
   forks?: number;
 
   @Column('text', { nullable: true })
   language?: string;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ type: 'integer', nullable: true })
   size?: number;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'text', nullable: true })
   lastCommit?: Date;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ type: 'integer', nullable: true })
   openIssues?: number;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'text', nullable: true })
   lastSyncedAt?: Date;
 
   @Column('boolean', { default: true })

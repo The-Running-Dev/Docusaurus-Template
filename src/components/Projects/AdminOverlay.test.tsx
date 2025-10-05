@@ -16,6 +16,7 @@ describe('AdminOverlay', () => {
     mockUseAuth.mockReturnValue({
       user: { roles: ['admin'] },
       isAuthenticated: true,
+      isInitializing: false,
       login: vi.fn(),
       logout: vi.fn(),
       refresh: vi.fn(),
@@ -34,6 +35,7 @@ describe('AdminOverlay', () => {
     mockUseAuth.mockReturnValue({
       user: { roles: ['user'] },
       isAuthenticated: true,
+      isInitializing: false,
       login: vi.fn(),
       logout: vi.fn(),
       refresh: vi.fn(),

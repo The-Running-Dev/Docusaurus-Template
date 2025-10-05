@@ -57,16 +57,17 @@ export function useAdminProjects(options: UseAdminProjectsOptions = {}) {
 
   const putProject = useCallback(
     async (input: SaveProjectInput, overrideToken?: string) => {
-      const t =
-        overrideToken ||
-        token ||
-        (typeof window !== 'undefined'
-          ? localStorage.getItem('adminToken') || ''
-          : '');
+      // Get JWT token from localStorage (set by AuthProvider)
+      const jwtToken = localStorage.getItem('accessToken');
+      const t = overrideToken || jwtToken || '';
+
       const url = `${apiBase}/v1/projects/${encodeURIComponent(input.category)}/${encodeURIComponent(input.subCategory)}/${encodeURIComponent(input.slug)}`;
       const res = await fetch(url, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'x-admin-token': t },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${t}`
+        },
         body: JSON.stringify(input.project)
       });
       if (!res.ok) {
@@ -80,27 +81,27 @@ export function useAdminProjects(options: UseAdminProjectsOptions = {}) {
         throw new Error(message);
       }
     },
-    [apiBase, token]
+    [apiBase]
   );
 
   const bulkDelete = useCallback(
     async (targets: ProjectTarget[], overrideToken?: string) => {
-      const t =
-        overrideToken ||
-        token ||
-        (typeof window !== 'undefined'
-          ? localStorage.getItem('adminToken') || ''
-          : '');
+      // Get JWT token from localStorage (set by AuthProvider)
+      const jwtToken = localStorage.getItem('accessToken');
+      const t = overrideToken || jwtToken || '';
+
       for (const target of targets) {
         const url = `${apiBase}/v1/projects/${encodeURIComponent(target.category)}/${encodeURIComponent(target.subCategory)}/${encodeURIComponent(target.slug)}`;
         const res = await fetch(url, {
           method: 'DELETE',
-          headers: { 'x-admin-token': t }
+          headers: {
+            Authorization: `Bearer ${t}`
+          }
         });
         if (!res.ok) throw new Error(`Failed to delete ${target.slug}`);
       }
     },
-    [apiBase, token]
+    [apiBase]
   );
 
   const refresh = useCallback(async () => {

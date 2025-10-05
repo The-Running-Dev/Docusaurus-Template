@@ -19,6 +19,7 @@ vi.mock('../Auth/AuthProvider', () => ({
   useAuth: vi.fn(() => ({
     user: { roles: ['admin'] },
     isAuthenticated: true,
+    isInitializing: false,
     login: vi.fn(),
     logout: vi.fn(),
     refresh: vi.fn(),

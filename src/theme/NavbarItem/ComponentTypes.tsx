@@ -9,6 +9,7 @@ import DocSidebarNavbarItem from '@theme/NavbarItem/DocSidebarNavbarItem';
 import DocsVersionNavbarItem from '@theme/NavbarItem/DocsVersionNavbarItem';
 import DocsVersionDropdownNavbarItem from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 
+import AdminNavbarItem from './AdminNavbarItem';
 import CVNavbarItem from './CVPageLinkNavbarItem';
 import GitHubLinksNavbarItem from './GitHubLinksNavbarItem';
 import NavBarLinksNavbarItem from './NavBarLinksNavbarItem';
@@ -30,6 +31,7 @@ const ComponentTypes: typeof ComponentTypesObject = {
   docSidebar: DocSidebarNavbarItem,
   docsVersion: DocsVersionNavbarItem,
   docsVersionDropdown: DocsVersionDropdownNavbarItem,
+  'custom-Admin': AdminNavbarItem,
   'custom-CV': CVNavbarItem,
   'custom-GitHubLinks': GitHubLinksNavbarItem,
   'custom-NavBarLinks': NavBarLinksNavbarItem,

@@ -1,43 +1,67 @@
 import { IUserRepository, IConfigService } from './interfaces';
 import { User } from '../../../shared/entities/user';
+import fs from 'fs';
+import path from 'path';
+import bcrypt from 'bcryptjs';
+import { STORAGE_DIR } from '../lib/paths';
 
 /**
  * Database implementation of user repository
- * For now, this is a simple in-memory implementation
- * In production, this would connect to the actual database
+ * Reads from storage/users.json file
  */
 export class DatabaseUserRepository implements IUserRepository {
-  private users: User[] = [
-    {
-      id: '1',
-      username: 'admin',
-      // In production, this would be properly hashed
-      passwordHash: '$2b$10$hash_for_admin_password', // bcrypt hash for 'admin123'
-      roles: ['admin'],
-      isActive: true
-    }
-  ];
+  private readonly usersFile: string;
 
-  constructor(private configService: IConfigService) {}
+  constructor(private configService: IConfigService) {
+    this.usersFile = path.join(STORAGE_DIR, 'users.json');
+  }
+
+  private loadUsers(): User[] {
+    if (!fs.existsSync(this.usersFile)) {
+      return [];
+    }
+
+    try {
+      const data = fs.readFileSync(this.usersFile, 'utf-8');
+      return JSON.parse(data);
+    } catch (error) {
+      console.error('Error reading users file:', error);
+      return [];
+    }
+  }
+
+  private saveUsers(users: User[]): void {
+    try {
+      const dir = path.dirname(this.usersFile);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      fs.writeFileSync(this.usersFile, JSON.stringify(users, null, 2), 'utf-8');
+    } catch (error) {
+      console.error('Error writing users file:', error);
+      throw error;
+    }
+  }
 
   async findByUsername(username: string): Promise<User | null> {
-    return this.users.find((u) => u.username === username) || null;
+    const users = this.loadUsers();
+    return users.find((u) => u.username === username) || null;
   }
 
   async validatePassword(user: User, password: string): Promise<boolean> {
-    // In development mode, allow simple password checking
-    if (this.configService.isDevelopment()) {
-      return password === 'admin123';
+    try {
+      // Use bcrypt to compare the password with the hash
+      return await bcrypt.compare(password, user.passwordHash);
+    } catch (error) {
+      console.error('Error validating password:', error);
+      return false;
     }
-
-    // In production, use simple string comparison for now
-    // TODO: Implement proper bcrypt comparison when bcrypt is available
-    return user.passwordHash === password;
   }
 
   async create(userData: Omit<User, 'id'>): Promise<User> {
+    const users = this.loadUsers();
     const user: User = {
-      id: (this.users.length + 1).toString(),
+      id: (users.length + 1).toString(),
       username: userData.username,
       passwordHash: userData.passwordHash,
       roles: userData.roles || ['user'],
@@ -45,7 +69,8 @@ export class DatabaseUserRepository implements IUserRepository {
       email: userData.email
     };
 
-    this.users.push(user);
+    users.push(user);
+    this.saveUsers(users);
     return user;
   }
 

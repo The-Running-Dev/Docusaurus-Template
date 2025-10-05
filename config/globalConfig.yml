@@ -36,10 +36,16 @@ features:
   portfolioPageAsIndex: false
   projectsPage: true
   dataCaching: true
+  adminUI: false
 
 # Configure HTTP sources (served by local API)
 projectsPage:
-  source: http://localhost:4000/api/v1/projects
+  #source: http://localhost:4000/api/v1/projects
+  source: https://the-running-dev.github.io/Data/portfolio/projects.json
 
 portfolioPage:
-  source: http://localhost:4000/api/v1/portfolioData
+  #source: http://localhost:4000/api/v1/portfolioData
+  source: https://the-running-dev.github.io/Data/portfolio/portfolioData.json
+
+cvPage:
+  source: https://the-running-dev.github.io/Data/portfolio/cvData.json

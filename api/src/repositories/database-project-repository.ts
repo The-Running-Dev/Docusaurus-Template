@@ -19,17 +19,53 @@ export class DatabaseProjectRepository implements IProjectRepository {
 
   private async getRepo(): Promise<Repository<ProjectEntity>> {
     if (!this.dataSource) {
-      const options: DataSourceOptions = {
-        type: this.config.getDatabaseType() as any,
-        url: this.config.getDatabaseUrl(),
-        entities: [ProjectEntity],
-        synchronize: true
-      };
-      this.dataSource = new DataSource(options);
-      await this.dataSource.initialize();
-      this.repo = this.dataSource.getRepository(ProjectEntity);
+      try {
+        const dbType = this.config.getDatabaseType();
+
+        if (dbType === 'sqlite') {
+          // Use sqlite3 for SQLite
+          const dbUrl = this.config.getDatabaseUrl();
+          let database: string;
+
+          if (dbUrl === 'sqlite::memory:') {
+            database = ':memory:';
+          } else {
+            database = dbUrl.replace('sqlite:', '');
+          }
+
+          const options: DataSourceOptions = {
+            type: 'sqlite',
+            database,
+            entities: [ProjectEntity],
+            synchronize: true
+          };
+
+          this.dataSource = new DataSource(options);
+        } else {
+          const options: DataSourceOptions = {
+            type: dbType as any,
+            url: this.config.getDatabaseUrl(),
+            entities: [ProjectEntity],
+            synchronize: true
+          };
+          this.dataSource = new DataSource(options);
+        }
+
+        await this.dataSource.initialize();
+        this.repo = this.dataSource.getRepository(ProjectEntity);
+      } catch (error) {
+        console.error('Failed to initialize database:', error);
+        throw new Error(
+          `Database initialization failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
+      }
     }
-    return this.repo!;
+
+    if (!this.repo) {
+      throw new Error('Repository is not initialized');
+    }
+
+    return this.repo;
   }
 
   private toProject(entity: ProjectEntity): Project {

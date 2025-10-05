@@ -11,7 +11,7 @@ interface ProjectResultsProps {
   isAdmin?: boolean;
   selectedProjects?: string[];
   onProjectSelect?: (projectId: string, selected: boolean) => void;
-  onProjectEdit?: (projectId: string) => void;
+  onProjectSave?: (projectId: string, field: string, value: string) => void;
 }
 
 /**
@@ -27,7 +27,7 @@ export default function ProjectResults({
   isAdmin = false,
   selectedProjects = [],
   onProjectSelect,
-  onProjectEdit
+  onProjectSave
 }: ProjectResultsProps): ReactNode {
   // Handle no results case
   if (!filteredCategories || filteredCategories.length === 0) {
@@ -74,7 +74,7 @@ export default function ProjectResults({
         isAdmin={isAdmin}
         selectedProjects={selectedProjects}
         onProjectSelect={onProjectSelect}
-        onProjectEdit={onProjectEdit}
+        onProjectSave={onProjectSave}
       />
     </div>
   );

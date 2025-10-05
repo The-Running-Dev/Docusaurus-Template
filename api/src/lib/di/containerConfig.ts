@@ -2,7 +2,7 @@ import { container } from './container.js';
 import { SERVICE_TOKENS } from './tokens.js';
 import { ConfigService } from '../../services/configService.js';
 import { FileCacheService } from '../../services/cacheService.js';
-import { DatabaseProjectRepository } from '../../repositories/database-project-repository.js';
+import { JsonProjectRepository } from '../../repositories/json-project-repository.js';
 import { GitHubRepoProvider } from '../../services/githubProvider.js';
 import { SyncService } from '../../services/syncService.js';
 
@@ -29,10 +29,10 @@ export function configureContainer(): void {
     SERVICE_TOKENS.CONFIG_SERVICE
   );
 
-  // Register project repository - always use database repository
+  // Register project repository - use JSON repository
   container.register(
     SERVICE_TOKENS.PROJECT_REPOSITORY,
-    () => new DatabaseProjectRepository(configService),
+    () => new JsonProjectRepository(),
     'singleton'
   );
 

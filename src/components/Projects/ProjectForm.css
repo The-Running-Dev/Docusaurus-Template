@@ -1,0 +1,214 @@
+/* Project Form Styles */
+
+.project-form {
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--ifm-global-shadow-md);
+}
+
+.project-form-header {
+  padding: 1.5rem;
+  background: var(--ifm-background-surface-color);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.project-form-header h3 {
+  margin: 0;
+  color: var(--ifm-color-content);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.project-form-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-weight: 600;
+  color: var(--ifm-color-content);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-error {
+  color: var(--ifm-color-danger);
+  font-weight: normal;
+  font-size: 0.8rem;
+}
+
+.form-input,
+.form-textarea {
+  padding: 0.75rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 6px;
+  background: var(--ifm-background-color);
+  color: var(--ifm-color-content);
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 1px var(--ifm-color-primary);
+}
+
+.form-input:invalid,
+.form-textarea:invalid {
+  border-color: var(--ifm-color-danger);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+  line-height: 1.4;
+}
+
+.form-slug-group,
+.form-link-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.form-slug-group .form-input,
+.form-link-group .form-input {
+  flex: 1;
+}
+
+.form-slug-group .button,
+.form-link-group .button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.project-form-actions {
+  padding: 1.5rem;
+  background: var(--ifm-background-surface-color);
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.project-form-actions .button {
+  min-width: 120px;
+}
+
+.project-form-actions .button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .project-form-header {
+    padding: 1rem;
+  }
+
+  .project-form-body {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .project-form-actions {
+    padding: 1rem;
+    flex-direction: column;
+  }
+
+  .project-form-actions .button {
+    width: 100%;
+  }
+}
+
+/* Dark mode adjustments */
+[data-theme='dark'] .project-form {
+  border-color: var(--ifm-color-emphasis-400);
+}
+
+[data-theme='dark'] .form-input:invalid,
+[data-theme='dark'] .form-textarea:invalid {
+  border-color: var(--ifm-color-danger-dark);
+}
+
+/* Animation for form errors */
+.form-error {
+  animation: fadeInError 0.3s ease-in-out;
+}
+
+@keyframes fadeInError {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Success states */
+.form-input.success,
+.form-textarea.success {
+  border-color: var(--ifm-color-success);
+}
+
+.form-input.success:focus,
+.form-textarea.success:focus {
+  box-shadow: 0 0 0 1px var(--ifm-color-success);
+}
+
+/* Loading states */
+.project-form-actions .button.loading {
+  position: relative;
+  color: transparent;
+}
+
+.project-form-actions .button.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
