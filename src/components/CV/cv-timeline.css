@@ -237,9 +237,9 @@
   padding: 0.25rem 0.5rem;
   background: var(--ifm-color-emphasis-100);
   border-radius: 3px;
-  border-left: 2px solid var(--ifm-color-primary);
   line-height: 1.1;
-  border: 1px solid var(--ifm-color-emphasis-900);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-left: 2px solid var(--ifm-color-primary);
 }
 
 [data-theme='dark'] .timeline-tech {

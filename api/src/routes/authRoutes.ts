@@ -72,8 +72,29 @@ export async function registerAuthRoutes(app: FastifyInstance) {
     if (!payload || !payload.sub) {
       return reply.code(401).send({ message: 'Invalid refresh token' });
     }
-    // Issue new access token only
-    const accessToken = signAccessToken({ sub: payload.sub });
+
+    // Fetch user to include full details in the new access token
+    const { DatabaseUserRepository } = await import(
+      '../repositories/database-user-repository'
+    );
+    const { getService } = await import('../lib/di/index');
+    const { SERVICE_TOKENS } = await import('../lib/di/tokens');
+    const configService = getService<IConfigService>(
+      SERVICE_TOKENS.CONFIG_SERVICE
+    );
+    const userRepo = new DatabaseUserRepository(configService);
+    const user = await userRepo.findById(payload.sub as string);
+
+    if (!user) {
+      return reply.code(401).send({ message: 'User not found' });
+    }
+
+    // Issue new access token with full user details
+    const accessToken = signAccessToken({
+      sub: user.id,
+      username: user.username,
+      roles: user.roles
+    });
     return reply.send({ accessToken });
   });
 

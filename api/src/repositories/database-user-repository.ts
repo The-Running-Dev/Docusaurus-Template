@@ -48,6 +48,11 @@ export class DatabaseUserRepository implements IUserRepository {
     return users.find((u) => u.username === username) || null;
   }
 
+  async findById(id: string): Promise<User | null> {
+    const users = this.loadUsers();
+    return users.find((u) => u.id === id) || null;
+  }
+
   async validatePassword(user: User, password: string): Promise<boolean> {
     try {
       // Use bcrypt to compare the password with the hash

@@ -90,15 +90,36 @@ export function useAdminProjects(options: UseAdminProjectsOptions = {}) {
       const jwtToken = localStorage.getItem('accessToken');
       const t = overrideToken || jwtToken || '';
 
-      for (const target of targets) {
+      const deletePromises = targets.map((target) => {
         const url = `${apiBase}/v1/projects/${encodeURIComponent(target.category)}/${encodeURIComponent(target.subCategory)}/${encodeURIComponent(target.slug)}`;
-        const res = await fetch(url, {
+        return fetch(url, {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${t}`
           }
-        });
-        if (!res.ok) throw new Error(`Failed to delete ${target.slug}`);
+        }).then((res) => ({ target, res }));
+      });
+
+      const results = await Promise.allSettled(deletePromises);
+      const failedDeletes = results
+        .map((result, index) => {
+          if (result.status === 'rejected') {
+            return { target: targets[index], error: result.reason };
+          }
+          if (result.status === 'fulfilled' && !result.value.res.ok) {
+            return { target: result.value.target, error: 'HTTP error' };
+          }
+          return null;
+        })
+        .filter((item) => item !== null);
+
+      if (failedDeletes.length > 0) {
+        const failedSlugs = failedDeletes
+          .map((f) => f?.target.slug)
+          .join(', ');
+        throw new Error(
+          `Failed to delete ${failedDeletes.length} project(s): ${failedSlugs}`
+        );
       }
     },
     [apiBase]

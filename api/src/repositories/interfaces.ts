@@ -9,6 +9,7 @@ import { User } from '../../../shared/entities/user';
 
 export interface IUserRepository {
   findByUsername(username: string): Promise<User | null>;
+  findById(id: string): Promise<User | null>;
   validatePassword(user: User, password: string): Promise<boolean>;
 }
 

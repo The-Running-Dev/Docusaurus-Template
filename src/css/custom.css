@@ -595,20 +595,20 @@ a:hover {
 }
 
 /* Enhanced navbar link colors with theme-aware styling */
-.navbar__link {
-  color: var(--ifm-font-color-base) !important;
+.navbar .navbar__link {
+  color: var(--ifm-font-color-base);
   font-weight: 500;
   transition: color 0.2s ease;
 }
 
-.navbar__link:hover {
-  color: var(--ifm-link-color) !important;
+.navbar .navbar__link:hover {
+  color: var(--ifm-link-color);
 }
 
 /* Active navbar link with theme-aware emphasis */
-.navbar__item--active .navbar__link,
-.navbar__link--active {
-  color: var(--ifm-link-color) !important;
+.navbar .navbar__item--active .navbar__link,
+.navbar .navbar__link--active {
+  color: var(--ifm-link-color);
   font-weight: 600;
 }
 

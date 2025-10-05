@@ -7,15 +7,15 @@ import {
   IConfigService
 } from '../repositories/interfaces';
 import { slugify } from '../lib/projectsStore';
+import { verifyToken } from '../services/jwtService';
 
 function requireAdmin(req: any, configService: IConfigService) {
   // First try JWT Bearer token authentication
   const authHeader = req.headers['authorization'] as string | undefined;
   if (authHeader && authHeader.startsWith('Bearer ')) {
-    const token = authHeader.slice(7);
+    const jwtToken = authHeader.slice(7);
     try {
-      const { verifyToken } = require('../services/jwtService');
-      const payload = verifyToken(token);
+      const payload = verifyToken(jwtToken);
       if (payload && typeof payload === 'object' && 'roles' in payload) {
         const roles = (payload as any).roles;
         if (roles && Array.isArray(roles) && roles.includes('admin')) {
@@ -238,6 +238,9 @@ export async function registerDraftRoutes(app: FastifyInstance) {
   // Activity log endpoint
   app.get('/v1/activity-log', async (req, reply) => {
     try {
+      const configService = getService<IConfigService>(
+        SERVICE_TOKENS.CONFIG_SERVICE
+      );
       requireAdmin(req, configService);
 
       // TODO: Return recent activity events from actual storage
