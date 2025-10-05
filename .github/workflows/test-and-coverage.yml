@@ -25,6 +25,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Run prebuild to generate data
+        run: pnpm run prebuild
+
       - name: Run component tests with coverage
         run: pnpm test:components
 
