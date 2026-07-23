@@ -108,10 +108,10 @@ describe('ReaderMode', () => {
   });
 
   it('handles localStorage errors gracefully on load', () => {
-    const originalGetItem = Storage.prototype.getItem;
-    Storage.prototype.getItem = vi.fn(() => {
+    const originalGetItem = localStorage.getItem;
+    localStorage.getItem = vi.fn(() => {
       throw new Error('localStorage error');
-    });
+    }) as any;
 
     render(<ReaderMode />);
     
@@ -120,14 +120,14 @@ describe('ReaderMode', () => {
     expect(button).toHaveAttribute('aria-label', 'Enter Reader Mode');
     expect(console.warn).toHaveBeenCalledWith('Failed to load reader mode preference:', expect.any(Error));
     
-    Storage.prototype.getItem = originalGetItem;
+    localStorage.getItem = originalGetItem;
   });
 
   it('handles localStorage errors gracefully on save', () => {
-    const originalSetItem = Storage.prototype.setItem;
-    Storage.prototype.setItem = vi.fn(() => {
+    const originalSetItem = localStorage.setItem;
+    localStorage.setItem = vi.fn(() => {
       throw new Error('localStorage error');
-    });
+    }) as any;
 
     render(<ReaderMode />);
     
@@ -136,7 +136,7 @@ describe('ReaderMode', () => {
     
     expect(console.error).toHaveBeenCalledWith('Failed to apply reader mode:', expect.any(Error));
     
-    Storage.prototype.setItem = originalSetItem;
+    localStorage.setItem = originalSetItem;
   });
 
   it('applies correct CSS classes to document element', () => {

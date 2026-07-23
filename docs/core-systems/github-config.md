@@ -49,12 +49,18 @@ export const githubProject = {
 };
 ```
 
-## API & Utilities
+## Utilities
 
 - `getGitHubConfig()`: Returns validated config (throws on error)
 - `useGitHubConfig()`: React hook for config access
 - `getGitHubUrls()`, `getProjectMetadata()`, `getRepositoryInfo()`: Utility accessors
 - `getGitHubUrl(key)`, `getRepositoryUrl(path)`, `getApiUrl(endpoint)`: Dynamic URL builders
+
+## API and Token Notes
+
+- GitHub API base URLs are part of `urls.api` and can be composed with `getApiUrl(endpoint)`.
+- Server-side GitHub API access tokens (for API service integrations) should be configured via environment variables (for example `GITHUB_TOKEN`) and are documented in the API Specs guide at `/docs/guides/api-specs`.
+- Do not commit API keys or tokens to YAML, JSON, or source files.
 
 ### In Badge System
 

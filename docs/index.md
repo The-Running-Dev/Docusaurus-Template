@@ -37,7 +37,7 @@ This template provides a complete foundation for documentation sites with:
 ### 🧩 **Data-Driven Components**
 
 - **Portfolio Showcase**: Professional project display with hierarchical categorization and interactive filtering
-- **Project Browser**: Advanced project listing with category/tag filtering and URL state management  
+- **Project Browser**: Advanced project listing with category/tag filtering and URL state management
 - **CV Timeline**: Interactive professional timeline with configurable data
 - **GitHub Integration**: Automated badges, links, and repository information
 - **Schema Validation**: All components use validated configuration data
@@ -57,6 +57,12 @@ Ready to get started? Choose your path:
 - 🚀 **[Quick Start Guide](/docs/getting-started/quick-start)** - Get up and running in 5 minutes
 - 📖 **[Complete Features](/docs/getting-started/features)** - Explore all capabilities
 - 🎯 **[Live Demos](/docs/getting-started/examples)** - Interactive component examples
+
+## Phase Scope
+
+- Phase 1 default path focuses on static documentation + YAML-driven content.
+- API-backed admin editing flows are Phase 2 optional.
+- If you need API/admin workflows, use the API Specs guide at `/docs/guides/api-specs`.
 
 ## Documentation Sections
 

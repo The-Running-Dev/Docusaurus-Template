@@ -1,17 +1,18 @@
 # ====================================================================
 # RELEASE WORKFLOW
 # ====================================================================
-# 
+#
 # Purpose: Automated production deployment workflow that builds and publishes
 #          Docusaurus documentation site to GitHub Pages when code is pushed
 #          to the main branch.
 #
 # This workflow is responsible for:
 # - Building production-ready Docusaurus site with optimizations
-# - Creating build artifacts for deployment and backup
-# - Uploading artifacts to GitHub Actions for download
+# - Building and publishing the docs-template Docker image to GitHub Container Registry
+# - Creating build artifacts for Pages deployment
+# - Uploading GitHub Pages artifacts
 # - Deploying the built site to GitHub Pages
-# - Providing fast, reliable documentation hosting
+# - Providing a consistent build environment through the shared build-agent image
 #
 # ====================================================================
 # TRIGGERS
@@ -35,18 +36,18 @@
 #
 # Docusaurus Build Process:
 # 1. Full repository checkout with complete git history
-# 2. Version generation using automated date-based versioning (YYYY.MM.DD)
-# 3. README processing and component generation
-# 4. Docusaurus production build with optimization and minification
-# 5. Artifact upload to GitHub Actions (build files)
-# 6. GitHub Pages deployment for public documentation access
+# 2. Install dependencies and run repository quality checks
+# 3. Generate derived data and build the production Docusaurus site
+# 4. Invoke the build-agent's internal `build docker` command to build/publish the docs-template container image
+# 5. Upload the Pages artifact from `artifacts/`
+# 6. Deploy the built site to GitHub Pages
 #
 # Project-Specific Details:
-# - Docusaurus 3.8.1 documentation site with TypeScript
+# - Docusaurus 3.x documentation site with TypeScript
 # - React 19 with modern TypeScript support
 # - FontAwesome integration for badge components
-# - Custom GitHubProjectBadges component with JSON configuration
-# - Automated versioning system (YYYY.MM.DD)
+# - YAML-to-JSON pre-build pipeline for documentation data
+# - docs-template container image published through the build agent
 #
 # ====================================================================
 # PERMISSIONS & SECURITY
@@ -69,8 +70,8 @@
 # This workflow produces:
 # - Build Artifacts: Complete built Docusaurus site (downloadable)
 # - GitHub Pages Deployment: Live documentation site
-# - Version Generation: Automated date-based versioning (YYYY.MM.DD) generated in memory
-# - Processed Components: ReadmeContent component from README.md
+# - Container Image Publication: docs-template image published to GHCR
+# - Processed configuration data in `artifacts/`
 #
 # Docusaurus Build Artifacts:
 # - Optimized JavaScript bundles with code splitting
@@ -80,9 +81,9 @@
 # - Search index for documentation search functionality
 #
 # ====================================================================
-# - ESLint code quality validation
-# - nginx alpine base image for production serving
-# - Artifacts output: artifacts/browser/ directory
+# - ESLint, TypeScript, and script validation through `pnpm run quality-ci`
+# - Artifacts output: `artifacts/`
+# - Docker image build/publish delegated to the shared build agent
 #
 # ====================================================================
 # PERMISSIONS & SECURITY
@@ -93,47 +94,39 @@
 # - contents:write : Create GitHub releases and tags
 #
 # Required Secrets:
-# - REGISTRY_TOKEN            : GitHub token with package write permissions
-# - NOTIFICATIONS_WEBHOOK_URL : Webhook URL for build/deployment notifications
-# - DISCORD_BOT_TOKEN         : Discord bot authentication token (optional)
-# - DISCORD_WEBHOOK_URL       : Discord webhook for deployment notifications
+# - GITHUB_TOKEN / REGISTRY_TOKEN : Token with package write permissions for GHCR publication
 #
 # Security Features:
 # - Minimal required permissions (principle of least privilege)
 # - Secure secret management through GitHub Secrets
-# - Container isolation for Angular build process
-# - Token scoping to specific registry and release operations
+# - Container isolation for the documentation build process
+# - Token scoping to GitHub Pages and GHCR publication
 #
-# Note: The custom build container handles Angular-specific build requirements
-# including pnpm package management and production optimization.
+# Note: The custom build container provides the `build docker` command used to
+# publish the docs-template image without a second checkout or separate Docker job.
 #
 # ====================================================================
 # VERSIONING STRATEGY
 # ====================================================================
 #
-# Uses GitVersion for automatic semantic versioning:
-# - MAJOR: Breaking changes (e.g., 1.0.0 -> 2.0.0)
-# - MINOR: New features, backward compatible (e.g., 1.0.0 -> 1.1.0)
-# - PATCH: Bug fixes and patches (e.g., 1.0.0 -> 1.0.1)
-# - Automatic tag creation and release notes generation
+# Image and site publication run from the main branch release workflow.
+# Image versioning/tagging is handled internally by the build agent.
 #
 # ====================================================================
 # OUTPUTS & ARTIFACTS
 # ====================================================================
 #
 # This workflow produces:
-# - Docker Image: ghcr.io/the-running-dev/barstrad-ui:version
-# - Registry Tags: 'latest' and semantic version tags
-# - GitHub Release: Tagged release with automated release notes
-# - Notifications: Webhook notifications for deployment status
-# - Documentation Build Trigger: Triggers documentation rebuild when docs change
+# - Docker Image: ghcr.io/the-running-dev/docs-template:version
+# - Registry Tags: managed internally by the build agent
+# - GitHub Pages deployment for the static documentation site
+# - One release path for both site and container outputs
 #
-# Angular Build Artifacts:
-# - Optimized JavaScript bundles with tree shaking
-# - Minified CSS with Angular Material theming
-# - Static assets (images, fonts, i18n files)
-# - nginx configuration for Angular routing support (Docker)
-# - Production-ready Docker image (<50MB typical size)
+# Static Site Outputs:
+# - Optimized JavaScript bundles with code splitting
+# - Minified CSS with Docusaurus theming
+# - Static assets (images, fonts, documentation files)
+# - GitHub Pages-ready output in `artifacts/`
 #
 # ====================================================================
 name: Release
@@ -145,23 +138,24 @@ on:
   # Manual trigger for emergency releases or testing
   # Usage: Go to Actions tab > Release workflow > Run workflow
   workflow_dispatch:
-  
+
   # Automatic trigger on main branch push (production deployment)
   push:
     branches:
       - main
     # Skip deployment if only CI workflow files changed
     paths-ignore:
-      - '.github/workflows/ci.yml'
+      - ".github/workflows/ci.yml"
 
 # ====================================================================
 # SECURITY PERMISSIONS
 # ====================================================================
 # Minimal required permissions following principle of least privilege
 permissions:
-  contents: read   # Required to read repository content
-  pages: write     # Required to deploy content to GitHub Pages
-  id-token: write  # Required to verify deployment authenticity
+  contents: read # Required to read repository content
+  pages: write # Required to deploy content to GitHub Pages
+  id-token: write # Required to verify deployment authenticity
+  packages: write # Required to publish Docker images to GitHub Container Registry
 
 # ====================================================================
 # JOBS CONFIGURATION
@@ -172,12 +166,12 @@ jobs:
   build:
     name: Build Documentation
     runs-on: ubuntu-latest
-    
+
     # Use custom build agent container for consistent build environment
     # This container includes Node.js, pnpm, and documentation build tools
     container:
       image: ghcr.io/the-running-dev/build-agent:latest
-  
+
     steps:
       # ================================================================
       # STEP 1: REPOSITORY CHECKOUT
@@ -210,7 +204,17 @@ jobs:
           NODE_ENV: production
 
       # ================================================================
-      # STEP 5: UPLOAD PAGES ARTIFACT
+      # STEP 5: BUILD CONTAINER
+      # ================================================================
+      - name: Build Container
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+        run: build docker
+
+      # ================================================================
+      # STEP 6: UPLOAD PAGES ARTIFACT
       # ================================================================
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
@@ -221,13 +225,13 @@ jobs:
   # This job depends on successful completion of the Build job
   deploy:
     name: Deploy to GitHub Pages
-    needs: build  # Wait for Build job to complete successfully
+    needs: build # Wait for Build job to complete successfully
 
     # Enhanced permissions specifically for GitHub Pages deployment
     # These permissions are more restrictive than the workflow-level permissions
     permissions:
-      pages: write      # Required to deploy content to GitHub Pages
-      id-token: write   # Required to verify deployment authenticity and source
+      pages: write # Required to deploy content to GitHub Pages
+      id-token: write # Required to verify deployment authenticity and source
 
     # Configure deployment environment for GitHub Pages
     # This provides deployment URL and environment tracking
@@ -236,7 +240,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     runs-on: ubuntu-latest
-    
+
     steps:
       # ============================================================
       # STEP 1: DEPLOY TO GITHUB PAGES
@@ -277,8 +281,8 @@ jobs:
 #    - Ensure template variable replacement logic works
 #
 # 5. Script Execution Issues:
-#    - Verify copy-readme.js script processing
-#    - Ensure ReadmeContent component generation
+#    - Verify pre-build data generation in scripts/pre-build.ts
+#    - Ensure the build-agent image exposes the expected `build docker` command in GitHub Actions
 #
 # 6. GitHub Pages Deployment Failures:
 #    - Ensure repository has Pages enabled in settings
@@ -287,17 +291,22 @@ jobs:
 #    - Review GitHub Pages source configuration
 #
 # 7. Artifact Upload Issues:
-#    - Ensure build/ directory exists after Docusaurus build
+#    - Ensure artifacts/ exists after Docusaurus build
 #    - Check artifact retention settings (30 days default)
 #    - Verify artifact naming conventions
 #    - Review upload-artifact action version compatibility
+
+# 8. Container Publication Issues:
+#    - Verify workflow permissions include packages:write
+#    - Ensure GITHUB_TOKEN/REGISTRY_TOKEN is available to the build job
+#    - Confirm the build-agent image supports `build docker` in the GitHub Actions job environment
 #
 # ====================================================================
 # MONITORING & MAINTENANCE
 # ====================================================================
 #
 # Regular Maintenance Tasks:
-# - Update GitHub Actions versions (actions/checkout@v4, upload-artifact@v4, etc.)
+# - Update GitHub Actions versions (actions/checkout, upload-pages-artifact, deploy-pages)
 # - Monitor build container updates for Node.js/pnpm compatibility
 # - Review GitHub Pages storage usage and limits
 # - Verify artifact retention policies and cleanup
@@ -309,13 +318,14 @@ jobs:
 # - Validate MDX content processing and component rendering
 # - Monitor production bundle sizes and optimization opportunities
 # - Test GitHub Pages deployment with custom domain (if configured)
+# - Revalidate build-agent-driven image publication when the build-agent image changes
 #
 # Monitoring Points:
 # - GitHub Actions workflow run status and timing
 # - GitHub Pages deployment success and site availability
-# - Build artifact sizes and download success rates
+# - Build artifact sizes and upload success rates
 # - Documentation build performance and bundle optimization
-# - Component rendering success (GitHubProjectBadges, ReadmeContent)
-# - Badge configuration loading and template variable replacement
+# - Container publication success for ghcr.io/the-running-dev/docs-template
+# - Data/config generation success during pre-build
 #
 # ====================================================================

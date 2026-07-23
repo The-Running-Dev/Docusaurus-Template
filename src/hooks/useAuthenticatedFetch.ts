@@ -1,6 +1,30 @@
 import { useAuth } from '../components/Auth/AuthProvider';
 import { useCallback } from 'react';
 
+function safeGetAccessToken(): string {
+  try {
+    if (typeof window === 'undefined') return '';
+    const storage = (globalThis as any).localStorage;
+    if (!storage || typeof storage.getItem !== 'function') return '';
+    return storage.getItem('accessToken') || '';
+  } catch {
+    return '';
+  }
+}
+
+function buildAuthenticatedHeaders(
+  headersInit: RequestInit['headers'],
+  token: string
+): Headers {
+  const headers = new Headers(headersInit);
+
+  if (token) {
+    headers.set('Authorization', `Bearer ${token}`);
+  }
+
+  return headers;
+}
+
 /**
  * Hook for making authenticated API requests with automatic token refresh
  */
@@ -9,13 +33,9 @@ export const useAuthenticatedFetch = () => {
 
   const authenticatedFetch = useCallback(
     async (url: string, options: RequestInit = {}): Promise<Response> => {
-      const token = localStorage.getItem('accessToken');
+      const token = safeGetAccessToken();
 
-      // Add Authorization header if token exists
-      const headers = {
-        ...options.headers,
-        ...(token && { Authorization: `Bearer ${token}` })
-      };
+      const headers = buildAuthenticatedHeaders(options.headers, token);
 
       const requestOptions: RequestInit = {
         ...options,
@@ -34,11 +54,11 @@ export const useAuthenticatedFetch = () => {
           console.log('Token refreshed successfully, retrying request...');
 
           // Get the new token and retry the request
-          const newToken = localStorage.getItem('accessToken');
-          const newHeaders = {
-            ...options.headers,
-            ...(newToken && { Authorization: `Bearer ${newToken}` })
-          };
+          const newToken = safeGetAccessToken();
+          const newHeaders = buildAuthenticatedHeaders(
+            options.headers,
+            newToken
+          );
 
           const retryOptions: RequestInit = {
             ...options,

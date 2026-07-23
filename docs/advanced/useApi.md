@@ -1,14 +1,15 @@
 ---
-id: useApi
-title: API Hook
+id: use-api
+title: useApi
 sidebar_position: 6
 ---
 
-A React hook for fetching project data from an API endpoint. **Disabled by default** for security and performance reasons.
+A React hook for fetching API data with retry and cleanup behavior.
+
+For concrete template endpoints and auth requirements, see the API Specs guide at `/docs/guides/api-specs`.
 
 ## Features
 
-- **Disabled by default** - Must be explicitly enabled via feature flags and configuration
 - **Automatic retry logic** with configurable attempts and delays
 - **Loading, error, and success states**
 - **Manual refetch capability**
@@ -23,14 +24,9 @@ import React from 'react';
 import { useApi } from '../hooks/useApi';
 
 const ProjectsComponent: React.FC = () => {
-  const { data, loading, error, enabled, refetch } = useApi({
-    endpoint: '/api/projects',
-    enabled: true // Must explicitly enable
+  const { data, loading, error, refetch } = useApi({
+    endpoint: '/api/your-endpoint'
   });
-
-  if (!enabled) {
-    return <div>API fetching is disabled</div>;
-  }
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -70,7 +66,7 @@ interface UseApiConfig {
 
 ### Default Configuration
 
-The useApi hook now has improved default configuration:
+The data fetching hook has improved default configuration:
 
 ```tsx
 const DEFAULT_CONFIG: Required<UseApiConfig> = {
@@ -87,11 +83,11 @@ const DEFAULT_CONFIG: Required<UseApiConfig> = {
 };
 ```
 
-### Simple API Calls
+### Simple Data Calls
 
 ```tsx
 const { data, loading, error, refetch, reset } = useApi({
-  endpoint: '/api/projects'
+  endpoint: '/api/your-endpoint'
 });
 ```
 
@@ -99,11 +95,11 @@ const { data, loading, error, refetch, reset } = useApi({
 
 ### Enhanced Error Handling and Cleanup
 
-The useApi hook now includes improved error handling and cleanup:
+The data fetching hook includes improved error handling and cleanup:
 
 ```tsx
 const { data, loading, error, refetch, reset } = useApi({
-  endpoint: '/api/projects',
+  endpoint: '/api/your-endpoint',
   options: {
     method: 'POST',
     headers: {
@@ -119,7 +115,7 @@ const { data, loading, error, refetch, reset } = useApi({
 
 ### Cleanup and Abort Handling
 
-The hook now automatically handles:
+The hook automatically handles:
 
 - **Request Abortion**: Automatic cleanup when component unmounts
 - **Memory Leak Prevention**: Proper cleanup of timeouts and references
@@ -129,8 +125,7 @@ The hook now automatically handles:
 
 ```tsx
 const { data, loading, refetch, reset } = useApi({
-  enabled: true,
-  endpoint: '/api/projects',
+  endpoint: '/api/your-endpoint',
   autoFetch: false // Don't fetch automatically
 });
 
@@ -148,7 +143,7 @@ const handleReset = () => {
 
 ```tsx
 interface UseApiState<T = any> {
-  data: T | null; // API response data
+  data: T | null; // Response data
   loading: boolean; // Loading state
   error: Error | null; // Error state
   refetch: () => Promise<void>; // Manual refetch function
@@ -158,7 +153,7 @@ interface UseApiState<T = any> {
 
 ### Enhanced Error Handling
 
-The hook now provides improved error handling:
+The hook provides improved error handling:
 
 - **AbortError Handling**: Gracefully handles request cancellation
 - **Component Mount Checking**: Prevents state updates after unmount
@@ -171,7 +166,7 @@ The hook now provides improved error handling:
 - **Error Boundary**: Safe error handling prevents application crashes
 - **Request Isolation**: Each hook instance manages its own abort controller
 
-## Example API Response
+## Example Data Response
 
 Expected format for project data:
 

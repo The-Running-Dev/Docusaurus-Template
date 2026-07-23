@@ -33,7 +33,7 @@ export class GiscusConfig {
 - **Static TypeScript Config** - All Giscus configuration is in a static TS class
 - **Unified Component** - Single `<GiscusComments />` component with integrated validation
 - **Automatic Fallback** - Shows setup instructions when not configured
-- **Flexible API** - Optional props with intelligent defaults
+- **Flexible Interface** - Optional props with intelligent defaults
 - **Type Safety** - Full TypeScript interfaces with proper error handling
 
 ### Component Architecture

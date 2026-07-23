@@ -29,12 +29,12 @@ The Pre-Build System v1.0 automates content preparation and configuration genera
 
 ```bash
 # Runs automatically before these commands:
-npm start           # Pre-build → development server
-npm run build:prod  # Pre-build → production build
+pnpm run start           # Pre-build → development server
+pnpm run build:prod      # Pre-build → production build
 
 # Manual execution:
-npm run prestart    # Development pre-build
-npm run prebuild:prod # Production pre-build with NODE_ENV
+pnpm run prestart       # Development pre-build
+pnpm run prebuild:prod  # Production pre-build with NODE_ENV
 tsx ./scripts/pre-build.ts # Direct execution
 ```
 

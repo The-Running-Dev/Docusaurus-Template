@@ -8,57 +8,6 @@ This documentation covers the custom React hooks available in the template.
 
 ## Available Hooks
 
-### useApi
-
-A comprehensive hook for fetching data from API endpoints with built-in retry logic, error handling, and feature flag integration.
-
-**Key Features:**
-
-- **Disabled by default** for security
-- Automatic retry with configurable attempts
-- Loading and error state management
-- Feature flag integration
-- TypeScript support
-
-**Basic Usage:**
-
-```tsx
-import { useApi } from '../hooks/useApi';
-
-const { data, loading, error, enabled } = useApi({
-  endpoint: '/api/projects',
-  enabled: true // Must explicitly enable
-});
-
-if (!enabled) {
-  return <div>API integration disabled</div>;
-}
-
-if (loading) {
-  return <div>Loading...</div>;
-}
-
-if (error) {
-  return <div>Error: {error}</div>;
-}
-
-return <div>{JSON.stringify(data)}</div>;
-```
-
-**Configuration Options:**
-
-```tsx
-const { data, loading, error, enabled } = useApi({
-  endpoint: '/api/projects',
-  enabled: true,
-  retries: 3,
-  retryDelay: 1000,
-  headers: {
-    Authorization: 'Bearer token'
-  }
-});
-```
-
 ### useFeatureFlag
 
 Provides access to feature flag state with real-time updates.
@@ -182,7 +131,7 @@ function useMyFeature() {
 5. **Use TypeScript generics** for type safety
 6. **Handle cleanup** in useEffect hooks
 7. **Memoize expensive computations** with useMemo
-8. **Debounce API calls** for performance
+8. **Debounce requests** for performance
 9. **Cache results** when appropriate
 10. **Test hooks** with React Testing Library
 
@@ -190,7 +139,6 @@ function useMyFeature() {
 
 ```
 src/hooks/
-├── useApi.ts              ← API fetching hook
 ├── useFeatureFlag.ts      ← Feature flag hook
 ├── useGitHubConfig.ts     ← GitHub config hook
 ├── useLocalStorage.ts     ← Local storage hook
@@ -204,11 +152,11 @@ Use React Testing Library's `renderHook` for testing:
 
 ```tsx
 import { renderHook, waitFor } from '@testing-library/react';
-import { useApi } from '../useApi';
+import { useFeatureFlag } from '../useFeatureFlag';
 
-test('useApi returns data on success', async () => {
+test('useFeatureFlag returns feature state', async () => {
   const { result } = renderHook(() =>
-    useApi({ endpoint: '/api/test', enabled: true })
+    useFeatureFlag('MyFeature')
   );
 
   expect(result.current.loading).toBe(true);
