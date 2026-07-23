@@ -69,16 +69,10 @@ describe('useAuthenticatedFetch', () => {
     await api.authenticatedFetch('http://localhost/test', { method: 'GET' });
 
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith(
-      'http://localhost/test',
-      expect.objectContaining({
-        method: 'GET',
-        credentials: 'include',
-        headers: expect.objectContaining({
-          Authorization: 'Bearer tok1'
-        })
-      })
-    );
+    const requestOptions = (fetch as any).mock.calls[0][1];
+    expect(requestOptions.method).toBe('GET');
+    expect(requestOptions.credentials).toBe('include');
+    expect(requestOptions.headers.get('Authorization')).toBe('Bearer tok1');
   });
 
   it('retries once after 401 when refresh succeeds', async () => {
@@ -103,7 +97,7 @@ describe('useAuthenticatedFetch', () => {
 
     expect(refreshMock).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledTimes(2);
-    expect((fetch as any).mock.calls[1][1].headers.Authorization).toBe(
+    expect((fetch as any).mock.calls[1][1].headers.get('Authorization')).toBe(
       'Bearer new'
     );
   });
@@ -123,6 +117,56 @@ describe('useAuthenticatedFetch', () => {
 
     expect(refreshMock).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('preserves existing Headers instances when injecting Authorization', async () => {
+    localStorage.setItem('accessToken', 'tok1');
+    getFetchMock().mockResolvedValue({ status: 200, ok: true });
+
+    const ready = new Promise<ReturnType<typeof useAuthenticatedFetch>>(
+      (resolve) => {
+        render(<HookHarness onReady={resolve} />);
+      }
+    );
+    const api = await ready;
+
+    const headers = new Headers({
+      'X-Test': 'value'
+    });
+
+    await api.authenticatedFetch('http://localhost/headers', {
+      method: 'GET',
+      headers
+    });
+
+    const sentHeaders = (fetch as any).mock.calls[0][1].headers as Headers;
+    expect(sentHeaders.get('X-Test')).toBe('value');
+    expect(sentHeaders.get('Authorization')).toBe('Bearer tok1');
+  });
+
+  it('preserves tuple-array headers when retrying after refresh', async () => {
+    localStorage.setItem('accessToken', 'old');
+    refreshMock.mockResolvedValue(true);
+    getFetchMock()
+      .mockResolvedValueOnce({ status: 401, ok: false })
+      .mockResolvedValueOnce({ status: 200, ok: true });
+
+    const ready = new Promise<ReturnType<typeof useAuthenticatedFetch>>(
+      (resolve) => {
+        render(<HookHarness onReady={resolve} />);
+      }
+    );
+    const api = await ready;
+
+    const promise = api.authenticatedFetch('http://localhost/retry-headers', {
+      headers: [['X-Test', 'value']]
+    });
+    localStorage.setItem('accessToken', 'new');
+    await promise;
+
+    const retryHeaders = (fetch as any).mock.calls[1][1].headers as Headers;
+    expect(retryHeaders.get('X-Test')).toBe('value');
+    expect(retryHeaders.get('Authorization')).toBe('Bearer new');
   });
 
   it('handles missing localStorage.getItem gracefully', async () => {

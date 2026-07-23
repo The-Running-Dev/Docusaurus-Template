@@ -12,6 +12,19 @@ function safeGetAccessToken(): string {
   }
 }
 
+function buildAuthenticatedHeaders(
+  headersInit: RequestInit['headers'],
+  token: string
+): Headers {
+  const headers = new Headers(headersInit);
+
+  if (token) {
+    headers.set('Authorization', `Bearer ${token}`);
+  }
+
+  return headers;
+}
+
 /**
  * Hook for making authenticated API requests with automatic token refresh
  */
@@ -22,11 +35,7 @@ export const useAuthenticatedFetch = () => {
     async (url: string, options: RequestInit = {}): Promise<Response> => {
       const token = safeGetAccessToken();
 
-      // Add Authorization header if token exists
-      const headers = {
-        ...options.headers,
-        ...(token && { Authorization: `Bearer ${token}` })
-      };
+      const headers = buildAuthenticatedHeaders(options.headers, token);
 
       const requestOptions: RequestInit = {
         ...options,
@@ -46,10 +55,10 @@ export const useAuthenticatedFetch = () => {
 
           // Get the new token and retry the request
           const newToken = safeGetAccessToken();
-          const newHeaders = {
-            ...options.headers,
-            ...(newToken && { Authorization: `Bearer ${newToken}` })
-          };
+          const newHeaders = buildAuthenticatedHeaders(
+            options.headers,
+            newToken
+          );
 
           const retryOptions: RequestInit = {
             ...options,
