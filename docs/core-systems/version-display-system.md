@@ -112,13 +112,13 @@ VersionConfig.enabled = false;
 // Result: Nothing rendered
 ```
 
-### Library/API Version
+### Library Version
 
 ```typescript
-VersionConfig.prefix = 'API v';
+VersionConfig.prefix = 'v';
 VersionConfig.href = 'https://npmjs.com/package/your-package';
 VersionConfig.title = 'View package on npm';
-// Result: Badge "API v2025.08.05" linking to npm
+// Result: Badge "v2025.08.05" linking to npm
 ```
 
 ## Architecture

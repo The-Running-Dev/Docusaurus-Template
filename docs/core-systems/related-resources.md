@@ -118,8 +118,8 @@ import RelatedResources from '@site/src/components/RelatedResources';
       type: 'primary'
     },
     {
-      href: '/docs/api',
-      label: '🔧 API Reference',
+      href: '/docs/guides/api-specs',
+      label: '🔧 API Specs',
       type: 'secondary'
     }
   ]}
@@ -259,6 +259,7 @@ You can add custom styles by:
 2. **Clear Labels**: Use descriptive, action-oriented text
 3. **Logical Order**: Place most important links first
 4. **Consistent Icons**: Use emoji or icons consistently
+5. **Centralize Endpoint Docs**: Link API-related CTAs to `/docs/guides/api-specs`.
 
 ### Accessibility
 
@@ -348,7 +349,7 @@ Enhance links with consistent emoji or FontAwesome icons:
 const links = [
   { href: '/docs', label: '📚 Documentation', type: 'primary' },
   { href: '/examples', label: '💡 Examples', type: 'secondary' },
-  { href: '/api', label: '🔧 API Reference', type: 'outline' }
+  { href: '/docs/guides/api-specs', label: '🔧 API Specs', type: 'outline' }
 ];
 ```
 
@@ -363,7 +364,11 @@ const getLinks = (userType: string) => {
   ];
 
   if (userType === 'developer') {
-    baseLinks.push({ href: '/api', label: 'API Docs', type: 'secondary' });
+    baseLinks.push({
+      href: '/docs/guides/api-specs',
+      label: 'API Specs',
+      type: 'secondary'
+    });
   }
 
   return baseLinks;

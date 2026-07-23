@@ -11,6 +11,8 @@ import {
 import userEvent from '@testing-library/user-event';
 import { AuthProvider } from '../Auth/AuthProvider';
 
+const refreshMock = vi.fn().mockResolvedValue(true);
+
 // Mock useAuth hook for admin tests
 vi.mock('../Auth/AuthProvider', () => ({
   AuthProvider: ({ children }: { children: React.ReactNode }) => (
@@ -22,7 +24,7 @@ vi.mock('../Auth/AuthProvider', () => ({
     isInitializing: false,
     login: vi.fn(),
     logout: vi.fn(),
-    refresh: vi.fn(),
+    refresh: refreshMock,
     error: null
   }))
 }));
@@ -70,16 +72,39 @@ vi.mock('../../hooks/useProjects', async () => {
 
 import ProjectsManager from './ProjectsManager';
 import ProjectsAdmin from './ProjectsAdmin';
-import { beforeEach } from 'vitest';
+import { beforeEach, afterEach } from 'vitest';
+
+function createLocalStorageMock() {
+  const store = new Map<string, string>();
+  return {
+    getItem: (key: string) => store.get(key) ?? null,
+    setItem: (key: string, value: string) => {
+      store.set(key, String(value));
+    },
+    removeItem: (key: string) => {
+      store.delete(key);
+    },
+    clear: () => {
+      store.clear();
+    }
+  };
+}
 
 describe('ProjectsManager', () => {
   beforeEach(() => {
-    try {
-      localStorage.clear();
-    } catch {
-      /* ignore */
-    }
+    const ls = createLocalStorageMock();
+    vi.stubGlobal('localStorage', ls as any);
+    Object.defineProperty(window, 'localStorage', {
+      value: ls,
+      configurable: true
+    });
+    localStorage.clear();
   });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
   it('renders display mode without admin controls', () => {
     mockLoading = false;
     mockError = null;
@@ -109,46 +134,50 @@ describe('ProjectsManager', () => {
     expect(screen.getByText('Proj')).toBeInTheDocument();
   });
 
-  it.skip('renders admin controls and supports edit -> save callback', { timeout: 10000 }, async () => {
-    const onSave = vi.fn().mockResolvedValue(undefined);
-    mockLoading = false;
-    mockError = null;
-    mockData = [
-      {
-        category: 'Web',
-        subCategories: [
-          {
-            name: 'React',
-            projects: [
-              {
-                title: 'Proj',
-                summary: 'S',
-                lastModified: new Date().toISOString(),
-                tags: ['React']
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    render(<ProjectsManager isAdmin onSaveProject={onSave} />);
-    // Admin actions visible
-    expect(screen.getByText(/Delete Selected/)).toBeInTheDocument();
-    // Click the project card to load into form
-    const cardTitle = screen.getByText('Proj');
-    const card = cardTitle.closest('.projectCard') || cardTitle;
-    await act(async () => {
-      fireEvent.click(card);
-    });
-    // Save button should be present in edit tab
-    const saveBtn = await screen.findByRole('button', {
-      name: /Save Project/i
-    });
-    await act(async () => {
-      fireEvent.click(saveBtn);
-    });
-    expect(onSave).toHaveBeenCalled();
-  });
+  it.skip(
+    'renders admin controls and supports edit -> save callback',
+    { timeout: 10000 },
+    async () => {
+      const onSave = vi.fn().mockResolvedValue(undefined);
+      mockLoading = false;
+      mockError = null;
+      mockData = [
+        {
+          category: 'Web',
+          subCategories: [
+            {
+              name: 'React',
+              projects: [
+                {
+                  title: 'Proj',
+                  summary: 'S',
+                  lastModified: new Date().toISOString(),
+                  tags: ['React']
+                }
+              ]
+            }
+          ]
+        }
+      ];
+      render(<ProjectsManager isAdmin onSaveProject={onSave} />);
+      // Admin actions visible
+      expect(screen.getByText(/Delete Selected/)).toBeInTheDocument();
+      // Click the project card to load into form
+      const cardTitle = screen.getByText('Proj');
+      const card = cardTitle.closest('.projectCard') || cardTitle;
+      await act(async () => {
+        fireEvent.click(card);
+      });
+      // Save button should be present in edit tab
+      const saveBtn = await screen.findByRole('button', {
+        name: /Save Project/i
+      });
+      await act(async () => {
+        fireEvent.click(saveBtn);
+      });
+      expect(onSave).toHaveBeenCalled();
+    }
+  );
 
   it('supports bulk delete via selection', async () => {
     const onBulkDelete = vi.fn().mockResolvedValue(undefined);
@@ -529,7 +558,7 @@ describe('ProjectsManager', () => {
     expect(onBulkDelete).not.toHaveBeenCalled();
   });
 
-  it('shortcut E opens edit form', () => {
+  it('shortcut E opens edit form', async () => {
     mockLoading = false;
     mockError = null;
     mockData = [
@@ -553,10 +582,17 @@ describe('ProjectsManager', () => {
     render(<ProjectsManager isAdmin />);
     // Ensure Save not visible yet
     expect(screen.queryByRole('button', { name: /Save Project/i })).toBeNull();
-    fireEvent.keyDown(window, { key: 'e' });
-    expect(
-      screen.getByRole('button', { name: /Save Project/i })
-    ).toBeInTheDocument();
+    await act(async () => {
+      fireEvent.keyDown(window, { key: 'e' });
+    });
+    await waitFor(() => {
+      expect(
+        screen.getByRole('button', { name: /Save Project/i })
+      ).toBeInTheDocument();
+    });
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalled();
+    });
   });
 
   it('slash focuses search input', () => {
@@ -626,44 +662,48 @@ describe('ProjectsManager', () => {
     expect(writeText).toHaveBeenCalled();
   });
 
-  it.skip('Test Link button opens a new tab when link is valid', { timeout: 10000 }, async () => {
-    const open = vi.fn();
-    // @ts-ignore
-    window.open = open;
-    mockLoading = false;
-    mockError = null;
-    mockData = [
-      {
-        category: 'Web',
-        subCategories: [
-          {
-            name: 'React',
-            projects: [
-              {
-                title: 'HasLink',
-                summary: 'S',
-                lastModified: new Date().toISOString(),
-                tags: [],
-                link: 'https://example.com'
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    render(<ProjectsManager isAdmin />);
-    const cardTitle = screen.getByText('HasLink');
-    const card = (cardTitle.closest('.projectCard') ||
-      cardTitle) as HTMLElement;
-    await act(async () => {
-      card.click();
-    });
-    const testBtn = await screen.findByRole('button', { name: /Test/i });
-    await act(async () => {
-      testBtn.click();
-    });
-    expect(open).toHaveBeenCalled();
-  });
+  it.skip(
+    'Test Link button opens a new tab when link is valid',
+    { timeout: 10000 },
+    async () => {
+      const open = vi.fn();
+      // @ts-ignore
+      window.open = open;
+      mockLoading = false;
+      mockError = null;
+      mockData = [
+        {
+          category: 'Web',
+          subCategories: [
+            {
+              name: 'React',
+              projects: [
+                {
+                  title: 'HasLink',
+                  summary: 'S',
+                  lastModified: new Date().toISOString(),
+                  tags: [],
+                  link: 'https://example.com'
+                }
+              ]
+            }
+          ]
+        }
+      ];
+      render(<ProjectsManager isAdmin />);
+      const cardTitle = screen.getByText('HasLink');
+      const card = (cardTitle.closest('.projectCard') ||
+        cardTitle) as HTMLElement;
+      await act(async () => {
+        card.click();
+      });
+      const testBtn = await screen.findByRole('button', { name: /Test/i });
+      await act(async () => {
+        testBtn.click();
+      });
+      expect(open).toHaveBeenCalled();
+    }
+  );
 
   it('toggle hides and shows hints row', async () => {
     mockLoading = false;

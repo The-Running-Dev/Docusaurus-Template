@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { AdminTabsModal } from './AdminTabsModal';
 
@@ -15,7 +15,12 @@ vi.mock('./hooks/useAdminProjects', () => ({
 // Mock useAuthenticatedFetch hook
 vi.mock('../../hooks/useAuthenticatedFetch', () => ({
   useAuthenticatedFetch: vi.fn(() => ({
-    authenticatedFetch: vi.fn()
+    authenticatedFetch: vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      json: async () => []
+    })
   }))
 }));
 
@@ -42,11 +47,18 @@ describe('AdminTabsModal', () => {
     vi.clearAllMocks();
   });
 
-  it('renders modal and validation errors', () => {
+  it('renders modal and validation errors', async () => {
     render(
-      <AdminTabsModal open={true} onClose={() => {}} projectId="test-id" isAdmin={true} />
+      <AdminTabsModal
+        open={true}
+        onClose={() => {}}
+        projectId="test-id"
+        isAdmin={true}
+      />
     );
-    expect(screen.getByText(/Edit Project/)).toBeInTheDocument();
-    expect(screen.getByText(/test-id/)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/Edit Project/)).toBeInTheDocument();
+      expect(screen.getByText(/test-id/)).toBeInTheDocument();
+    });
   });
 });

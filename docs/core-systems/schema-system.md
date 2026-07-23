@@ -153,7 +153,7 @@ No manual registration needed - schemas are discovered and registered automatica
 
 Full TypeScript integration with proper type inference.
 
-### ✅ **Consistent API**
+### ✅ **Consistent Interface**
 
 Uniform interface for validation across all components.
 
@@ -181,7 +181,7 @@ import { validateData, registerSchema } from '../components/GitHubInfo/schemas';
 import { validateData, registerSchema } from '../schemas';
 ```
 
-The API remains the same, only the import path changes!
+The interface remains the same, only the import path changes!
 
 ## Adding New Schemas
 

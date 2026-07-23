@@ -1,10 +1,12 @@
 ---
 id: api-reference
-title: API Reference
+title: Configuration and Component Reference
 sidebar_position: 2
 ---
 
-This document provides comprehensive API reference for all components, configuration schemas, and interfaces in the Docusaurus Template v1.0.
+This document provides comprehensive reference for all components, configuration schemas, and interfaces in the Docusaurus Template v1.0.
+
+HTTP API endpoint and token/auth behavior are documented in the API Specs guide at `/docs/guides/api-specs`.
 
 ## Configuration Management System (v1.0)
 
@@ -116,7 +118,7 @@ interface ConfigurationStorage {
 
 - **Configuration System**: TypeScript configuration classes replaced with YAML files and Zod schemas
 - **Component Data Loading**: Static imports replaced with validated YAML data loading
-- **API Interfaces**: Component interfaces now use validated data types from schemas
+- **Component Interfaces**: Component interfaces now use validated data types from schemas
 
 ## Schema Validation System
 
@@ -740,4 +742,4 @@ const getDefaultVersion = (): string => {
 };
 ```
 
-This API reference covers all public interfaces and configuration options available in the Docusaurus Template. For usage examples and detailed guides, refer to the component-specific documentation sections.
+This reference covers all public interfaces and configuration options available in the Docusaurus Template. For usage examples and detailed guides, refer to the component-specific documentation sections.

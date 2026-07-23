@@ -12,6 +12,7 @@ The template follows a component-based architecture with several key patterns:
 
 - **Feature Components** - Components that integrate with feature flags
 - **Data-Driven Components** - Components that load and validate configuration data
+- **Optional API-Backed Flows** - Admin/API capabilities are available where enabled
 - **Schema Validation** - All components use Zod schemas for data validation
 - **Configuration Management** - Components use the unified configuration system
 
@@ -107,7 +108,7 @@ GitHub integration component with comprehensive metadata and URL management.
 **Features:**
 
 - Repository information display
-- GitHub API integration
+- GitHub API URL integration via configuration helpers
 - Multiple URL types (issues, discussions, releases, etc.)
 - Avatar and contributor information
 
@@ -217,7 +218,7 @@ function MyComponent() {
 
 ## Component Directory Structure
 
-```
+```text
 src/components/
 ├── ComponentName/
 │   ├── ComponentName.tsx    ← Main component implementation
@@ -268,4 +269,4 @@ function MyComponent() {
 7. **Export schemas** from component index files
 8. **Use CSS custom properties** for theming
 9. **Implement ARIA accessibility** where needed
-10. **Document component APIs** with JSDoc comments
+10. **Document components** with JSDoc comments

@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - 2025-08-24
 
-### 🆕 New Features
+### 🆕 New Features (Unreleased)
 
 - **Category-Based Project Filtering**: Implemented advanced filtering system allowing users to filter projects by categories and tags
 - **Portfolio Categories Display**: Portfolio overview now showcases project categories with interactive category cards
@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `ProjectFiltering` hook for managing filter logic
   - `ProjectsLink` for category-based navigation
 
-### 🎨 Enhancements
+### 🎨 Enhancements (Unreleased)
 
 - **Project Data Structure**: Enhanced project configuration to support hierarchical categories and improved metadata
 - **Portfolio Navigation**: Category cards now link to filtered project views with proper URL state management
@@ -112,7 +112,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Updated Theme System Docs**: Comprehensive v1.0 feature documentation
 - **Migration Guide**: Step-by-step upgrade instructions from v0.x
-- **API Reference**: Updated component interfaces and configuration options
+- **Configuration and Component Reference**: Updated component interfaces and configuration options
 - **Examples**: New examples showcasing v1.0 capabilities
 
 ### 🔧 Developer Experience
@@ -153,7 +153,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 
-- **API Reference**: Updated component interfaces and configuration options
+- **Configuration and Component Reference**: Updated component interfaces and configuration options
 - **Examples**: Refreshed code examples with current syntax and best practices
 - **Migration Guide**: Added guidance for upgrading from previous template versions
 - **Development Workflow**: Enhanced developer experience documentation

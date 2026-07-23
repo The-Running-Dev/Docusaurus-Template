@@ -23,42 +23,50 @@ export interface UseAdminProjectsOptions {
   token?: string;
 }
 
+function safeGetStorageItem(key: string): string | null {
+  try {
+    if (typeof window === 'undefined') return null;
+    const storage = (globalThis as any).localStorage;
+    if (!storage || typeof storage.getItem !== 'function') return null;
+    return storage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function safeSetStorageItem(key: string, value: string): void {
+  try {
+    if (typeof window === 'undefined') return;
+    const storage = (globalThis as any).localStorage;
+    if (!storage || typeof storage.setItem !== 'function') return;
+    storage.setItem(key, value);
+  } catch {
+    /* ignore */ void 0;
+  }
+}
+
 export function useAdminProjects(options: UseAdminProjectsOptions = {}) {
   const [apiBase, setApiBase] = useState<string>(
     options.apiBase || defaultApiBase
   );
-  const [token, setTokenState] = useState<string>(() =>
-    typeof window !== 'undefined'
-      ? localStorage.getItem('adminToken') || options.token || ''
-      : options.token || ''
+  const [token, setTokenState] = useState<string>(
+    () => safeGetStorageItem('adminToken') || options.token || ''
   );
 
   // Synchronous persistence wrapper to avoid test flakiness and keep UI responsive
   const setToken = useCallback((value: string) => {
     setTokenState(value);
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.setItem('adminToken', value || '');
-      } catch {
-        /* ignore */ void 0;
-      }
-    }
+    safeSetStorageItem('adminToken', value || '');
   }, []);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.setItem('adminToken', token || '');
-      } catch {
-        /* ignore */ void 0;
-      }
-    }
+    safeSetStorageItem('adminToken', token || '');
   }, [token]);
 
   const putProject = useCallback(
     async (input: SaveProjectInput, overrideToken?: string) => {
       // Get JWT token from localStorage (set by AuthProvider)
-      const jwtToken = localStorage.getItem('accessToken');
+      const jwtToken = safeGetStorageItem('accessToken');
       const t = overrideToken || jwtToken || '';
 
       const url = `${apiBase}/v1/projects/${encodeURIComponent(input.category)}/${encodeURIComponent(input.subCategory)}/${encodeURIComponent(input.slug)}`;
@@ -87,7 +95,7 @@ export function useAdminProjects(options: UseAdminProjectsOptions = {}) {
   const bulkDelete = useCallback(
     async (targets: ProjectTarget[], overrideToken?: string) => {
       // Get JWT token from localStorage (set by AuthProvider)
-      const jwtToken = localStorage.getItem('accessToken');
+      const jwtToken = safeGetStorageItem('accessToken');
       const t = overrideToken || jwtToken || '';
 
       const deletePromises = targets.map((target) => {
@@ -114,9 +122,7 @@ export function useAdminProjects(options: UseAdminProjectsOptions = {}) {
         .filter((item) => item !== null);
 
       if (failedDeletes.length > 0) {
-        const failedSlugs = failedDeletes
-          .map((f) => f?.target.slug)
-          .join(', ');
+        const failedSlugs = failedDeletes.map((f) => f?.target.slug).join(', ');
         throw new Error(
           `Failed to delete ${failedDeletes.length} project(s): ${failedSlugs}`
         );

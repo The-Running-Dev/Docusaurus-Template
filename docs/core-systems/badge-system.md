@@ -10,7 +10,7 @@ The template includes a configurable badge system for displaying GitHub project 
 
 - **GitHub Integration** - Designed for GitHub repositories with `{user}` and `{repository}` placeholders
 - **Static TypeScript Config** - All badge configuration is now in a static TS class, not JSON
-- **Simplified API** - Only requires user and repository, all URLs configured in TS
+- **Simplified Interface** - Only requires user and repository, all URLs configured in TS
 - **Default Values** - Configure defaults in the `BadgeConfig` class
 - **Category Organization** - Badges grouped by: Build & Release, Distribution, Documentation, Quality, Community, Metrics
 - **Runtime Loading** - Configuration loaded via static class and hook
