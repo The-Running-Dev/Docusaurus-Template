@@ -5,13 +5,14 @@ sidebar_position: 19
 
 import Badges from '@site/src/components/Badges';
 
+<!-- markdownlint-disable-next-line MD033 -->
 <Badges />
 
 ---
 
 ## 📈 Understanding Project Status
 
-This page displays real-time status information for the Docker BuildAgent project, providing comprehensive insights into build health, deployment status, code quality, security posture, and community engagement.
+This page displays status information for the Docusaurus Template project, providing visibility into build health, deployment status, code quality, container publication, and community activity.
 
 ### Badge Categories Explained
 
@@ -25,7 +26,7 @@ This page displays real-time status information for the Docker BuildAgent projec
 #### 📦 Distribution & Deployment
 
 - **Version**: Latest stable release information
-- **Docker**: Container registry status and image availability
+- **Docker**: `docs-template` container registry status and image availability
 - **Platform**: Cross-platform support (Linux, Windows, macOS)
 - **Downloads**: Community adoption and usage metrics
 
