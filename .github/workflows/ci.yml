@@ -76,7 +76,7 @@ on:
 # ====================================================================
 # Minimal required permissions following principle of least privilege
 permissions:
-  contents: read  # Read repository contents
+  contents: read # Read repository contents
 
 # ====================================================================
 # CONCURRENCY CONTROL
@@ -100,7 +100,7 @@ jobs:
     # Image: ghcr.io/the-running-dev/build-agent:latest
     container:
       image: ghcr.io/the-running-dev/build-agent:latest
-    
+
     # ================================================================
     # EXECUTION CONDITIONS
     # ================================================================
