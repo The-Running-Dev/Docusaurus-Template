@@ -32,9 +32,9 @@
 # ====================================================================
 #
 # This workflow runs on:
-# 1. PULL REQUESTS: All PR events (opened, synchronized, etc.)
-# 2. FEATURE BRANCH PUSHES: Any branch except main
-# 3. MANUAL TRIGGER: Manual execution via workflow_dispatch
+# 1. MANUAL TRIGGER: Manual execution via workflow_dispatch
+#
+# PR build validation is handled by release.yml to avoid duplicate checks.
 #
 # Path Exclusions (workflow will NOT run if only these paths change):
 # - documentation/** : Documentation-only changes don't need validation
@@ -70,12 +70,6 @@ on:
   # Manual trigger for testing or debugging CI process
   # Usage: Go to Actions tab > CI workflow > Run workflow
   workflow_dispatch:
-  
-  # Trigger on all pull request events (opened, synchronized, reopened, etc.)
-  pull_request:
-    # Skip CI if only workflow files changed
-    paths-ignore:
-      - '.github/**'
 
 # ====================================================================
 # SECURITY PERMISSIONS
@@ -111,7 +105,7 @@ jobs:
     # EXECUTION CONDITIONS
     # ================================================================
     # Explicit condition check to ensure workflow runs only when intended
-    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref != 'refs/heads/main')
+    if: github.event_name == 'workflow_dispatch'
 
     steps:
       # ================================================================
