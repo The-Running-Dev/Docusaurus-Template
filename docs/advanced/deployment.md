@@ -38,6 +38,20 @@ The same release workflow publishes the template container image to GitHub Conta
 - Publication is handled internally by the build-agent's `build docker` command on push or manual runs.
 - The workflow grants `packages: write` so the build job can push the image.
 
+### Base Image Project Copy Behavior
+
+The base image build defined in `Dockerfile` uses `/template` as the application directory.
+
+- Project files are copied into `/template` during the image build.
+- Template docs are explicitly removed (`/template/docs`) so downstream projects do not inherit sample docs.
+- This keeps the base image reusable for derived projects that provide their own docs content.
+
+For a derived image, see `Dockerfile.example`:
+
+- It starts from `ghcr.io/the-running-dev/docs-template:latest`.
+- It copies local files over `/template` with `COPY . .`.
+- It runs `pnpm install --frozen-lockfile` after copy so local dependency changes are applied.
+
 ### Other Platforms
 
 Build the site with `pnpm run build:prod` and deploy the `artifacts/` directory to your hosting provider.
