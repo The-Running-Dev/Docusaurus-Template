@@ -19,8 +19,9 @@
 # ====================================================================
 #
 # This workflow runs on:
-# 1. PUSH TO MAIN BRANCH: Automatic deployment when code is merged to main
-# 2. MANUAL TRIGGER: Emergency releases or testing via workflow_dispatch
+# 1. PULL REQUESTS TO MAIN: Build validation before merge
+# 2. PUSH TO MAIN BRANCH: Automatic deployment when code is merged to main
+# 3. MANUAL TRIGGER: Emergency releases or testing via workflow_dispatch
 #
 # Path Exclusions (workflow will NOT run if only these paths change):
 # - .github/workflows/ci.yml : CI workflow changes don't require deployment
@@ -139,6 +140,11 @@ on:
   # Usage: Go to Actions tab > Release workflow > Run workflow
   workflow_dispatch:
 
+  # Validate the full release build before merge so build failures block PRs.
+  pull_request:
+    branches:
+      - main
+
   # Automatic trigger on main branch push (production deployment)
   push:
     branches:
@@ -207,6 +213,7 @@ jobs:
       # STEP 5: BUILD CONTAINER
       # ================================================================
       - name: Build Container
+        if: github.event_name != 'pull_request'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -226,6 +233,7 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     needs: build # Wait for Build job to complete successfully
+    if: github.event_name != 'pull_request'
 
     # Enhanced permissions specifically for GitHub Pages deployment
     # These permissions are more restrictive than the workflow-level permissions

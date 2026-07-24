@@ -25,5 +25,5 @@ This section consolidates key enhancements and the current technical architectur
 
 - **Development**: `pnpm run start` runs pre-build tasks then starts `docusaurus start`.
 - **Production Build**: `pnpm run build:prod` triggers production pre-build, then `docusaurus build --out-dir ./artifacts`.
-- **Release Workflow**: `.github/workflows/release.yml` builds the site, runs `build docker` inside the build-agent, and deploys Pages.
+- **Release Workflow**: `.github/workflows/release.yml` validates builds on pull requests, runs `build docker` inside the build-agent on push/manual runs, and deploys Pages.
 - **Type Checking**: `pnpm run typecheck` ensures all TS scripts and components validate.
