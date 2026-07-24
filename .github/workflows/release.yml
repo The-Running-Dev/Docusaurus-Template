@@ -220,6 +220,18 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
         run: build docker
 
+      - name: Log in to GitHub Container Registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push Container to GitHub Registry
+        if: github.event_name != 'pull_request'
+        run: docker push ghcr.io/the-running-dev/docs-template:latest
+
       # ================================================================
       # STEP 6: UPLOAD PAGES ARTIFACT
       # ================================================================
