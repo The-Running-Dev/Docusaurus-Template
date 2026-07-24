@@ -7,11 +7,7 @@ FROM ${BASE_IMAGE}
 
 WORKDIR /template
 
-# Remove any project files shipped in the base image so local content becomes
-# the single source of truth (no lingering sample docs/sidebar entries).
-RUN find /template -mindepth 1 -maxdepth 1 -exec rm -rf {} +
-
-# Copy local files after cleanup.
+# Copy local files over the base image.
 COPY . .
 
 # Reinstall after copy so local package/lockfile changes fully replace the

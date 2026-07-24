@@ -16,6 +16,10 @@ RUN pnpm install --frozen-lockfile
 # Copy the source code into the container.
 COPY . ./
 
+# Do not ship template docs in the base image so downstream projects can provide
+# their own docs without inherited sample content.
+RUN rm -rf /template/docs
+
 # Expose port 3000
 EXPOSE 3000
 
